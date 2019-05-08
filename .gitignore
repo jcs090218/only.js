@@ -1,0 +1,4 @@
+# Ignore these directory.
+build
+build.min
+node_modules
