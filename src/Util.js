@@ -1,5 +1,5 @@
 /**
- * $File: Util.js $
+ * $File: util.js $
  * $Date: 2019-05-08 14:17:00 $
  * $Revision: $
  * $Creator: Jen-Chieh Shen $

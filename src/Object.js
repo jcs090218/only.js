@@ -1,5 +1,5 @@
 /**
- * $File: Object.js $
+ * $File: object.js $
  * $Date: 2019-05-08 11:33:36 $
  * $Revision: $
  * $Creator: Jen-Chieh Shen $
