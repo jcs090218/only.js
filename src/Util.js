@@ -7,6 +7,8 @@
  *                   Copyright © 2019 by Shen, Jen-Chieh $
  */
 
+"use strict";
+
 if (typeof only === 'undefined') var only = { };
 
 
@@ -14,13 +16,18 @@ only.Util = function () {
 
 };
 
-
-only.Util.numberToPixelString = function (val) {
-  if (only.Util.isNumber(val))
-    val = val.toString() + 'px';
-  return val;
-};
-
+/**
+ * Check if the variable is a number.
+ * @param { any } sym : Variable symbol to check.
+ */
 only.Util.isNumber = function (sym) {
   return typeof sym == 'number';
+};
+
+/**
+ * Check if the variable is a string.
+ * @param { any } sym : Variable symbol to check.
+ */
+only.Util.isString = function (sym) {
+  return typeof sym == 'string';
 };

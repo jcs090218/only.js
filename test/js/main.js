@@ -10,25 +10,29 @@
 "use strict";
 
 
-const FPS = 30;
-const FIXED_TIME = 1 / FPS;
+only.Config.FPS = 30;
+only.Config.TITLE = "Some App!";
 
-window.setInterval(update, FIXED_TIME * 1000);
+only.init();
+only.Config.registerUpdate(update);
 
+
+var hello = new only.Object('#hello');
 
 function init() {
   let obj = new only.Object('*');
-  obj.setPosition('absolute');
+  obj.position = 'absolute';
 
-
-  let hello = new only.Object('#hello');
-  hello.setWidth(100);
-  hello.setHeight(100);
-  hello.setTop(100);
-  hello.setBackgroundColor('red');
+  hello.width = 50;
+  hello.height = 50;
+  hello.top = 100;
+  hello.left = 10;
+  hello.backgroundColor = 'red';
+  hello.opacity = 0.5;
 }
 init();
 
 function update() {
-  console.log("Runs");
+  hello.left += 20 * only.Time.FIXED_TIME;
+  console.log("Runs!!");
 }
