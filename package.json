@@ -8,7 +8,7 @@
   },
   "author": "Shen, Jen-Chieh",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "grunt": "^1.0.4",
     "grunt-contrib-concat": "^1.0.1"
   }
