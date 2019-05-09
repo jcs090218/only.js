@@ -34,14 +34,8 @@ $ grun concat
 $ minify-dir build
 ```
 #### Option 2.
-##### On `Windows`
-```sh
-$ ./build.bat
-```
-##### On `Linux` or `MacOS`
-```sh
-$ ./build.sh
-```
+On Windows you can run `./scripts/build.bat`. On `Linux` 
+or `MacOS` you can run `./scripts/build.sh`.
 
 ### Step 3. Run it on browser
 Just run the `./test/index.html` file to browser and 
