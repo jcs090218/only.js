@@ -10,6 +10,7 @@
   "license": "ISC",
   "devDependencies": {
     "grunt": "^1.0.4",
-    "grunt-contrib-concat": "^1.0.1"
+    "grunt-contrib-concat": "^1.0.1",
+    "minify-dir": "^1.0.6"
   }
 }
