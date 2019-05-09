@@ -46,7 +46,7 @@ anything inside `src` folder, otherwise you can just execute
 `Step 3` to test the project.
 
 
-#### Contirbution
+## Contirbution
 If you do not want to join the development, you can still 
 contribute to this project by either open an issue or 
 a pull request on this repo page. Any of these methods are 
