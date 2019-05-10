@@ -10,11 +10,15 @@
 "use strict";
 
 
+// Configure all the settings.
 only.Config.FPS = 30;
 only.Config.TITLE = "Some App!";
 
-only.init();
-only.Config.registerUpdate(update);
+// Register all events.
+only.Event.registerInit(init);
+only.Event.registerUpdate(update);
+
+only.init();  // This should be last called.
 
 
 var hello = new only.Object('#hello');
@@ -30,16 +34,19 @@ function init() {
   hello.backgroundColor = 'red';
   hello.opacity = 0.5;
 
-  //hello.rotateX = 20;
-  //hello.rotateY = 20;
-  hello.rotateZ = 20;
-  let dic = only.Util.transToDic(hello.rotateZ);
-  console.log(dic);
-  console.log(only.Util.dicToTrans(dic));
+  hello.rotateX = 20;
+  hello.rotateY = 30;
+  hello.rotateZ = 40;
+  hello.rotateZ = 50;
+  console.log(hello.rotateZ);
+  console.log(hello.getTransform());
 }
-init();
 
 function update() {
   hello.left += 20 * only.Time.FIXED_TIME;
+  hello.rotateX += 100 * only.Time.FIXED_TIME;
+  hello.rotateY += 100 * only.Time.FIXED_TIME;
+  hello.rotateZ += 20 * only.Time.FIXED_TIME;
+  //console.log(hello.rotateZ);
   console.log("Runs!!");
 }

@@ -33,12 +33,25 @@ only.Util.isString = function (sym) {
 };
 
 /**
+ * Solve the post string to just the stirng.
+ * @param { typename } val : Value to combine with `postStr`.
+ * @param { typename } postStr : Post to solve.
+ */
+only.Util.solvePostString = function (val, postStr) {
+  if (!only.Util.isString()) {
+    if (postStr == 'deg' || postStr == 'px')
+      val = Math.round(val);  // Ensure is integer.
+    val = val.toString() + postStr;
+  }
+  return val;
+};
+
+/**
  * Convert transform string to dictionary.
- * @param { Array } mat : Transform array.
+ * @param { String } mat : Transform maxtrix
  */
 only.Util.transToDic = function (mat) {
-  let values = mat[0];
-  let props = values.split(')').filter(Boolean);
+  let props = mat.split(')').filter(Boolean);
   let data = { };
   props.forEach(function (prop) {
     let pair = prop.split('(');
@@ -47,6 +60,19 @@ only.Util.transToDic = function (mat) {
     data[key] = val;
   });
   return data;
+};
+
+/**
+ * Convert transform string list to dictionary list.
+ * @param { Array } mat : Transform matrix array.
+ */
+only.Util.transMatrixListToDicList = function (mat) {
+  let datas = [];
+  mat.forEach(function (values) {
+    let data = only.Util.transToDic(values);
+    datas.push(data);
+  });
+  return datas;
 };
 
 /**
@@ -59,10 +85,21 @@ only.Util.dicToTrans = function (dic) {
     if (dic.hasOwnProperty(p)) {
       let key = p;
       let val = dic[p];
-      console.log(key);
-      console.log(val);
       result += key + "(" + val + ") ";
     }
   }
   return result;
+};
+
+/**
+ * Convert dictionary list to transform string list.
+ * @param { Array } dic : Dictionary list with transform string data.
+ */
+only.Util.dicListToTransMatrixList = function (dicList) {
+  let transList = [];
+  dicList.forEach(function (dic) {
+    let result = only.Util.dicToTrans(dic);
+    transList.push(result);
+  });
+  return transList;
 };

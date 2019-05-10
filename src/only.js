@@ -14,4 +14,11 @@ if (typeof only === 'undefined') var only = { };
 only.init = function () {
   only.Config.init();
   only.Time.init();
+
+  only.Event.registerUpdate(only.postUpdate);
+  only.Event.init();
+};
+
+only.postUpdate = function () {
+  console.log('After!');
 };

@@ -19,8 +19,3 @@ only.Config.TITLE = "App - only.js";
 only.Config.init = function () {
   document.title = only.Config.TITLE;
 };
-
-// TODO(jenchieh): Put this somewhere else.
-only.Config.registerUpdate = function (fp) {
-  window.setInterval(fp, only.Time.FIXED_TIME * 1000);
-};

@@ -18,7 +18,8 @@ if (typeof only === 'undefined') var only = { };
  */
 only.Object = function (selectorId) {
   this.selectorId = selectorId;
-  this.elements = this.getElements();  // Store it as cache.
+  this.elements = this.getElements();  // cache.
+  this.transforms = null;  // cache.
 };
 
 only.Object.prototype = {
@@ -46,14 +47,14 @@ only.Object.prototype = {
   get zIndex () { return this.getCss('z-index'); },
   set zIndex (val) { return this.setCss('z-index', val); },
 
-  get rotateX () { return this.getCss('transform'); },
-  set rotateX (val) { this.setCss('transform', 'rotateX(' + val + 'deg)'); },
+  get rotateX () { return parseInt(this.getTransform('rotateX')); },
+  set rotateX (val) { this.setTransform('rotateX', val, 'deg'); },
 
-  get rotateY () { return this.getCss('transform'); },
-  set rotateY (val) { this.setCss('transform', 'rotateY(' + val + 'deg)'); },
+  get rotateY () { return parseInt(this.getTransform('rotateY')); },
+  set rotateY (val) { this.setTransform('rotateY', val, 'deg'); },
 
-  get rotateZ () { return this.getCss('transform'); },
-  set rotateZ (val) { this.setCss('transform', 'rotateZ(' + val + 'deg)'); },
+  get rotateZ () { return parseInt(this.getTransform('rotateZ')); },
+  set rotateZ (val) { this.setTransform('rotateZ', val, 'deg'); },
 };
 
 /**
@@ -74,11 +75,7 @@ only.Object.prototype.getElements = function (refresh = false) {
  * @param { string } postStr : Post string.
  */
 only.Object.prototype.setCss = function (st, val, postStr = '') {
-  if (!only.Util.isString()) {
-    if (postStr == 'px')
-      val = Math.round(val);  // Ensure is integer.
-    val = val.toString() + postStr;
-  }
+  val = only.Util.solvePostString(val, postStr);
   this.getElements().forEach(function (elm) { elm.style[st] = val; });
 };
 
@@ -97,6 +94,49 @@ only.Object.prototype.getCss = function (st) {
 /** Remove all CSS properties. */
 only.Object.prototype.cleanCss = function () {
   this.getElements().forEach(function (elm) { elm.style.cssText = ''; });
+};
+
+/**
+ * Set transform property.
+ * @param { typename } key : Key to target the specific transform property.
+ * @param { typename } val : Transform property value.
+ * @param { typename } postStr : Post string added after `val`.
+ */
+only.Object.prototype.setTransform = function (key, val, postStr = '') {
+  val = only.Util.solvePostString(val, postStr);
+  this.getTransforms().forEach(function (trans) { trans[key] = val; });
+  this.updateTransforms();
+};
+
+/**
+ * Return the dictionary of the transform type.
+ * @param { string } key : Key to target the specific transform property.
+ * @return { List | string } : If key is empty then return the full list,
+ * else return the list of targeted value.
+ */
+only.Object.prototype.getTransform = function (key = '') {
+  if (key == '') {
+    return this.transforms;  // Just return the full list.
+  } else {
+    let list_attr = [];
+    this.getTransforms().forEach(function (trans) { list_attr.push(trans[key]); });
+    return list_attr;
+  }
+};
+
+/** Return the list of transform cache from the elements. */
+only.Object.prototype.getTransforms = function () {
+  if (this.transforms == null)
+    this.transforms = only.Util.transMatrixListToDicList(this.getCss('transform'));
+  return this.transforms;
+};
+
+/** Assign `this.transforms` cache to CSS. */
+only.Object.prototype.updateTransforms = function () {
+  let el = this.getElements();
+  let tml = only.Util.dicListToTransMatrixList(this.transforms);
+  for (let index = 0; index < el.length; ++index)
+    el[index].style['transform'] = tml[0];
 };
 
 /**
