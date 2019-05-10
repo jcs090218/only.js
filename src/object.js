@@ -42,6 +42,18 @@ only.Object.prototype = {
 
   get opacity () { return this.getCss('opacity'); },
   set opacity (val) { this.setCss('opacity', val); },
+
+  get zIndex () { return this.getCss('z-index'); },
+  set zIndex (val) { return this.setCss('z-index', val); },
+
+  get rotateX () { return this.getCss('transform'); },
+  set rotateX (val) { this.setCss('transform', 'rotateX(' + val + 'deg)'); },
+
+  get rotateY () { return this.getCss('transform'); },
+  set rotateY (val) { this.setCss('transform', 'rotateY(' + val + 'deg)'); },
+
+  get rotateZ () { return this.getCss('transform'); },
+  set rotateZ (val) { this.setCss('transform', 'rotateZ(' + val + 'deg)'); },
 };
 
 /**
@@ -80,4 +92,18 @@ only.Object.prototype.getCss = function (st) {
   let list_attr = [];
   this.getElements().forEach(function (elm) { list_attr.push(elm.style[st]); });
   return list_attr;
+};
+
+/** Remove all CSS properties. */
+only.Object.prototype.cleanCss = function () {
+  this.getElements().forEach(function (elm) { elm.style.cssText = ''; });
+};
+
+/**
+ * Register the event listener.
+ * @param { typename } evtStr : Event string.
+ * @param { typename } fp : Function pointer.
+ */
+only.Object.prototype.addEventListener = function (evtStr, fp) {
+  this.getElements().forEach(function (elm) { elm.addEventListener(evtStr, fp); });
 };
