@@ -5,7 +5,7 @@
 # only.js
 > Use only JavaScript for client.
 
-Desc...
+Just an another way of creating a webiste.
 
 
 ## Development
