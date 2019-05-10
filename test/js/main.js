@@ -68,9 +68,9 @@ function update() {
   vel += gravity;
 
   world.left += 5 * only.Time.FIXED_TIME;
-  //world.rotateX += 10 * only.Time.FIXED_TIME;
+  world.rotateX += 10 * only.Time.FIXED_TIME;
   world.rotateY += 10 * only.Time.FIXED_TIME;
-  //world.rotateZ += 10 * only.Time.FIXED_TIME;
+  world.rotateZ += 10 * only.Time.FIXED_TIME;
 
   console.log("Runs!!");
 }
