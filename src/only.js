@@ -20,5 +20,5 @@ only.init = function () {
 };
 
 only.postUpdate = function () {
-  console.log('After!');
+  only.Render.updateTransforms();
 };
