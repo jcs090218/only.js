@@ -11,7 +11,7 @@
 
 
 // Configure all the settings.
-only.Config.FPS = 60;
+only.Config.FPS = 30;
 only.Config.TITLE = "Some App!";
 
 // Register all events.
@@ -28,15 +28,26 @@ function init() {
   //let obj = new only.Object('*');
   //obj.position = 'absolute';
 
+  let anim1 = new only.Animation('./images/CrazyCat/summon.stand_', 4, '.png', 200,
+                                 148, 159);
+  let anim2 = new only.Animation('./images/CrazyCat/summon.attack1_', 20, '.png', 150,
+                                 348, 214);
+
+  world.addAnimation('stand', anim1);
+  world.addAnimation('attack', anim2);
+
   world.position = 'absolute';
-  world.width = 50;
-  world.height = 50;
+  world.width = 10;
+  world.height = 10;
   world.top = 200;
   world.left = 10;
-  world.backgroundColor = 'green';
-  world.opacity = 0.5;
+  //world.backgroundColor = 'green';
+  //world.opacity = 0.5;
+  //world.backgroundImage = 'url(./images/CrazyCat/summon.stand_0.png)';
 
-  world.scaleX = 2.0;
+  world.addEventListener('click', function () {
+    world.playAnimation('attack');
+  });
 
   hello.position = 'absolute';
   hello.width = 50;
@@ -73,7 +84,7 @@ function update() {
   // world.rotateX += 10 * only.Time.FIXED_TIME;
   // world.rotateY += 10 * only.Time.FIXED_TIME;
   // world.rotateZ += 10 * only.Time.FIXED_TIME;
-  world.skewX += 20 * only.Time.FIXED_TIME;
+  //world.skewX += 20 * only.Time.FIXED_TIME;
 
   console.log("Runs!!");
 }
