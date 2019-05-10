@@ -36,6 +36,8 @@ function init() {
   world.backgroundColor = 'green';
   world.opacity = 0.5;
 
+  world.scaleX = 2.0;
+
   hello.position = 'absolute';
   hello.width = 50;
   hello.height = 50;
@@ -67,10 +69,11 @@ function update() {
   hello.top += vel * only.Time.FIXED_TIME;
   vel += gravity;
 
-  world.left += 5 * only.Time.FIXED_TIME;
-  world.rotateX += 10 * only.Time.FIXED_TIME;
-  world.rotateY += 10 * only.Time.FIXED_TIME;
-  world.rotateZ += 10 * only.Time.FIXED_TIME;
+  // world.left += 5 * only.Time.FIXED_TIME;
+  // world.rotateX += 10 * only.Time.FIXED_TIME;
+  // world.rotateY += 10 * only.Time.FIXED_TIME;
+  // world.rotateZ += 10 * only.Time.FIXED_TIME;
+  world.skewX += 20 * only.Time.FIXED_TIME;
 
   console.log("Runs!!");
 }
