@@ -35,18 +35,6 @@ only.Object.prototype = {
   get height () { return parseInt(this.getCss('height')); },
   set height (val) { this.setCss('height', val, 'px'); },
 
-  get backgroundColor () { return this.getCss('background-color'); },
-  set backgroundColor (val) { this.setCss('background-color', val); },
-
-  get position () { return this.getCss('position'); },
-  set position (val) { this.setCss('position', val); },
-
-  get opacity () { return this.getCss('opacity'); },
-  set opacity (val) { this.setCss('opacity', val); },
-
-  get zIndex () { return this.getCss('z-index'); },
-  set zIndex (val) { return this.setCss('z-index', val); },
-
   get rotateX () { return parseInt(this.getTransform('rotateX')); },
   set rotateX (val) { this.setTransform('rotateX', val, 'deg'); },
 
@@ -55,6 +43,18 @@ only.Object.prototype = {
 
   get rotateZ () { return parseInt(this.getTransform('rotateZ')); },
   set rotateZ (val) { this.setTransform('rotateZ', val, 'deg'); },
+
+  get opacity () { return this.getCss('opacity'); },
+  set opacity (val) { this.setCss('opacity', val); },
+
+  get zIndex () { return this.getCss('z-index'); },
+  set zIndex (val) { return this.setCss('z-index', val); },
+
+  get backgroundColor () { return this.getCss('background-color'); },
+  set backgroundColor (val) { this.setCss('background-color', val); },
+
+  get position () { return this.getCss('position'); },
+  set position (val) { this.setCss('position', val); },
 };
 
 /**
