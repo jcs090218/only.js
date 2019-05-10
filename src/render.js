@@ -18,6 +18,14 @@ only.Render.addObject = function (obj) {
   only.Render.OBJECT_LIST.push(obj);
 };
 
-only.Render.removeObject = function (obj) {
-  // TODO(jenchieh): ..
+only.Render.cleanNullObjects = function (obj) {
+  for (let index = 0; index < only.Render.OBJECT_LIST.length; ++index) {
+    console.log(only.Render.OBJECT_LIST[index]);
+  }
+};
+
+only.Render.updateTransforms = function () {
+  only.Render.OBJECT_LIST.forEach(function (obj) {
+    obj.updateTransforms();
+  });
 };
