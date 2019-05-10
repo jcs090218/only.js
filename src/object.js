@@ -37,6 +37,18 @@ only.Object.prototype = {
   get height () { return parseFloat(this.getCss('height')); },
   set height (val) { this.setCss('height', val, 'px'); },
 
+  get translateX () { return parseFloat(this.getTransform('translateX', 0, 'px')); },
+  set translateX (val) { this.setTransform('translateX', val, 'px'); },
+
+  get translateY () { return parseFloat(this.getTransform('translateY', 0, 'px')); },
+  set translateY (val) { this.setTransform('translateY', val, 'px'); },
+
+  get scaleX () { return parseFloat(this.getTransform('scaleX', 1)); },
+  set scaleX (val) { this.setTransform('scaleX', val); },
+
+  get scaleY () { return parseFloat(this.getTransform('scaleY', 1)); },
+  set scaleY (val) { this.setTransform('scaleY', val); },
+
   get rotateX () { return parseFloat(this.getTransform('rotateX', 0, 'deg')); },
   set rotateX (val) { this.setTransform('rotateX', val, 'deg'); },
 
@@ -46,14 +58,32 @@ only.Object.prototype = {
   get rotateZ () { return parseFloat(this.getTransform('rotateZ', 0, 'deg')); },
   set rotateZ (val) { this.setTransform('rotateZ', val, 'deg'); },
 
+  get skewX () { return parseFloat(this.getTransform('skewX', 1, 'deg')); },
+  set skewX (val) { this.setTransform('skewX', val, 'deg'); },
+
+  get skewY () { return parseFloat(this.getTransform('skewY', 1, 'deg')); },
+  set skewY (val) { this.setTransform('skewY', val, 'deg'); },
+
+  get display () { return this.getCss('display'); },
+  set display (val) { this.setCss('display', val); },
+
+  get visibility () { return this.getCss('visibility'); },
+  set visibility (val) { this.setCss('visibility', val); },
+
   get opacity () { return this.getCss('opacity'); },
   set opacity (val) { this.setCss('opacity', val); },
 
   get zIndex () { return this.getCss('z-index'); },
   set zIndex (val) { return this.setCss('z-index', val); },
 
+  get background () { return this.getCss('background'); },
+  set background (val) { this.setCss('background', val); },
+
   get backgroundColor () { return this.getCss('background-color'); },
   set backgroundColor (val) { this.setCss('background-color', val); },
+
+  get backgroundImage () { return this.getCss('background-image'); },
+  set backgroundImage (val) { this.setCss('background-image', val); },
 
   get position () { return this.getCss('position'); },
   set position (val) { this.setCss('position', val); },
