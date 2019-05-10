@@ -24,6 +24,10 @@ only.Render.cleanNullObjects = function (obj) {
   }
 };
 
+/**
+ * Update all the object transform state right before the
+ * render quere starts.
+ */
 only.Render.updateTransforms = function () {
   only.Render.OBJECT_LIST.forEach(function (obj) {
     obj.updateTransforms();
