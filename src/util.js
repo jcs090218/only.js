@@ -38,11 +38,8 @@ only.Util.isString = function (sym) {
  * @param { typename } postStr : Post to solve.
  */
 only.Util.solvePostString = function (val, postStr) {
-  if (!only.Util.isString()) {
-    if (postStr == 'deg' || postStr == 'px')
-      val = Math.round(val);  // Ensure is integer.
+  if (!only.Util.isString())
     val = val.toString() + postStr;
-  }
   return val;
 };
 
