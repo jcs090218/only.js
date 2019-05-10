@@ -30,6 +30,7 @@ only.Render.cleanNullObjects = function (obj) {
  */
 only.Render.updateTransforms = function () {
   only.Render.OBJECT_LIST.forEach(function (obj) {
+    obj.updateAnimation();
     obj.updateTransforms();
   });
 };

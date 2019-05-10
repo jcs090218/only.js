@@ -22,6 +22,9 @@ only.Object = function (selectorId) {
   this.selectorId = selectorId;
   this.elements = this.getElements();  // cache.
   this.transforms = null;  // cache.
+
+  this.animations = { };
+  this.currentAnimId = '';
 };
 
 only.Object.prototype = {
@@ -182,4 +185,21 @@ only.Object.prototype.updateTransforms = function () {
  */
 only.Object.prototype.addEventListener = function (evtStr, fp) {
   this.getElements().forEach(function (elm) { elm.addEventListener(evtStr, fp); });
+};
+
+only.Object.prototype.addAnimation = function (animId, newAnim) {
+  this.animations[animId] = newAnim;
+  if (this.currentAnimId == '')
+    this.currentAnimId = animId;
+  newAnim.init(this);
+};
+
+only.Object.prototype.playAnimation = function (animId) {
+  this.currentAnimId = animId;
+};
+
+only.Object.prototype.updateAnimation = function () {
+  if (this.animations[this.currentAnimId] === undefined)
+    return;
+  this.animations[this.currentAnimId].update(this);
 };
