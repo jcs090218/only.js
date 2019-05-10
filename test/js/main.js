@@ -29,6 +29,13 @@ function init() {
   hello.left = 10;
   hello.backgroundColor = 'red';
   hello.opacity = 0.5;
+
+  //hello.rotateX = 20;
+  //hello.rotateY = 20;
+  hello.rotateZ = 20;
+  let dic = only.Util.transToDic(hello.rotateZ);
+  console.log(dic);
+  console.log(only.Util.dicToTrans(dic));
 }
 init();
 
