@@ -17,6 +17,8 @@ if (typeof only === 'undefined') var only = { };
  * @param { typename } selectorId : Selector query represet id for this object.
  */
 only.Object = function (selectorId) {
+  only.Render.addObject(this);
+
   this.selectorId = selectorId;
   this.elements = this.getElements();  // cache.
   this.transforms = null;  // cache.
@@ -26,22 +28,22 @@ only.Object.prototype = {
   get top () { return parseInt(this.getCss('top')); },
   set top (val) { this.setCss('top', val, 'px'); },
 
-  get left () { return parseInt(this.getCss('left')); },
+  get left () { return parseFloat(this.getCss('left')); },
   set left (val) { this.setCss('left', val, 'px'); },
 
-  get width () { return parseInt(this.getCss('width')); },
+  get width () { return parseFloat(this.getCss('width')); },
   set width (val) { this.setCss('width', val, 'px'); },
 
-  get height () { return parseInt(this.getCss('height')); },
+  get height () { return parseFloat(this.getCss('height')); },
   set height (val) { this.setCss('height', val, 'px'); },
 
-  get rotateX () { return parseInt(this.getTransform('rotateX')); },
+  get rotateX () { return parseFloat(this.getTransform('rotateX', 0, 'deg')); },
   set rotateX (val) { this.setTransform('rotateX', val, 'deg'); },
 
-  get rotateY () { return parseInt(this.getTransform('rotateY')); },
+  get rotateY () { return parseFloat(this.getTransform('rotateY', 0, 'deg')); },
   set rotateY (val) { this.setTransform('rotateY', val, 'deg'); },
 
-  get rotateZ () { return parseInt(this.getTransform('rotateZ')); },
+  get rotateZ () { return parseFloat(this.getTransform('rotateZ', 0, 'deg')); },
   set rotateZ (val) { this.setTransform('rotateZ', val, 'deg'); },
 
   get opacity () { return this.getCss('opacity'); },
@@ -114,12 +116,17 @@ only.Object.prototype.setTransform = function (key, val, postStr = '') {
  * @return { List | string } : If key is empty then return the full list,
  * else return the list of targeted value.
  */
-only.Object.prototype.getTransform = function (key = '') {
+only.Object.prototype.getTransform = function (key = '', defVal = '', postStr = '') {
   if (key == '') {
-    return this.transforms;  // Just return the full list.
+    return this.getTransforms();  // Just return the full list.
   } else {
+    defVal = only.Util.solvePostString(defVal, postStr);
     let list_attr = [];
-    this.getTransforms().forEach(function (trans) { list_attr.push(trans[key]); });
+    this.getTransforms().forEach(function (trans) {
+      if (trans[key] === undefined)
+        trans[key] = defVal;
+      list_attr.push(trans[key]);
+    });
     return list_attr;
   }
 };
@@ -134,9 +141,9 @@ only.Object.prototype.getTransforms = function () {
 /** Assign `this.transforms` cache to CSS. */
 only.Object.prototype.updateTransforms = function () {
   let el = this.getElements();
-  let tml = only.Util.dicListToTransMatrixList(this.transforms);
+  let tml = only.Util.dicListToTransMatrixList(this.getTransforms());
   for (let index = 0; index < el.length; ++index)
-    el[index].style['transform'] = tml[0];
+    el[index].style['transform'] = tml[index];
 };
 
 /**
