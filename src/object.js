@@ -107,7 +107,6 @@ only.Object.prototype.cleanCss = function () {
 only.Object.prototype.setTransform = function (key, val, postStr = '') {
   val = only.Util.solvePostString(val, postStr);
   this.getTransforms().forEach(function (trans) { trans[key] = val; });
-  this.updateTransforms();
 };
 
 /**
