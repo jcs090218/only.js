@@ -40,8 +40,8 @@ function init() {
   world.width = 10;
   world.height = 10;
   world.top = 200;
-  world.left = 10;
-  //world.backgroundColor = 'green';
+  world.left = 200;
+  world.backgroundColor = 'green';
   //world.opacity = 0.5;
   //world.backgroundImage = 'url(./images/CrazyCat/summon.stand_0.png)';
 
