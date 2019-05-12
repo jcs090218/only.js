@@ -23,30 +23,36 @@ only.init();  // This should be last called.
 
 var hello = new only.Object('#hello');
 var world = new only.Object('#world');
+let toggle = true;
 
 function init() {
   //let obj = new only.Object('*');
   //obj.position = 'absolute';
 
-  let anim1 = new only.Animation('./images/CrazyCat/summon.stand_', 4, '.png', 200,
-                                 148, 159);
-  let anim2 = new only.Animation('./images/CrazyCat/summon.attack1_', 20, '.png', 150,
-                                 348, 214);
+  let anim1 = new only.Animation('./images/CrazyCat/summon.stand_', 4, '.png', 150);
+  let anim2 = new only.Animation('./images/CrazyCat/summon.attack1_', 20, '.png', 150);
+  let anim3 = new only.Animation('./images/CrazyCat/summon.move_', 4, '.png', 125);
 
   world.addAnimation('stand', anim1);
   world.addAnimation('attack', anim2);
+  world.addAnimation('move', anim3);
 
   world.position = 'absolute';
-  world.width = 10;
-  world.height = 10;
+  // world.width = 10;
+  // world.height = 10;
   world.top = 200;
   world.left = 200;
-  world.backgroundColor = 'green';
+  // world.backgroundColor = 'green';
+  world.backgroundRepeat = 'no-repeat';
   //world.opacity = 0.5;
   //world.backgroundImage = 'url(./images/CrazyCat/summon.stand_0.png)';
 
   world.addEventListener('click', function () {
-    world.playAnimation('attack');
+    if (toggle)
+      world.playAnimation('move');
+    else
+      world.playAnimation('attack');
+    toggle = !toggle;
   });
 
   hello.position = 'absolute';
@@ -80,11 +86,13 @@ function update() {
   hello.top += vel * only.Time.FIXED_TIME;
   vel += gravity;
 
-  // world.left += 5 * only.Time.FIXED_TIME;
+   world.left += 5 * only.Time.FIXED_TIME;
   // world.rotateX += 10 * only.Time.FIXED_TIME;
   // world.rotateY += 10 * only.Time.FIXED_TIME;
   // world.rotateZ += 10 * only.Time.FIXED_TIME;
-  //world.skewX += 20 * only.Time.FIXED_TIME;
+  // world.skewX += 20 * only.Time.FIXED_TIME;
+  // world.width += 10 * only.Time.FIXED_TIME;
+  // world.height += 10 * only.Time.FIXED_TIME;
 
   console.log("Runs!!");
 }
