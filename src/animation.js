@@ -37,8 +37,11 @@ only.Animation.prototype = {
 };
 
 /** Construct the current frame's file path. */
-only.Animation.prototype.getFrameName = function () {
-  return this.base + this.currentFrame + this.ext;
+only.Animation.prototype.getFrameName = function (frame = -1) {
+  let targetFrame = this.currentFrame;
+  if (frame != -1)
+    targetFrame = frame;
+  return this.base + targetFrame + this.ext;
 };
 
 only.Animation.prototype.updateFrame = function (obj, frame = -1) {
@@ -49,9 +52,16 @@ only.Animation.prototype.updateFrame = function (obj, frame = -1) {
   obj.height = this.height;
 };
 
+/** Preload all images to prevent flickering. */
+only.Animation.prototype.preloadImages = function (obj) {
+  for (let cnt = 0; cnt < this.frames; ++cnt)
+    obj.appendDom('innerHTML', '<img style="display: none" src="' + this.getFrameName(cnt) + '"/>');
+};
+
 /** Initialize animation - core loop. */
 only.Animation.prototype.init = function (obj) {
-  this.updateFrame(obj);
+  this.preloadImages(obj);
+  this.updateFrame(obj);  // Set the first frame.
 };
 
 /** Update animation - core loop. */
