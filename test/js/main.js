@@ -64,7 +64,7 @@ function init() {
   hello.opacity = 0.5;
 
   hello.addEventListener('click', function () {
-    vel = -40;
+    vel = -200;
     console.log('hell22!!');
   });
 
