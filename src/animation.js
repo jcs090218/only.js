@@ -19,16 +19,29 @@ if (typeof only === 'undefined') var only = { };
  * @param { string } ext : Animation extension.
  * @param { float } time : Time per frame.
  */
-only.Animation = function (base, frames, ext, time, width, height) {
+only.Animation = function (base, frames, ext, time) {
+  this.object = null;
+
   this.base = base;
   this.frames = frames;
   this.ext = ext;
   this.__time = time / 1000;
-  this.width = width;
-  this.height = height;
+
+  this.width = 0;
+  this.height = 0;
+
+  this.images = [];
+
+  this.offsetX = 0;
+  this.offsetY = 0;
 
   this.currentFrame = 0;
   this.timer = 0.0;
+
+  // Check if this animation the first animation in the `object`.
+  this.firstAnim = false;
+  this.revived = false;
+  this.imageLoaded = false;  // Check if at least one image loaded.
 };
 
 only.Animation.prototype = {
@@ -44,34 +57,68 @@ only.Animation.prototype.getFrameName = function (frame = -1) {
   return this.base + targetFrame + this.ext;
 };
 
-only.Animation.prototype.updateFrame = function (obj, frame = -1) {
+/** Revive the animation after switch to the new animation. */
+only.Animation.prototype.reviveAnimation = function () {
+  if (this.revived || !this.imageLoaded)
+    return;
+  this.revived = true;
+  this.object.width = this.width;
+  this.object.height = this.height;
+  this.object.top -= (this.height / 2) + this.offsetX;
+  this.object.left -= (this.width / 2) + this.offsetY;
+  this.updateFrame(0);
+};
+
+/** Restore the animation before switching animation. */
+only.Animation.prototype.restoreAnimation = function () {
+  if (!this.revived)
+    return;
+  this.revived = false;
+  this.object.top += (this.height / 2) + this.offsetX;
+  this.object.left += (this.width / 2) + this.offsetY;
+};
+
+/** Update the current frame. */
+only.Animation.prototype.updateFrame = function (frame = -1) {
   if (frame != -1)
     this.currentFrame = frame;
-  obj.backgroundImage = 'url(' + this.getFrameName() + ')';
-  obj.width = this.width;
-  obj.height = this.height;
+  this.object.backgroundImage = 'url(' + this.getFrameName() + ')';
 };
 
 /** Preload all images to prevent flickering. */
-only.Animation.prototype.preloadImages = function (obj) {
-  for (let cnt = 0; cnt < this.frames; ++cnt)
-    obj.appendDom('innerHTML', '<img style="display: none" src="' + this.getFrameName(cnt) + '"/>');
+only.Animation.prototype.preloadImages = function () {
+  let self = this;
+  for (let cnt = 0; cnt < this.frames; ++cnt) {
+    let image = new Image();
+    image.onload = function () {
+      self.imageLoaded = true;
+
+      self.width = this.naturalWidth;
+      self.height = this.naturalHeight;
+      if (self.firstAnim)
+        self.reviveAnimation();
+    };
+    image.src = this.getFrameName(cnt);
+    this.images.push(image);
+  }
 };
 
 /** Initialize animation - core loop. */
 only.Animation.prototype.init = function (obj) {
-  this.preloadImages(obj);
-  this.updateFrame(obj);  // Set the first frame.
+  this.object = obj;
+  if (this.object.currentAnimId == '')
+    this.firstAnim = true;
+  this.preloadImages();
 };
 
 /** Update animation - core loop. */
-only.Animation.prototype.update = function (obj) {
+only.Animation.prototype.update = function () {
   this.timer += only.Time.FIXED_TIME;
 
   if (this.timer < this.time)
     return;
 
-  this.updateFrame(obj);
+  this.updateFrame();
 
   ++this.currentFrame;
 

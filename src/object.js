@@ -28,7 +28,7 @@ only.Object = function (selectorId) {
 };
 
 only.Object.prototype = {
-  get top () { return parseInt(this.getCss('top')); },
+  get top () { return parseFloat(this.getCss('top')); },
   set top (val) { this.setCss('top', val, 'px'); },
 
   get left () { return parseFloat(this.getCss('left')); },
@@ -87,6 +87,9 @@ only.Object.prototype = {
 
   get backgroundImage () { return this.getCss('background-image'); },
   set backgroundImage (val) { this.setCss('background-image', val); },
+
+  get backgroundRepeat () { return this.getCss('background-repeat'); },
+  set backgroundRepeat (val) { this.setCss('background-repeat', val); },
 
   get position () { return this.getCss('position'); },
   set position (val) { this.setCss('position', val); },
@@ -208,14 +211,24 @@ only.Object.prototype.getDom = function (key) {
 /** Add one animation object with `id` and `animation` itself. */
 only.Object.prototype.addAnimation = function (animId, newAnim) {
   this.animations[animId] = newAnim;
-  if (this.currentAnimId == '')
-    this.currentAnimId = animId;
   newAnim.init(this);
+  if (this.currentAnimId == '')
+    this.playAnimation(animId);
 };
 
 /** Play the animation by using animation `id`. */
 only.Object.prototype.playAnimation = function (animId) {
+  if (this.currentAnimId == animId)
+    return;
+  if (this.animations[animId] == undefined) {
+    only.Debug.warn("Cannot play `undefined` animation..");
+    return;
+  }
+
+  if (this.currentAnimId != '')
+    this.animations[this.currentAnimId].restoreAnimation();
   this.currentAnimId = animId;
+  this.animations[this.currentAnimId].reviveAnimation();
 };
 
 /** System call for updating `animations` in background. */
