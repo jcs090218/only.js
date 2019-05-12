@@ -187,6 +187,25 @@ only.Object.prototype.addEventListener = function (evtStr, fp) {
   this.getElements().forEach(function (elm) { elm.addEventListener(evtStr, fp); });
 };
 
+/** Set the DOM value. */
+only.Object.prototype.setDom = function (key, val) {
+  this.getElements().forEach(function (elm) { elm[key] = val; });
+};
+
+/** Set the DOM value. */
+only.Object.prototype.appendDom = function (key, val) {
+  this.getElements().forEach(function (elm) { elm[key] += val; });
+};
+
+/** Return selector's DOM value. */
+only.Object.prototype.getDom = function (key) {
+  let el = this.getElements();
+  let list_attr = [];
+  this.getElements().forEach(function (elm) { list_attr.push(elm[key]); });
+  return list_attr;
+};
+
+/** Add one animation object with `id` and `animation` itself. */
 only.Object.prototype.addAnimation = function (animId, newAnim) {
   this.animations[animId] = newAnim;
   if (this.currentAnimId == '')
@@ -194,10 +213,12 @@ only.Object.prototype.addAnimation = function (animId, newAnim) {
   newAnim.init(this);
 };
 
+/** Play the animation by using animation `id`. */
 only.Object.prototype.playAnimation = function (animId) {
   this.currentAnimId = animId;
 };
 
+/** System call for updating `animations` in background. */
 only.Object.prototype.updateAnimation = function () {
   if (this.animations[this.currentAnimId] === undefined)
     return;
