@@ -12,3 +12,5 @@
 
 only.Config.FPS = 30;  // Frame Per Seconds
 only.Config.TITLE = "Configration Example Application!";
+
+only.init();  // This should be last called.
