@@ -33,9 +33,12 @@ function init() {
   let anim2 = new only.Animation('./images/CrazyCat/summon.attack1_', 20, '.png', 150);
   let anim3 = new only.Animation('./images/CrazyCat/summon.move_', 4, '.png', 125);
 
+  let anim4 = new only.Animation('./images/CrazyCat/summon.attack1_', 20, '.png', 150);
+
   world.addAnimation('stand', anim1);
   world.addAnimation('attack', anim2);
   world.addAnimation('move', anim3);
+  world.addAnimation('copy', anim4);
 
   world.position = 'absolute';
   // world.width = 10;
