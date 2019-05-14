@@ -33,12 +33,9 @@ function init() {
   let anim2 = new only.Animation('./images/CrazyCat/summon.attack1_', 20, '.png', 150);
   let anim3 = new only.Animation('./images/CrazyCat/summon.move_', 4, '.png', 125);
 
-  let anim4 = new only.Animation('./images/CrazyCat/summon.attack1_', 20, '.png', 150);
-
   world.addAnimation('stand', anim1);
   world.addAnimation('attack', anim2);
   world.addAnimation('move', anim3);
-  world.addAnimation('copy', anim4);
 
   world.position = 'absolute';
   // world.width = 10;
@@ -79,9 +76,16 @@ function init() {
 
 var gravity = 3;
 var vel = 0;
+var mouse_x = 0;
+var mouse_y = 0;
+
+window.onmousemove = function () {
+  mouse_x = window.event.clientX;
+  mouse_y = window.event.clientY;
+};
 
 function update() {
-  hello.left += 20 * only.Time.FIXED_TIME;
+  hello.left += 5 * only.Time.FIXED_TIME;
   hello.rotateX += 100 * only.Time.FIXED_TIME;
   hello.rotateY += 100 * only.Time.FIXED_TIME;
   hello.rotateZ += 20 * only.Time.FIXED_TIME;
@@ -89,7 +93,7 @@ function update() {
   hello.top += vel * only.Time.FIXED_TIME;
   vel += gravity;
 
-   world.left += 5 * only.Time.FIXED_TIME;
+  world.left += (mouse_x - world.left) / 0.2 * only.Time.FIXED_TIME;
   // world.rotateX += 10 * only.Time.FIXED_TIME;
   // world.rotateY += 10 * only.Time.FIXED_TIME;
   // world.rotateZ += 10 * only.Time.FIXED_TIME;
