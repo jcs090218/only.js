@@ -30,8 +30,6 @@ only.Animation = function (base, frames, ext, time) {
   this.width = 0;
   this.height = 0;
 
-  this.images = [];
-
   this.offsetX = 0;
   this.offsetY = 0;
 
@@ -99,7 +97,9 @@ only.Animation.prototype.preloadImages = function () {
         self.reviveAnimation();
     };
     image.src = this.getFrameName(cnt);
-    this.images.push(image);
+    // NOTE: Here we use dictionary so we can save the duplicated
+    // resource loading.
+    only.Resource.PRELOADED_IMAGES[image.src] = image;
   }
 };
 
