@@ -14,13 +14,14 @@ if (typeof only === 'undefined') var only = { };
 
 /**
  * @func Constructor
- * @param { typename } selectorId : Selector query represet id for this object.
+ * @param { string } selectorId : Selector query represet id for this object.
+ * @param { boolean } force : Force create one if does not find one.
  */
-only.Object = function (selectorId) {
+only.Object = function (selectorId, force = false) {
   only.Render.addObject(this);
 
   this.selectorId = selectorId;
-  this.elements = this.getElements();  // cache.
+  this.elements = this.getElements(false, force);  // cache.
   this.transforms = null;  // cache.
 
   this.animations = { };
@@ -99,10 +100,17 @@ only.Object.prototype = {
  * Get the elements using query selector methods and store it
  * within the cache.
  * @param { boolean } refresh : Refresh the cache.
+ * @param { boolean } force : Force create one if does not find one.
  */
-only.Object.prototype.getElements = function (refresh = false) {
-  if (this.elements == null || refresh == true)
+only.Object.prototype.getElements = function (refresh = false, force = false) {
+  if (this.elements == null || refresh == true) {
     this.elements = document.querySelectorAll(this.selectorId);
+    /* See if we need to create one? */
+    if (force == true && this.elements.length == 0) {
+      document.write(only.Util.createNewNode(this.selectorId));
+      this.elements = document.querySelectorAll(this.selectorId);
+    }
+  }
   return this.elements;
 };
 
