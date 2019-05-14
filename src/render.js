@@ -19,6 +19,7 @@ only.Render.addObject = function (obj) {
 };
 
 only.Render.cleanNullObjects = function (obj) {
+  // TODO(jenchieh): Impls this..
   for (let index = 0; index < only.Render.OBJECT_LIST.length; ++index) {
     console.log(only.Render.OBJECT_LIST[index]);
   }
