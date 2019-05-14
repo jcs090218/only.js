@@ -13,6 +13,10 @@ if (typeof only === 'undefined') var only = { };
 
 
 only.Screen = { };
+only.Screen.MASK_LEFT = null;
+only.Screen.MASK_RIGHT = null;
+only.Screen.MASK_TOP = null;
+only.Screen.MASK_BOTTOM = null;
 
 only.Screen.WIDTH = function () {
   return window.innerWidth
@@ -28,6 +32,21 @@ only.Screen.HEIGHT = function () {
 
 only.Screen.init = function () {
   window.onresize = only.Screen.onResize;
+  only.Scree.initMask();
+};
+
+only.Screen.initMask = function () {
+  only.Screen.MASK_TOP = new only.Object('#mask_top', true);
+  only.Screen.MASK_TOP.backgroundColor = 'black';
+
+  only.Screen.MASK_BOTTOM = new only.Object('#mask_bottom', true);
+  only.Screen.MASK_BOTTOM.backgroundColor = 'black';
+
+  only.Screen.MASK_LEFT = new only.Object('#mask_left', true);
+  only.Screen.MASK_LEFT.backgroundColor = 'black';
+
+  only.Screen.MASK_RIGHT = new only.Object('#mask_right', true);
+  only.Screen.MASK_RIGHT.backgroundColor = 'black';
 };
 
 /**
