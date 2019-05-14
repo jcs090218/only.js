@@ -15,6 +15,8 @@ only.init = function () {
   only.Config.init();
   only.Time.init();
 
+  only.Screen.init();
+
   only.Event.registerUpdate(only.postUpdate);
   only.Event.init();
 };
