@@ -12,7 +12,7 @@
 
 // Configure all the settings.
 only.Config.FPS = 30;
-only.Config.TITLE = "Some App!";
+only.Config.TITLE = "Test - Main!";
 
 // Register all events.
 only.Event.registerInit(init);
