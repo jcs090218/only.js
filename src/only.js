@@ -17,7 +17,15 @@ only.init = function () {
 
   only.Screen.init();
 
-  only.Event.registerUpdate(only.postUpdate);
+  /* Register self events. */
+  {
+    // NOTE: Resize once after all the initialization is done.
+    only.Event.registerInit(only.Screen.onResize);
+
+    // NOTE: Post update, for fixing everything before
+    // rendering stage.
+    only.Event.registerUpdate(only.postUpdate);
+  }
   only.Event.init();
 };
 
