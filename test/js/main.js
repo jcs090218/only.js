@@ -94,6 +94,7 @@ function update() {
   vel += gravity;
 
   world.left += (mouse_x - world.left) / 0.2 * only.Time.FIXED_TIME;
+  world.top += (mouse_y - world.top) / 0.2 * only.Time.FIXED_TIME;
   // world.rotateX += 10 * only.Time.FIXED_TIME;
   // world.rotateY += 10 * only.Time.FIXED_TIME;
   // world.rotateZ += 10 * only.Time.FIXED_TIME;
