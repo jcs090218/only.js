@@ -13,13 +13,14 @@ if (typeof only === 'undefined') var only = { };
 
 
 /**
- *
+ * Constructor
  * @param { string } base : Base animation name.
  * @param { integer } frames : Total frame count.
  * @param { string } ext : Animation extension.
  * @param { float } time : Time per frame.
+ * @param { integer } startFrame : Starting frame, default to 0.
  */
-only.Animation = function (base, frames, ext, time) {
+only.Animation = function (base, frames, ext, time, startFrame = 0) {
   this.object = null;
 
   this.base = base;
@@ -33,7 +34,9 @@ only.Animation = function (base, frames, ext, time) {
   this.offsetX = 0;
   this.offsetY = 0;
 
-  this.currentFrame = 0;
+  this.startFrame = startFrame;         // The first frame.
+  this.endFrame = frames + startFrame;  // The last frame.
+  this.currentFrame = startFrame;
   this.timer = 0.0;
 
   // Check if this animation the first animation in the `object`.
@@ -64,7 +67,7 @@ only.Animation.prototype.reviveAnimation = function () {
   this.object.height = this.height;
   this.object.top -= (this.height / 2) + this.offsetX;
   this.object.left -= (this.width / 2) + this.offsetY;
-  this.updateFrame(0);
+  this.updateFrame(this.startFrame);
 };
 
 /** Restore the animation before switching animation. */
@@ -80,13 +83,13 @@ only.Animation.prototype.restoreAnimation = function () {
 only.Animation.prototype.updateFrame = function (frame = -1) {
   if (frame != -1)
     this.currentFrame = frame;
-  this.object.backgroundImage = 'url(' + this.getFrameName() + ')';
+  this.object.backgroundImage = 'url("' + this.getFrameName() + '")';
 };
 
 /** Preload all images to prevent flickering. */
 only.Animation.prototype.preloadImages = function () {
   let self = this;
-  for (let cnt = 0; cnt < this.frames; ++cnt) {
+  for (let cnt = this.startFrame; cnt < this.endFrame; ++cnt) {
     let image = new Image();
     image.onload = function () {
       self.imageLoaded = true;
@@ -122,8 +125,8 @@ only.Animation.prototype.update = function () {
 
   ++this.currentFrame;
 
-  if (this.currentFrame >= this.frames)
-    this.currentFrame = 0;
+  if (this.currentFrame >= this.endFrame)
+    this.currentFrame = this.startFrame;
 
   this.timer = 0.0;
 };
