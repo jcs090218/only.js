@@ -33,6 +33,23 @@ only.Util.isString = function (sym) {
 };
 
 /**
+ * Return new node string, default uses `span`.
+ * @param { string } sel : selector query.
+ */
+only.Util.createNewNode = function (sel) {
+  let idr = sel.charAt(0);
+  let tag = sel.substring(1);
+  switch (idr) {
+  case '#':
+    return '<div id="' + tag + '"></div>';
+  case '.':
+    return '<div class="' + tag + '"></div>';
+  default:
+    return '<' + tag + '></' + tag + '>' ;
+  }
+};
+
+/**
  * Solve the post string to just the stirng.
  * @param { typename } val : Value to combine with `postStr`.
  * @param { typename } postStr : Post to solve.
