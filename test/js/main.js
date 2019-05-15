@@ -45,8 +45,8 @@ function init() {
   world.position = 'absolute';
   // world.width = 10;
   // world.height = 10;
-  world.top = 200;
-  world.left = 800;
+  world.top = 1;
+  world.left = 1;
   // TODO(jenchieh): This would not work cuz
   // of `onResize` event.
   // world.scaleX = 2;
@@ -64,8 +64,8 @@ function init() {
   });
 
   greenBox.position = 'absolute';
-  // greenBox.left = 200;
-  //greenBox.top = 10;
+  greenBox.left = 10;
+  greenBox.top = 10;
   greenBox.width = only.Config.TARGET_SCREEN_WIDTH / 1.5;
   greenBox.height = only.Config.TARGET_SCREEN_HEIGHT - 100;
   greenBox.opacity = 0.5;
