@@ -90,7 +90,15 @@ only.Animation.prototype.updateFrame = function (frame = -1) {
 only.Animation.prototype.preloadImages = function () {
   let self = this;
   for (let cnt = this.startFrame; cnt < this.endFrame; ++cnt) {
+    let imagePath = this.getFrameName(cnt);
+
+    // NOTE: Here we use dictionary so we can save the duplicated
+    // resource loading.
+    if (only.Resource.PRELOADED_IMAGES[imagePath] != undefined)
+      continue;
+
     let image = new Image();
+
     image.onload = function () {
       self.imageLoaded = true;
 
@@ -98,11 +106,17 @@ only.Animation.prototype.preloadImages = function () {
       self.height = this.naturalHeight;
       if (self.firstAnim)
         self.reviveAnimation();
+
+      // Push loaded flag.
+      only.Resource.LOADED_IMAGES_FLAGS.push(true);
+
+      only.Resource.loadedInit();
     };
-    image.src = this.getFrameName(cnt);
-    // NOTE: Here we use dictionary so we can save the duplicated
-    // resource loading.
-    only.Resource.PRELOADED_IMAGES[image.src] = image;
+
+    image.src = imagePath;
+
+    // Save to preloaded resource memory.
+    only.Resource.PRELOADED_IMAGES[imagePath] = image;
   }
 };
 
