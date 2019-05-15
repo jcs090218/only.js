@@ -15,6 +15,13 @@ only.Config = { };
 only.Config.FPS = 30;
 only.Config.TITLE = "App - only.js";
 
+/**
+ * List of resize mode:
+ *   0 - Resize to one full/larger edge.
+ *   1 - Resize by all perspective.
+ */
+only.Config.RESIZE_MODE = 0;
+
 only.Config.TARGET_SCREEN_WIDTH = 1920;
 only.Config.TARGET_SCREEN_HEIGHT = 1080;
 
