@@ -17,6 +17,7 @@
 only.Config.FPS = 120;
 only.Config.TITLE = "Test - Performance!";
 
+only.Config.RESIZE_MODE = 0;
 only.Config.TARGET_SCREEN_WIDTH = 1920;
 only.Config.TARGET_SCREEN_HEIGHT = 1080;
 

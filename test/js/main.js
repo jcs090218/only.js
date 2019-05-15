@@ -14,8 +14,9 @@
 only.Config.FPS = 30;
 only.Config.TITLE = "Test - Main!";
 
-only.Config.TARGET_SCREEN_WIDTH = 1920;
-only.Config.TARGET_SCREEN_HEIGHT = 1080;
+only.Config.RESIZE_MODE = 0;
+only.Config.TARGET_SCREEN_WIDTH = 1852;
+only.Config.TARGET_SCREEN_HEIGHT = 977;
 
 // Register all events.
 only.Event.registerInit(init);
@@ -46,6 +47,9 @@ function init() {
   // world.height = 10;
   world.top = 200;
   world.left = 800;
+  // TODO(jenchieh): This would not work cuz
+  // of `onResize` event.
+  // world.scaleX = 2;
   // world.backgroundColor = 'green';
   world.backgroundRepeat = 'no-repeat';
   //world.opacity = 0.5;
@@ -60,10 +64,11 @@ function init() {
   });
 
   greenBox.position = 'absolute';
-  greenBox.width = 100;
-  greenBox.height = 100;
-  greenBox.top = 200;
-  greenBox.left = 800;
+  // greenBox.left = 200;
+  //greenBox.top = 10;
+  greenBox.width = only.Config.TARGET_SCREEN_WIDTH / 1.5;
+  greenBox.height = only.Config.TARGET_SCREEN_HEIGHT - 100;
+  greenBox.opacity = 0.5;
   greenBox.backgroundColor = 'green';
 
 
@@ -114,7 +119,7 @@ function update() {
   // world.width += 10 * only.Time.FIXED_TIME;
   // world.height += 10 * only.Time.FIXED_TIME;
 
-  //console.log(world.left);
+  // world.scaleX -= 0.1 * only.Time.FIXED_TIME;
 
   console.log("Runs!!");
 }
