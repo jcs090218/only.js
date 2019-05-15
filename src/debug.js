@@ -18,26 +18,26 @@ only.Debug.log = function (msg) {
   let css = "color: #FFFFFF;";
   let timestamp = only.Time.getFormattedDate();
   console.log(`%c${timestamp}`,css);
-  console.log(`%cLOG: ${msg}`, css);
+  console.log(`%c[LOG] ${msg}`, css);
 };
 
 only.Debug.error = function (msg) {
   let css = "color: #FF0000;";
   let timestamp = only.Time.getFormattedDate();
   console.log(`%c${timestamp}`,css);
-  console.log(`%cERROR: ${msg}`, css);
+  console.log(`%c[ERROR]: ${msg}`, css);
 };
 
 only.Debug.info = function (msg) {
   let css = "color: #FFFF00;";
   let timestamp = only.Time.getFormattedDate();
   console.log(`%c${timestamp}`,css);
-  console.log(`%cINFO: ${msg}`, css);
+  console.log(`%c[INFO]: ${msg}`, css);
 };
 
 only.Debug.warn = function (msg) {
   let css = "color: #FFFF00;";
   let timestamp = only.Time.getFormattedDate();
   console.log(`%c${timestamp}`,css);
-  console.log(`%cWARN: ${msg}`, css);
+  console.log(`%c[WARN]: ${msg}`, css);
 };
