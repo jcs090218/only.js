@@ -81,6 +81,8 @@ only.Screen.onResize = function () {
   only.Render.OBJECT_LIST.forEach(function (obj) {
     obj.left *= ratioW;
     obj.top *= ratioH;
+    obj.scaleX *= ratioW;
+    obj.scaleY *= ratioH;
   });
 
   only.Screen.CURRENT_WIDTH = screenWidth;
