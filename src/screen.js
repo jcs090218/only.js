@@ -19,6 +19,8 @@ only.Screen.INIT_RESIZE = false;  // Resize once after initialization.
 only.Screen.CURRENT_WIDTH = -1;
 only.Screen.CURRENT_HEIGHT = -1;
 
+only.Screen.RESIZE_SCALE = 1;
+
 only.Screen.MASK_COLOR = 'black';
 only.Screen.MASK_Z_INDEX = 100;
 only.Screen.MASK_LEFT = null;
@@ -43,7 +45,8 @@ only.Screen.init = function () {
   window.onresize = only.Screen.onResize;
   only.Screen.CURRENT_WIDTH = only.Config.TARGET_SCREEN_WIDTH;
   only.Screen.CURRENT_HEIGHT = only.Config.TARGET_SCREEN_HEIGHT;
-  //only.Screen.initMask();
+  if (only.Config.RESIZE_MODE == 0)
+    only.Screen.initMask();
 };
 
 only.Screen.initMask = function () {
@@ -75,16 +78,49 @@ only.Screen.onResize = function () {
   let screenWidth = only.Screen.Width();
   let screenHeight = only.Screen.Height();
 
-  let ratioW = screenWidth / only.Screen.CURRENT_WIDTH;
-  let ratioH = screenHeight / only.Screen.CURRENT_HEIGHT;
-
-  only.Render.OBJECT_LIST.forEach(function (obj) {
-    obj.left *= ratioW;
-    obj.top *= ratioH;
-    obj.scaleX *= ratioW;
-    obj.scaleY *= ratioH;
-  });
+  switch (only.Config.RESIZE_MODE) {
+  case 1:
+    only.Screen.resizePerspective(screenWidth, screenHeight);
+    break;
+  default:
+    only.Screen.resizeFullEdge(screenWidth, screenHeight);
+    break;
+  }
 
   only.Screen.CURRENT_WIDTH = screenWidth;
   only.Screen.CURRENT_HEIGHT = screenHeight;
+};
+
+/* Resize screen by picking the larger side. */
+only.Screen.resizeFullEdge = function (sw, sh) {
+  let wScale = sw / only.Config.TARGET_SCREEN_WIDTH;
+  let hScale = sh / only.Config.TARGET_SCREEN_HEIGHT;
+
+  let targetScale = (wScale > hScale) ? hScale : wScale;
+
+  let wDelta = only.Screen.CURRENT_WIDTH / wScale;
+  let hDelta = only.Screen.CURRENT_HEIGHT / hScale;
+
+  only.Render.OBJECT_LIST.forEach(function (obj) {
+    obj.scaleX /= only.Screen.RESIZE_SCALE;
+    obj.scaleY /= only.Screen.RESIZE_SCALE;
+
+    obj.scaleX *= targetScale;
+    obj.scaleY *= targetScale;
+  });
+
+  only.Screen.RESIZE_SCALE = targetScale;
+};
+
+/* Resize screen on perspective. */
+only.Screen.resizePerspective = function (sw, sh) {
+  let wRatio = sw / only.Screen.CURRENT_WIDTH;
+  let hRatio = sh / only.Screen.CURRENT_HEIGHT;
+
+  only.Render.OBJECT_LIST.forEach(function (obj) {
+    obj.left *= wRatio;
+    obj.top *= hRatio;
+    obj.scaleX *= wRatio;
+    obj.scaleY *= hRatio;
+  });
 };
