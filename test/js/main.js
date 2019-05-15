@@ -21,8 +21,9 @@ only.Event.registerUpdate(update);
 only.init();  // This should be last called.
 
 
-var hello = new only.Object('#hello');
+//var hello = new only.Object('#hello');
 var world = new only.Object('#world');
+var greenBox = new only.Object('#greenbox', true);
 let toggle = true;
 
 function init() {
@@ -41,7 +42,7 @@ function init() {
   // world.width = 10;
   // world.height = 10;
   world.top = 200;
-  world.left = 200;
+  world.left = 800;
   // world.backgroundColor = 'green';
   world.backgroundRepeat = 'no-repeat';
   //world.opacity = 0.5;
@@ -55,18 +56,26 @@ function init() {
     toggle = !toggle;
   });
 
-  hello.position = 'absolute';
-  hello.width = 50;
-  hello.height = 50;
-  hello.top = 100;
-  hello.left = 10;
-  hello.backgroundColor = 'red';
-  hello.opacity = 0.5;
+  greenBox.position = 'absolute';
+  greenBox.width = 100;
+  greenBox.height = 100;
+  greenBox.top = 200;
+  greenBox.left = 800;
+  greenBox.backgroundColor = 'green';
 
-  hello.addEventListener('click', function () {
-    vel = -200;
-    console.log('hell22!!');
-  });
+
+  // hello.position = 'absolute';
+  // hello.width = 50;
+  // hello.height = 50;
+  // hello.top = 100;
+  // hello.left = 10;
+  // hello.backgroundColor = 'red';
+  // hello.opacity = 0.5;
+
+  // hello.addEventListener('click', function () {
+  //   vel = -200;
+  //   console.log('hell22!!');
+  // });
 
   // hello.rotateX = 20;
   // hello.rotateY = 30;
@@ -85,22 +94,24 @@ window.onmousemove = function () {
 };
 
 function update() {
-  hello.left += 5 * only.Time.FIXED_TIME;
-  hello.rotateX += 100 * only.Time.FIXED_TIME;
-  hello.rotateY += 100 * only.Time.FIXED_TIME;
-  hello.rotateZ += 20 * only.Time.FIXED_TIME;
+  // hello.left += 5 * only.Time.FIXED_TIME;
+  // hello.rotateX += 100 * only.Time.FIXED_TIME;
+  // hello.rotateY += 100 * only.Time.FIXED_TIME;
+  // hello.rotateZ += 20 * only.Time.FIXED_TIME;
 
-  hello.top += vel * only.Time.FIXED_TIME;
-  vel += gravity;
+  // hello.top += vel * only.Time.FIXED_TIME;
+  // vel += gravity;
 
-  world.left += (mouse_x - world.left) / 0.2 * only.Time.FIXED_TIME;
-  world.top += (mouse_y - world.top) / 0.2 * only.Time.FIXED_TIME;
+  //world.left += (mouse_x - world.left) / 0.2 * only.Time.FIXED_TIME;
+  //world.top += (mouse_y - world.top) / 0.2 * only.Time.FIXED_TIME;
   // world.rotateX += 10 * only.Time.FIXED_TIME;
   // world.rotateY += 10 * only.Time.FIXED_TIME;
   // world.rotateZ += 10 * only.Time.FIXED_TIME;
   // world.skewX += 20 * only.Time.FIXED_TIME;
   // world.width += 10 * only.Time.FIXED_TIME;
   // world.height += 10 * only.Time.FIXED_TIME;
+
+  //console.log(world.left);
 
   console.log("Runs!!");
 }
