@@ -17,6 +17,15 @@ only.Util = function () {
 };
 
 /**
+ * Return the length of the dictionary length.
+ * @param { dictionary / json data } dic : Dictionary object
+ * or json data container.
+ */
+only.Util.dictionaryLength = function (dic) {
+  return Object.keys(dic).length;
+};
+
+/**
  * Check if the variable is a number.
  * @param { any } sym : Variable symbol to check.
  */
