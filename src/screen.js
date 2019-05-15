@@ -19,6 +19,8 @@ only.Screen.INIT_RESIZE = false;  // Resize once after initialization.
 only.Screen.CURRENT_WIDTH = -1;
 only.Screen.CURRENT_HEIGHT = -1;
 
+only.Screen.RESIZE_LEFT = 0;
+only.Screen.RESIZE_TOP = 0;
 only.Screen.RESIZE_SCALE = 1;
 
 only.Screen.MASK_COLOR = 'black';
@@ -46,25 +48,34 @@ only.Screen.init = function () {
   only.Screen.CURRENT_WIDTH = only.Config.TARGET_SCREEN_WIDTH;
   only.Screen.CURRENT_HEIGHT = only.Config.TARGET_SCREEN_HEIGHT;
   if (only.Config.RESIZE_MODE == 0)
-    only.Screen.initMask();
+    only.Screen.initMasks();
 };
 
-only.Screen.initMask = function () {
-  only.Screen.MASK_TOP = new only.Object('#mask_top', true);
-  only.Screen.MASK_TOP.backgroundColor = only.Screen.MASK_COLOR;
-  only.Screen.MASK_TOP.zIndex = only.Screen.MASK_Z_INDEX;
+only.Screen.initMasks = function () {
+  only.Screen.MASK_TOP = only.Screen.initMask('#mask_top');
+  only.Screen.MASK_BOTTOM = only.Screen.initMask('#mask_bottom');
+  only.Screen.MASK_LEFT = only.Screen.initMask('#mask_left');
+  only.Screen.MASK_RIGHT = only.Screen.initMask('#mask_right');
 
-  only.Screen.MASK_BOTTOM = new only.Object('#mask_bottom', true);
-  only.Screen.MASK_BOTTOM.backgroundColor = only.Screen.MASK_COLOR;
-  only.Screen.MASK_BOTTOM.zIndex = only.Screen.MASK_Z_INDEX;
+  only.Screen.MASK_TOP.top = 0;
+  only.Screen.MASK_BOTTOM.top = only.Config.TARGET_SCREEN_HEIGHT;
+  only.Screen.MASK_LEFT.left = 0;
+  only.Screen.MASK_RIGHT.left = only.Config.TARGET_SCREEN_WIDTH;
+};
 
-  only.Screen.MASK_LEFT = new only.Object('#mask_left', true);
-  only.Screen.MASK_LEFT.backgroundColor = only.Screen.MASK_COLOR;
-  only.Screen.MASK_LEFT.zIndex = only.Screen.MASK_Z_INDEX;
+only.Screen.initMask = function (id) {
+  let mask = new only.Object(id, true);
+  mask.backgroundColor = only.Screen.MASK_COLOR;
+  mask.zIndex = only.Screen.MASK_Z_INDEX;
+  mask.position = 'absolute';
+  return mask;
+};
 
-  only.Screen.MASK_RIGHT = new only.Object('#mask_right', true);
-  only.Screen.MASK_RIGHT.backgroundColor = only.Screen.MASK_COLOR;
-  only.Screen.MASK_RIGHT.zIndex = only.Screen.MASK_Z_INDEX;
+only.Screen.isMaskObject = function (obj) {
+  return obj.selectorId == '#mask_top' ||
+    obj.selectorId == '#mask_bottom' ||
+    obj.selectorId == '#mask_left' ||
+    obj.selectorId == '#mask_right';
 };
 
 /**
@@ -98,17 +109,57 @@ only.Screen.resizeFullEdge = function (sw, sh) {
 
   let targetScale = (wScale > hScale) ? hScale : wScale;
 
-  let wDelta = only.Screen.CURRENT_WIDTH / wScale;
-  let hDelta = only.Screen.CURRENT_HEIGHT / hScale;
+  let lrWidth = Math.abs(sw - (only.Config.TARGET_SCREEN_WIDTH * targetScale)) / 2;
+  let tbHeight = Math.abs(sh - (only.Config.TARGET_SCREEN_HEIGHT * targetScale)) / 2;
 
   only.Render.OBJECT_LIST.forEach(function (obj) {
-    obj.scaleX /= only.Screen.RESIZE_SCALE;
-    obj.scaleY /= only.Screen.RESIZE_SCALE;
+    if (only.Screen.isMaskObject(obj)) {
+      if (obj.selectorId == '#mask_top' || obj.selectorId == '#mask_bottom') {
+        obj.width = sw;
+        obj.height = tbHeight;
+      } else {
+        obj.width = lrWidth;
+        obj.height = sh;
+      }
 
-    obj.scaleX *= targetScale;
-    obj.scaleY *= targetScale;
+      switch (obj.selectorId) {
+      case '#mask_top':
+        obj.top = 0;
+        break;
+      case '#mask_bottom':
+        obj.top = sh - tbHeight;
+        break;
+      case '#mask_left':
+        obj.left = 0;
+        break;
+      case '#mask_right':
+        obj.left = sw - lrWidth;
+        break;
+      }
+
+    } else {
+      obj.left -= only.Screen.RESIZE_LEFT;
+      obj.top -= only.Screen.RESIZE_TOP;
+
+      obj.left /= only.Screen.RESIZE_SCALE;
+      obj.top /= only.Screen.RESIZE_SCALE;
+      obj.scaleX /= only.Screen.RESIZE_SCALE;
+      obj.scaleY /= only.Screen.RESIZE_SCALE;
+      /******** Before apply ********/
+
+      obj.left *= targetScale;
+      obj.top *= targetScale;
+      obj.scaleX *= targetScale;
+      obj.scaleY *= targetScale;
+
+      /******** After apply ********/
+      obj.left += lrWidth;
+      obj.top += tbHeight;
+    }
   });
 
+  only.Screen.RESIZE_LEFT = lrWidth;
+  only.Screen.RESIZE_TOP = tbHeight;
   only.Screen.RESIZE_SCALE = targetScale;
 };
 
