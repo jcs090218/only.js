@@ -14,6 +14,9 @@
 only.Config.FPS = 30;
 only.Config.TITLE = "Test - Main!";
 
+only.Config.TARGET_SCREEN_WIDTH = 1920;
+only.Config.TARGET_SCREEN_HEIGHT = 1080;
+
 // Register all events.
 only.Event.registerInit(init);
 only.Event.registerUpdate(update);
