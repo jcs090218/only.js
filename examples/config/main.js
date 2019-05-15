@@ -13,6 +13,7 @@
 only.Config.FPS = 30;  // Frame Per Seconds
 only.Config.TITLE = "Configration Example Application!";
 
+only.Config.RESIZE_MODE = 0;
 only.Config.TARGET_SCREEN_WIDTH = 1920;
 only.Config.TARGET_SCREEN_HEIGHT = 1080;
 
