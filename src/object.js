@@ -103,10 +103,10 @@ only.Object.prototype = {
  * @param { boolean } force : Force create one if does not find one.
  */
 only.Object.prototype.getElements = function (refresh = false, force = false) {
-  if (this.elements == null || refresh == true) {
+  if (this.elements == null || refresh) {
     this.elements = document.querySelectorAll(this.selectorId);
     /* See if we need to create one? */
-    if (force == true && this.elements.length == 0) {
+    if (force && this.elements.length == 0) {
       document.write(only.Util.createNewNode(this.selectorId));
       this.elements = document.querySelectorAll(this.selectorId);
     }
