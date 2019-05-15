@@ -15,8 +15,8 @@ only.Config = { };
 only.Config.FPS = 30;
 only.Config.TITLE = "App - only.js";
 
-only.Config.TARGET_SCREEN_WIDTH = 1852;
-only.Config.TARGET_SCREEN_HEIGHT = 977;
+only.Config.TARGET_SCREEN_WIDTH = 1920;
+only.Config.TARGET_SCREEN_HEIGHT = 1080;
 
 
 only.Config.init = function () {
