@@ -150,14 +150,14 @@ only.Screen.resizeFullEdge = function (sw, sh) {
 
       obj.left /= only.Screen.RESIZE_SCALE;
       obj.top /= only.Screen.RESIZE_SCALE;
-      // obj.scaleX /= only.Screen.RESIZE_SCALE;
-      // obj.scaleY /= only.Screen.RESIZE_SCALE;
+      obj.scaleX /= only.Screen.RESIZE_SCALE;
+      obj.scaleY /= only.Screen.RESIZE_SCALE;
       /******** Before apply ********/
 
       obj.left *= targetScale;
       obj.top *= targetScale;
-      // obj.scaleX *= targetScale;
-      // obj.scaleY *= targetScale;
+      obj.scaleX *= targetScale;
+      obj.scaleY *= targetScale;
 
       /******** After apply ********/
       obj.left += lrWidth;
