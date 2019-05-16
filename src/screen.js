@@ -14,13 +14,15 @@ if (typeof only === 'undefined') var only = { };
 
 only.Screen = { };
 
-only.Screen.INIT_RESIZE = false;  // Resize once after initialization.
-
 only.Screen.CURRENT_WIDTH = -1;
 only.Screen.CURRENT_HEIGHT = -1;
 
 only.Screen.LAST_WIDTH = -1;
 only.Screen.LAST_HEIGHT = -1;
+
+// Resize once after initialization. This prevent any
+// resize event before the app is done initilaized.
+only.Screen.INIT_RESIZE = false;
 
 only.Screen.RESIZE_LEFT = 0;
 only.Screen.RESIZE_TOP = 0;
@@ -80,9 +82,7 @@ only.Screen.isMaskObject = function (obj) {
     obj.selectorId == '#mask_right';
 };
 
-/**
- * When resizing the window.
- */
+/** Everytime resize the window. */
 only.Screen.onResize = function () {
   // Check already if app initialized and at resize once?
   if (!only.Screen.INIT_RESIZE)
@@ -100,6 +100,22 @@ only.Screen.onResize = function () {
     break;
   }
 };
+
+/** Resize to the current window size. */
+only.Screen.onResizeCurrent = function () {
+  let screenWidth = only.Screen.width();
+  let screenHeight = only.Screen.height();
+
+  switch (only.Config.RESIZE_MODE) {
+  case 1:
+    only.Screen.resizePerspectiveCurrent(screenWidth, screenHeight);
+    break;
+  default:
+    only.Screen.resizeFullEdgeCurrent(screenWidth, screenHeight);
+    break;
+  }
+};
+
 
 /* Resize screen by picking the larger side. */
 only.Screen.resizeFullEdge = function (sw, sh) {
@@ -134,6 +150,32 @@ only.Screen.resizeFullEdge = function (sw, sh) {
   only.Screen.LAST_HEIGHT = sh;
 };
 
+/* Resize screen by picking the larger side to current window size. */
+only.Screen.resizeFullEdgeCurrent = function (sw, sh) {
+  let wScale = sw / only.Config.TARGET_SCREEN_WIDTH;
+  let hScale = sh / only.Config.TARGET_SCREEN_HEIGHT;
+
+  let targetScale = (wScale > hScale) ? hScale : wScale;
+
+  // NOTE: The `width` and `height` that play can see, not
+  // including the black masks.
+  only.Screen.CURRENT_WIDTH = only.Config.TARGET_SCREEN_WIDTH * targetScale;
+  only.Screen.CURRENT_HEIGHT = only.Config.TARGET_SCREEN_HEIGHT * targetScale;
+
+  let wRatio = only.Screen.CURRENT_WIDTH / only.Screen.LAST_WIDTH;
+  let hRatio = only.Screen.CURRENT_HEIGHT / only.Screen.LAST_HEIGHT;
+
+  let lrWidth = (sw - only.Screen.CURRENT_WIDTH) / 2;
+  let tbHeight = (sh - only.Screen.CURRENT_HEIGHT) / 2;
+
+  only.Render.NEW_OBJECTS.forEach(function (obj) {
+    obj.left *= targetScale;
+    obj.top *= targetScale;
+    obj.scaleX *= targetScale;
+    obj.scaleY *= targetScale;
+  });
+};
+
 /* Resize screen on perspective. */
 only.Screen.resizePerspective = function (sw, sh) {
   let wRatio = sw / only.Screen.CURRENT_WIDTH;
@@ -145,6 +187,18 @@ only.Screen.resizePerspective = function (sw, sh) {
 
   only.Screen.CURRENT_WIDTH = sw;
   only.Screen.CURRENT_HEIGHT = sh;
+};
+
+/* Resize screen on perspective to current window size. */
+only.Screen.resizePerspectiveCurrent = function (sw, sh) {
+  let wRatio = sw / only.Config.TARGET_SCREEN_WIDTH;
+  let hRatio = sh / only.Config.TARGET_SCREEN_HEIGHT;
+
+  only.Render.NEW_OBJECTS.forEach(function (obj) {
+    console.log(wRatio);
+    console.log(hRatio);
+    only.Screen.resizePerspectiveObject(obj, wRatio, hRatio);
+  });
 };
 
 /* Apply one object, resize screen by picking the larger side. */
