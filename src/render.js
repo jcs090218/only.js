@@ -13,6 +13,7 @@ if (typeof only === 'undefined') var only = { };
 
 only.Render = { };
 only.Render.OBJECT_LIST = [];
+only.Render.NEW_OBJECTS = [];  // Objects added this frame.
 
 /**
  * Update all the object transform state right before the
