@@ -28,6 +28,7 @@ only.Object = function (selectorId, force = false) {
   this.currentAnimId = '';
 
   this.position = 'absolute';
+  this.transformOrigin = 'top left';
 };
 
 only.Object.prototype = {
