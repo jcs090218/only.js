@@ -28,6 +28,7 @@ only.init();  // This should be last called.
 //var hello = new only.Object('#hello');
 var world = new only.Object('#world');
 var greenBox = new only.Object('#greenbox', true);
+var back_4 = new only.Object('#back_4', true);
 let toggle = true;
 let index = 0;
 
@@ -43,6 +44,7 @@ function init() {
   world.addAnimation('attack', anim2);
   world.addAnimation('move', anim3);
 
+  world.zIndex = 100;
   // world.width = 10;
   // world.height = 10;
   world.left = 800;
@@ -56,12 +58,23 @@ function init() {
   //world.backgroundImage = 'url(./images/CrazyCat/summon.stand_0.png)';
 
   world.addEventListener('click', function () {
+    // if (toggle)
+    //   world.playAnimation('move');
+    // else
+    //   world.playAnimation('attack');
+    // toggle = !toggle;
+
     ++index;
     let newObj = new only.Object('#lol' + index, true);
     let newAnim = new only.Animation('../images/CrazyCat/summon.stand_', 4, '.png', 150);
     newObj.addAnimation('stand', newAnim);
     newObj.left = only.Util.getRandomFloat(0, only.Screen.CURRENT_WIDTH);
     newObj.top = only.Util.getRandomFloat(0, only.Screen.CURRENT_HEIGHT);
+
+    let newBg = new only.Object('#bg-' + index, true);
+    newBg.setImage('../images/festival/back_4.png');
+    newBg.left = only.Util.getRandomFloat(0, only.Screen.CURRENT_WIDTH);
+    newBg.top = only.Util.getRandomFloat(0, only.Screen.CURRENT_HEIGHT);
   });
 
   greenBox.left = 10;
@@ -72,22 +85,7 @@ function init() {
   greenBox.backgroundColor = 'green';
 
 
-  // hello.width = 50;
-  // hello.height = 50;
-  // hello.top = 100;
-  // hello.left = 10;
-  // hello.backgroundColor = 'red';
-  // hello.opacity = 0.5;
-
-  // hello.addEventListener('click', function () {
-  //   vel = -200;
-  //   console.log('hell22!!');
-  // });
-
-  // hello.rotateX = 20;
-  // hello.rotateY = 30;
-  // hello.rotateZ = 40;
-  // hello.rotateZ = 50;
+  back_4.setImage('../images/festival/back_4.png');
 }
 
 var gravity = 3;
@@ -101,12 +99,7 @@ window.onmousemove = function () {
 };
 
 function update() {
-  // hello.left += 5 * only.Time.FIXED_TIME;
-  // hello.rotateX += 100 * only.Time.FIXED_TIME;
-  // hello.rotateY += 100 * only.Time.FIXED_TIME;
-  // hello.rotateZ += 20 * only.Time.FIXED_TIME;
 
-  // hello.top += vel * only.Time.FIXED_TIME;
   // vel += gravity;
 
   //world.left += (mouse_x - world.left) / 0.2 * only.Time.FIXED_TIME;
