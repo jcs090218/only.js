@@ -60,8 +60,8 @@ function init() {
     let newObj = new only.Object('#lol' + index, true);
     let newAnim = new only.Animation('../images/CrazyCat/summon.stand_', 4, '.png', 150);
     newObj.addAnimation('stand', newAnim);
-    newObj.left = only.Util.getRandomFloat(0, only.Config.TARGET_SCREEN_WIDTH);
-    newObj.top = only.Util.getRandomFloat(0, only.Config.TARGET_SCREEN_HEIGHT);
+    newObj.left = only.Util.getRandomFloat(0, only.Screen.CURRENT_WIDTH);
+    newObj.top = only.Util.getRandomFloat(0, only.Screen.CURRENT_HEIGHT);
   });
 
   greenBox.left = 10;
