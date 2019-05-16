@@ -99,8 +99,6 @@ only.Screen.onResize = function () {
     only.Screen.resizeFullEdge(screenWidth, screenHeight);
     break;
   }
-
-
 };
 
 /* Resize screen by picking the larger side. */
