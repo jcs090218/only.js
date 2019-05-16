@@ -42,11 +42,10 @@ function init() {
   world.addAnimation('attack', anim2);
   world.addAnimation('move', anim3);
 
-  world.position = 'absolute';
   // world.width = 10;
   // world.height = 10;
-  world.top = 1;
-  world.left = 1;
+  world.left = 100;
+  world.top = 100;
   // TODO(jenchieh): This would not work cuz
   // of `onResize` event.
   // world.scaleX = 2;
@@ -63,16 +62,14 @@ function init() {
     toggle = !toggle;
   });
 
-  greenBox.position = 'absolute';
   greenBox.left = 10;
   greenBox.top = 10;
-  greenBox.width = only.Config.TARGET_SCREEN_WIDTH / 1.5;
-  greenBox.height = only.Config.TARGET_SCREEN_HEIGHT - 100;
+  greenBox.width = 100;
+  greenBox.height = 200;
   greenBox.opacity = 0.5;
   greenBox.backgroundColor = 'green';
 
 
-  // hello.position = 'absolute';
   // hello.width = 50;
   // hello.height = 50;
   // hello.top = 100;
