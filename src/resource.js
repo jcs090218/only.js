@@ -22,10 +22,13 @@ only.Resource.loadedInit = function () {
   if (!only.Resource.allImagesLoaded())
     return;
 
-
-
-  only.Screen.INIT_RESIZE = true;
-  only.Screen.onResize();
+  if (!only.Screen.INIT_RESIZE) {
+    only.Screen.INIT_RESIZE = true;
+    only.Screen.onResize();
+  } else {
+    only.Screen.onResizeCurrent();
+    only.Render.NEW_OBJECTS = [];
+  }
 };
 
 /**
