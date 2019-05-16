@@ -21,6 +21,8 @@ only.Screen.CURRENT_HEIGHT = -1;
 
 only.Screen.RESIZE_LEFT = 0;
 only.Screen.RESIZE_TOP = 0;
+only.Screen.RESIZE_SCALE_X = 1;
+only.Screen.RESIZE_SCALE_Y = 0;
 only.Screen.RESIZE_SCALE = 1;
 
 only.Screen.MASK_COLOR = 'black';
@@ -67,7 +69,6 @@ only.Screen.initMask = function (id) {
   let mask = new only.Object(id, true);
   mask.backgroundColor = only.Screen.MASK_COLOR;
   mask.zIndex = only.Screen.MASK_Z_INDEX;
-  mask.position = 'absolute';
   return mask;
 };
 
@@ -109,8 +110,14 @@ only.Screen.resizeFullEdge = function (sw, sh) {
 
   let targetScale = (wScale > hScale) ? hScale : wScale;
 
-  let lrWidth = Math.abs(sw - (only.Config.TARGET_SCREEN_WIDTH * targetScale)) / 2;
-  let tbHeight = Math.abs(sh - (only.Config.TARGET_SCREEN_HEIGHT * targetScale)) / 2;
+  let ratioSW = only.Config.TARGET_SCREEN_WIDTH * targetScale;
+  let ratioSH = only.Config.TARGET_SCREEN_HEIGHT * targetScale;
+
+  let wRatio = ratioSW / only.Screen.CURRENT_WIDTH;
+  let hRatio = ratioSH / only.Screen.CURRENT_HEIGHT;
+
+  let lrWidth = (sw - ratioSW) / 2;
+  let tbHeight = (sh - ratioSH) / 2;
 
   only.Render.OBJECT_LIST.forEach(function (obj) {
     if (only.Screen.isMaskObject(obj)) {
@@ -127,13 +134,13 @@ only.Screen.resizeFullEdge = function (sw, sh) {
         obj.top = 0;
         break;
       case '#mask_bottom':
-        obj.top = sh - tbHeight;
+        obj.top = sh - Math.abs(tbHeight);
         break;
       case '#mask_left':
         obj.left = 0;
         break;
       case '#mask_right':
-        obj.left = sw - lrWidth;
+        obj.left = sw - Math.abs(lrWidth);
         break;
       }
 
@@ -143,14 +150,14 @@ only.Screen.resizeFullEdge = function (sw, sh) {
 
       obj.left /= only.Screen.RESIZE_SCALE;
       obj.top /= only.Screen.RESIZE_SCALE;
-      obj.scaleX /= only.Screen.RESIZE_SCALE;
-      obj.scaleY /= only.Screen.RESIZE_SCALE;
+      // obj.scaleX /= only.Screen.RESIZE_SCALE;
+      // obj.scaleY /= only.Screen.RESIZE_SCALE;
       /******** Before apply ********/
 
       obj.left *= targetScale;
       obj.top *= targetScale;
-      obj.scaleX *= targetScale;
-      obj.scaleY *= targetScale;
+      // obj.scaleX *= targetScale;
+      // obj.scaleY *= targetScale;
 
       /******** After apply ********/
       obj.left += lrWidth;
@@ -160,6 +167,8 @@ only.Screen.resizeFullEdge = function (sw, sh) {
 
   only.Screen.RESIZE_LEFT = lrWidth;
   only.Screen.RESIZE_TOP = tbHeight;
+  only.Screen.RESIZE_SCALE_X = wRatio;
+  only.Screen.RESIZE_SCALE_Y = hRatio;
   only.Screen.RESIZE_SCALE = targetScale;
 };
 

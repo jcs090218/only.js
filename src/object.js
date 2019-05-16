@@ -26,6 +26,8 @@ only.Object = function (selectorId, force = false) {
 
   this.animations = { };
   this.currentAnimId = '';
+
+  this.position = 'absolute';
 };
 
 only.Object.prototype = {
@@ -94,6 +96,9 @@ only.Object.prototype = {
 
   get position () { return this.getCss('position'); },
   set position (val) { this.setCss('position', val); },
+
+  get transformOrigin () { return this.getCss('transform-origin'); },
+  set transformOrigin (val) { this.setCss('transform-origin', val); },
 };
 
 /**
