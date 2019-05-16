@@ -245,8 +245,8 @@ only.Object.prototype.getDom = function (key) {
 only.Object.onloadImage = function (self, img, imagePath = null) {
   self.width = img.naturalWidth;
   self.height = img.naturalHeight;
-  // self.top -= (self.height / 2) + self.offsetX;
-  // self.left -= (self.width / 2) + self.offsetY;
+  self.top -= (self.height / 2) + self.offsetX;
+  self.left -= (self.width / 2) + self.offsetY;
 
   if (imagePath != null) {
     only.Object.solveDupObjs(imagePath);
