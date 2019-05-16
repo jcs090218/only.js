@@ -20,6 +20,11 @@ if (typeof only === 'undefined') var only = { };
 only.Object = function (selectorId, force = false) {
   only.Render.OBJECT_LIST.push(this);
 
+  // NOTE: After the first resize event was called,
+  // we treat everything new object.
+  if (only.Screen.INIT_RESIZE)
+    only.Render.NEW_OBJECTS.push(this);
+
   this.selectorId = selectorId;
   this.elements = this.getElements(false, force);  // cache.
   this.transforms = null;  // cache.
