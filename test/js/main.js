@@ -44,8 +44,8 @@ function init() {
 
   // world.width = 10;
   // world.height = 10;
-  world.left = 100;
-  world.top = 100;
+  world.left = 800;
+  world.top = 200;
   // TODO(jenchieh): This would not work cuz
   // of `onResize` event.
   // world.scaleX = 2;
