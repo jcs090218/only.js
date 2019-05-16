@@ -27,7 +27,6 @@ function init () {
   // Create display object ready for adding animation to it.
   disObj = new only.Object('#disObj');
 
-  disObj.position = 'absolute';
   disObj.width = 50;
   disObj.height = 50;
   disObj.top = 100;
