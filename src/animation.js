@@ -99,6 +99,8 @@ only.Animation.onloadImage = function (self, img, imagePath = null) {
   // `imagePath` is passed in.
   if (imagePath != null)
     only.Animation.solveDupAnims(imagePath);
+
+  only.Resource.loadedInit();
 };
 
 /** Solve all animations that uses the same image resouce. */
@@ -136,12 +138,10 @@ only.Animation.prototype.preloadImages = function () {
     let image = new Image();
 
     image.onload = function () {
-      only.Animation.onloadImage(self, this, imagePath);
-
       // Push loaded flag.
       ++only.Resource.LOADED_IMAGES_FLAGS;
 
-      only.Resource.loadedInit();
+      only.Animation.onloadImage(self, this, imagePath);
     };
 
     // This should do it after `onload` is assigned.
