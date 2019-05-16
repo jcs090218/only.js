@@ -38,7 +38,7 @@ On Windows you can run `./scripts/build.bat`. On `Linux`
 or `MacOS` you can run `./scripts/build.sh`.
 
 ### Step 3. Run it on browser
-Just run the `./test/index.html` file to browser and 
+Just run the `./test/normal/index.html` file to browser and 
 everything should work.
 
 **Notice:** You will need to execute `Step 2` if you change 
