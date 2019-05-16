@@ -27,5 +27,5 @@ only.init = function () {
 };
 
 only.postUpdate = function () {
-  only.Render.updateTransforms();
+  only.Render.update();
 };

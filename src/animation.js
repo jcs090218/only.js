@@ -86,37 +86,72 @@ only.Animation.prototype.updateFrame = function (frame = -1) {
   this.object.backgroundImage = 'url("' + this.getFrameName() + '")';
 };
 
+/** On load image callback for animation. */
+only.Animation.onloadImage = function (self, img, imagePath = null) {
+  self.imageLoaded = true;
+
+  self.width = img.naturalWidth;
+  self.height = img.naturalHeight;
+  if (self.firstAnim)
+    self.reviveAnimation();
+
+  // NOTE: We will only need to solve `dupAnims` when
+  // `imagePath` is passed in.
+  if (imagePath != null)
+    only.Animation.solveDupAnims(imagePath);
+};
+
+/** Solve all animations that uses the same image resouce. */
+only.Animation.solveDupAnims = function (imagePath) {
+  let imageData = only.Resource.PRELOADED_IMAGES[imagePath];
+  imageData.dupAnims.forEach(function (anim) {
+    only.Animation.onloadImage(anim, imageData.image);
+  });
+  imageData.dupAnims = [];  // After solving it, clean it.
+};
+
 /** Preload all images to prevent flickering. */
 only.Animation.prototype.preloadImages = function () {
-  let self = this;
   for (let cnt = this.startFrame; cnt < this.endFrame; ++cnt) {
     let imagePath = this.getFrameName(cnt);
 
     // NOTE: Here we use dictionary so we can save the duplicated
     // resource loading.
-    if (only.Resource.PRELOADED_IMAGES[imagePath] != undefined)
-      continue;
+    let imageData = only.Resource.PRELOADED_IMAGES[imagePath];
 
+    if (imageData != undefined) {
+      let image = imageData.image;
+
+      // Check image loaded, if loaded `width` or `height` should
+      // not be 0.
+      if (only.Resource.isImageLoaded(image)) {
+        only.Animation.onloadImage(this, image);
+      } else {
+        imageData.dupAnims.push(this);
+      }
+      continue;
+    }
+
+    let self = this;
     let image = new Image();
 
     image.onload = function () {
-      self.imageLoaded = true;
-
-      self.width = this.naturalWidth;
-      self.height = this.naturalHeight;
-      if (self.firstAnim)
-        self.reviveAnimation();
+      only.Animation.onloadImage(self, this, imagePath);
 
       // Push loaded flag.
-      only.Resource.LOADED_IMAGES_FLAGS.push(true);
+      ++only.Resource.LOADED_IMAGES_FLAGS;
 
       only.Resource.loadedInit();
     };
 
+    // This should do it after `onload` is assigned.
     image.src = imagePath;
 
     // Save to preloaded resource memory.
-    only.Resource.PRELOADED_IMAGES[imagePath] = image;
+    only.Resource.PRELOADED_IMAGES[imagePath] =  {
+      image : image,
+      dupAnims : [],  // Store animation that also uses the same image.
+    };
   }
 };
 

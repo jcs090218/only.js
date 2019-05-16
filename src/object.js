@@ -18,7 +18,7 @@ if (typeof only === 'undefined') var only = { };
  * @param { boolean } force : Force create one if does not find one.
  */
 only.Object = function (selectorId, force = false) {
-  only.Render.addObject(this);
+  only.Render.OBJECT_LIST.push(this);
 
   this.selectorId = selectorId;
   this.elements = this.getElements(false, force);  // cache.
@@ -102,6 +102,12 @@ only.Object.prototype = {
   set transformOrigin (val) { this.setCss('transform-origin', val); },
 };
 
+/** Runs every frame. */
+only.Object.prototype.update = function () {
+  this.updateAnimation();
+  this.updateTransforms();
+};
+
 /**
  * Get the elements using query selector methods and store it
  * within the cache.
@@ -113,7 +119,7 @@ only.Object.prototype.getElements = function (refresh = false, force = false) {
     this.elements = document.querySelectorAll(this.selectorId);
     /* See if we need to create one? */
     if (force && this.elements.length == 0) {
-      document.write(only.Util.createNewNode(this.selectorId));
+      document.body.appendChild(only.Util.createNewNode(this.selectorId));
       this.elements = document.querySelectorAll(this.selectorId);
     }
   }

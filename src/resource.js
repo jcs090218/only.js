@@ -15,18 +15,29 @@ only.Resource = { };
 only.Resource.PRELOADED_IMAGES = { };  // Preloaded Images
 only.Resource.PRELOADED_SOUNDS = { };  // Preloaded Sounds
 
-only.Resource.LOADED_IMAGES_FLAGS = [];
+only.Resource.LOADED_IMAGES_FLAGS = 0;
 
 /* When all resource is loaded, call this. */
 only.Resource.loadedInit = function () {
-  if (only.Resource.allImagesLoaded()) {
-    only.Screen.INIT_RESIZE = true;
-    only.Screen.onResize();
-  }
+  if (!only.Resource.allImagesLoaded())
+    return;
+
+
+
+  only.Screen.INIT_RESIZE = true;
+  only.Screen.onResize();
+};
+
+/**
+ * Check if an image is loaded.
+ * @param { Image } img : Image object.
+ */
+only.Resource.isImageLoaded = function (img) {
+  return img.naturalWidth != 0 || img.naturalHeight != 0;
 };
 
 /* Check if all images are loaded. */
 only.Resource.allImagesLoaded = function () {
-  return only.Resource.LOADED_IMAGES_FLAGS.length ==
+  return only.Resource.LOADED_IMAGES_FLAGS ==
     only.Util.dictionaryLength(only.Resource.PRELOADED_IMAGES);
 };

@@ -21,8 +21,6 @@ only.Screen.CURRENT_HEIGHT = -1;
 
 only.Screen.RESIZE_LEFT = 0;
 only.Screen.RESIZE_TOP = 0;
-only.Screen.RESIZE_SCALE_X = 1;
-only.Screen.RESIZE_SCALE_Y = 0;
 only.Screen.RESIZE_SCALE = 1;
 
 only.Screen.MASK_COLOR = 'black';
@@ -120,55 +118,14 @@ only.Screen.resizeFullEdge = function (sw, sh) {
   let tbHeight = (sh - ratioSH) / 2;
 
   only.Render.OBJECT_LIST.forEach(function (obj) {
-    if (only.Screen.isMaskObject(obj)) {
-      if (obj.selectorId == '#mask_top' || obj.selectorId == '#mask_bottom') {
-        obj.width = sw;
-        obj.height = tbHeight;
-      } else {
-        obj.width = lrWidth;
-        obj.height = sh;
-      }
-
-      switch (obj.selectorId) {
-      case '#mask_top':
-        obj.top = 0;
-        break;
-      case '#mask_bottom':
-        obj.top = sh - Math.abs(tbHeight);
-        break;
-      case '#mask_left':
-        obj.left = 0;
-        break;
-      case '#mask_right':
-        obj.left = sw - Math.abs(lrWidth);
-        break;
-      }
-
-    } else {
-      obj.left -= only.Screen.RESIZE_LEFT;
-      obj.top -= only.Screen.RESIZE_TOP;
-
-      obj.left /= only.Screen.RESIZE_SCALE;
-      obj.top /= only.Screen.RESIZE_SCALE;
-      obj.scaleX /= only.Screen.RESIZE_SCALE;
-      obj.scaleY /= only.Screen.RESIZE_SCALE;
-      /******** Before apply ********/
-
-      obj.left *= targetScale;
-      obj.top *= targetScale;
-      obj.scaleX *= targetScale;
-      obj.scaleY *= targetScale;
-
-      /******** After apply ********/
-      obj.left += lrWidth;
-      obj.top += tbHeight;
-    }
+    only.Screen.resizeFullEdgeObject(obj,
+                                     sw, sh,
+                                     lrWidth, tbHeight,
+                                     targetScale);
   });
 
   only.Screen.RESIZE_LEFT = lrWidth;
   only.Screen.RESIZE_TOP = tbHeight;
-  only.Screen.RESIZE_SCALE_X = wRatio;
-  only.Screen.RESIZE_SCALE_Y = hRatio;
   only.Screen.RESIZE_SCALE = targetScale;
 };
 
@@ -178,9 +135,64 @@ only.Screen.resizePerspective = function (sw, sh) {
   let hRatio = sh / only.Screen.CURRENT_HEIGHT;
 
   only.Render.OBJECT_LIST.forEach(function (obj) {
-    obj.left *= wRatio;
-    obj.top *= hRatio;
-    obj.scaleX *= wRatio;
-    obj.scaleY *= hRatio;
+    only.Screen.resizePerspectiveObject(obj, wRatio, hRatio);
   });
+};
+
+/* Apply one object, resize screen by picking the larger side. */
+only.Screen.resizeFullEdgeObject = function (obj,
+                                             sw, sh,
+                                             lrWidth, tbHeight,
+                                             targetScale) {
+  if (only.Screen.isMaskObject(obj)) {
+    if (obj.selectorId == '#mask_top' || obj.selectorId == '#mask_bottom') {
+      obj.width = sw;
+      obj.height = tbHeight;
+    } else {
+      obj.width = lrWidth;
+      obj.height = sh;
+    }
+
+    switch (obj.selectorId) {
+    case '#mask_top':
+      obj.top = 0;
+      break;
+    case '#mask_bottom':
+      obj.top = sh - Math.abs(tbHeight);
+      break;
+    case '#mask_left':
+      obj.left = 0;
+      break;
+    case '#mask_right':
+      obj.left = sw - Math.abs(lrWidth);
+      break;
+    }
+
+  } else {
+    obj.left -= only.Screen.RESIZE_LEFT;
+    obj.top -= only.Screen.RESIZE_TOP;
+
+    obj.left /= only.Screen.RESIZE_SCALE;
+    obj.top /= only.Screen.RESIZE_SCALE;
+    obj.scaleX /= only.Screen.RESIZE_SCALE;
+    obj.scaleY /= only.Screen.RESIZE_SCALE;
+    /******** Before apply ********/
+
+    obj.left *= targetScale;
+    obj.top *= targetScale;
+    obj.scaleX *= targetScale;
+    obj.scaleY *= targetScale;
+
+    /******** After apply ********/
+    obj.left += lrWidth;
+    obj.top += tbHeight;
+  }
+};
+
+/* Apply one object, resize screen on perspective. */
+only.Screen.resizePerspectiveObject = function (obj, wRatio, hRatio) {
+  obj.left *= wRatio;
+  obj.top *= hRatio;
+  obj.scaleX *= wRatio;
+  obj.scaleY *= hRatio;
 };

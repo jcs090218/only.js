@@ -42,20 +42,44 @@ only.Util.isString = function (sym) {
 };
 
 /**
+ * Returns a random number between min (inclusive) and
+ * max (exclusive).
+ */
+only.Util.getRandomFloat = function (min, max) {
+  return Math.random() * (max - min) + min;
+};
+
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive).
+ * The value is no lower than min (or the next integer greater than min
+ * if min isn't an integer) and no greater than max (or the next integer
+ * lower than max if max isn't an integer).
+ * Using Math.round() will give you a non-uniform distribution!
+ */
+only.Util.getRandomInt = function (min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+/**
  * Return new node string, default uses `span`.
  * @param { string } sel : selector query.
+ * @return { element } newDiv : New div element.
  */
 only.Util.createNewNode = function (sel) {
   let idr = sel.charAt(0);
   let tag = sel.substring(1);
+
+  let newDiv = document.createElement("DIV");
+
   switch (idr) {
   case '#':
-    return '<div id="' + tag + '"></div>';
+    newDiv.id = tag;
   case '.':
-    return '<div class="' + tag + '"></div>';
-  default:
-    return '<' + tag + '></' + tag + '>' ;
+    newDiv.className = tag;
   }
+  return newDiv;
 };
 
 /**

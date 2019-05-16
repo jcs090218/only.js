@@ -14,8 +14,14 @@ if (typeof only === 'undefined') var only = { };
 only.Render = { };
 only.Render.OBJECT_LIST = [];
 
-only.Render.addObject = function (obj) {
-  only.Render.OBJECT_LIST.push(obj);
+/**
+ * Update all the object transform state right before the
+ * render quere starts.
+ */
+only.Render.update = function () {
+  only.Render.OBJECT_LIST.forEach(function (obj) {
+    obj.update();
+  });
 };
 
 only.Render.cleanNullObjects = function (obj) {
@@ -23,15 +29,4 @@ only.Render.cleanNullObjects = function (obj) {
   for (let index = 0; index < only.Render.OBJECT_LIST.length; ++index) {
     console.log(only.Render.OBJECT_LIST[index]);
   }
-};
-
-/**
- * Update all the object transform state right before the
- * render quere starts.
- */
-only.Render.updateTransforms = function () {
-  only.Render.OBJECT_LIST.forEach(function (obj) {
-    obj.updateAnimation();
-    obj.updateTransforms();
-  });
 };
