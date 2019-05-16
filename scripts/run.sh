@@ -9,4 +9,4 @@
 # ========================================================================
 
 
-sensible-browser "../test/index.html"
+sensible-browser "../test/normal/index.html"

@@ -9,5 +9,5 @@
 :: ========================================================================
 
 
-::start ../test/index.html
-"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "../test/index.html"
+::start ../test/normal/index.html
+"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "../test/normal/index.html"
