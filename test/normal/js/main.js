@@ -29,14 +29,15 @@ only.init();  // This should be last called.
 var world = new only.Object('#world');
 var greenBox = new only.Object('#greenbox', true);
 let toggle = true;
+let index = 0;
 
 function init() {
   //let obj = new only.Object('*');
   //obj.position = 'absolute';
 
-  let anim1 = new only.Animation('./images/CrazyCat/summon.stand_', 4, '.png', 150);
-  let anim2 = new only.Animation('./images/CrazyCat/summon.attack1_', 20, '.png', 150);
-  let anim3 = new only.Animation('./images/CrazyCat/summon.move_', 4, '.png', 125);
+  let anim1 = new only.Animation('../images/CrazyCat/summon.stand_', 4, '.png', 150);
+  let anim2 = new only.Animation('../images/CrazyCat/summon.attack1_', 20, '.png', 150);
+  let anim3 = new only.Animation('../images/CrazyCat/summon.move_', 4, '.png', 125);
 
   world.addAnimation('stand', anim1);
   world.addAnimation('attack', anim2);
@@ -55,11 +56,12 @@ function init() {
   //world.backgroundImage = 'url(./images/CrazyCat/summon.stand_0.png)';
 
   world.addEventListener('click', function () {
-    if (toggle)
-      world.playAnimation('move');
-    else
-      world.playAnimation('attack');
-    toggle = !toggle;
+    ++index;
+    let newObj = new only.Object('#lol' + index, true);
+    let newAnim = new only.Animation('../images/CrazyCat/summon.stand_', 4, '.png', 150);
+    newObj.addAnimation('stand', newAnim);
+    newObj.left = only.Util.getRandomFloat(0, only.Config.TARGET_SCREEN_WIDTH);
+    newObj.top = only.Util.getRandomFloat(0, only.Config.TARGET_SCREEN_HEIGHT);
   });
 
   greenBox.left = 10;
