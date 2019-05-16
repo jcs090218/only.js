@@ -76,8 +76,10 @@ only.Util.createNewNode = function (sel) {
   switch (idr) {
   case '#':
     newDiv.id = tag;
+    break;
   case '.':
     newDiv.className = tag;
+    break;
   }
   return newDiv;
 };

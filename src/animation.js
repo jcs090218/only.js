@@ -24,15 +24,12 @@ only.Animation = function (base, frames, ext, time, startFrame = 0) {
   this.object = null;
 
   this.base = base;
-  this.frames = frames;
+  this.frames = frames;  // Total frames.
   this.ext = ext;
   this.__time = time / 1000;
 
   this.width = 0;
   this.height = 0;
-
-  this.offsetX = 0;
-  this.offsetY = 0;
 
   this.startFrame = startFrame;         // The first frame.
   this.endFrame = frames + startFrame;  // The last frame.
@@ -65,8 +62,8 @@ only.Animation.prototype.reviveAnimation = function () {
   this.revived = true;
   this.object.width = this.width;
   this.object.height = this.height;
-  this.object.top -= (this.height / 2) + this.offsetX;
-  this.object.left -= (this.width / 2) + this.offsetY;
+  this.object.top -= (this.height / 2) + this.object.offsetX;
+  this.object.left -= (this.width / 2) + this.object.offsetY;
   this.updateFrame(this.startFrame);
 };
 
@@ -75,8 +72,8 @@ only.Animation.prototype.restoreAnimation = function () {
   if (!this.revived)
     return;
   this.revived = false;
-  this.object.top += (this.height / 2) + this.offsetX;
-  this.object.left += (this.width / 2) + this.offsetY;
+  this.object.top += (this.height / 2) + this.object.offsetX;
+  this.object.left += (this.width / 2) + this.object.offsetY;
 };
 
 /** Update the current frame. */
@@ -97,13 +94,17 @@ only.Animation.onloadImage = function (self, img, imagePath = null) {
 
   // NOTE: We will only need to solve `dupAnims` when
   // `imagePath` is passed in.
-  if (imagePath != null)
+  if (imagePath != null) {
     only.Animation.solveDupAnims(imagePath);
+
+    // Push loaded flag.
+    ++only.Resource.LOADED_IMAGES_FLAGS;
+  }
 
   only.Resource.loadedInit();
 };
 
-/** Solve all animations that uses the same image resouce. */
+/** Solve all animations that use the same image resouce. */
 only.Animation.solveDupAnims = function (imagePath) {
   let imageData = only.Resource.PRELOADED_IMAGES[imagePath];
   imageData.dupAnims.forEach(function (anim) {
@@ -138,9 +139,6 @@ only.Animation.prototype.preloadImages = function () {
     let image = new Image();
 
     image.onload = function () {
-      // Push loaded flag.
-      ++only.Resource.LOADED_IMAGES_FLAGS;
-
       only.Animation.onloadImage(self, this, imagePath);
     };
 
@@ -150,7 +148,8 @@ only.Animation.prototype.preloadImages = function () {
     // Save to preloaded resource memory.
     only.Resource.PRELOADED_IMAGES[imagePath] =  {
       image : image,
-      dupAnims : [],  // Store animation that also uses the same image.
+      dupObjs : [],   // Match `object.js`.
+      dupAnims : [],  // Store animations that also use the same image.
     };
   }
 };
@@ -165,6 +164,9 @@ only.Animation.prototype.init = function (obj) {
 
 /** Update animation - core loop. */
 only.Animation.prototype.update = function () {
+  if (this.frames <= 1)
+    return;
+
   this.timer += only.Time.FIXED_TIME;
 
   if (this.timer < this.time)

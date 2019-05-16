@@ -173,6 +173,9 @@ only.Screen.resizeFullEdgeCurrent = function (sw, sh) {
     obj.top *= targetScale;
     obj.scaleX *= targetScale;
     obj.scaleY *= targetScale;
+
+    obj.left += lrWidth;
+    obj.top += tbHeight;
   });
 };
 

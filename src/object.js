@@ -32,6 +32,14 @@ only.Object = function (selectorId, force = false) {
   this.animations = { };
   this.currentAnimId = '';
 
+  this.offsetX = 0;
+  this.offsetY = 0;
+
+  this.left = 0;
+  this.top = 0;
+  this.width = 0;
+  this.height = 0;
+
   this.position = 'absolute';
   this.transformOrigin = 'top left';
 };
@@ -231,6 +239,71 @@ only.Object.prototype.getDom = function (key) {
   let list_attr = [];
   this.getElements().forEach(function (elm) { list_attr.push(elm[key]); });
   return list_attr;
+};
+
+/** On load image callback for just image. */
+only.Object.onloadImage = function (self, img, imagePath = null) {
+  self.width = img.naturalWidth;
+  self.height = img.naturalHeight;
+  // self.top -= (self.height / 2) + self.offsetX;
+  // self.left -= (self.width / 2) + self.offsetY;
+
+  if (imagePath != null) {
+    only.Object.solveDupObjs(imagePath);
+
+    // Push loaded flag.
+    ++only.Resource.LOADED_IMAGES_FLAGS;
+  }
+
+  only.Resource.loadedInit();
+};
+
+/** Solve all objects that use the same image resouce. */
+only.Object.solveDupObjs = function (imagePath) {
+  let imageData = only.Resource.PRELOADED_IMAGES[imagePath];
+  imageData.dupObjs.forEach(function (obj) {
+    only.Object.onloadImage(obj, imageData.image);
+  });
+  imageData.dupObjs = [];  // After solving it, clean it.
+};
+
+/** Set the image. */
+only.Object.prototype.setImage = function (imagePath) {
+  this.backgroundImage = 'url("' + imagePath + '")';
+
+  // NOTE: Here we use dictionary so we can save the duplicated
+  // resource loading.
+  let imageData = only.Resource.PRELOADED_IMAGES[imagePath];
+
+  if (imageData != undefined) {
+    let image = imageData.image;
+
+    // Check image loaded, if loaded `width` or `height` should
+    // not be 0.
+    if (only.Resource.isImageLoaded(image)) {
+      only.Object.onloadImage(this, image);
+    } else {
+      imageData.dupObjs.push(this);
+    }
+    return;
+  }
+
+  let self = this;
+  let image = new Image();
+
+  image.onload = function () {
+    only.Object.onloadImage(self, this, imagePath);
+  };
+
+  // This should do it after `onload` is assigned.
+  image.src = imagePath;
+
+  // Save to preloaded resource memory.
+  only.Resource.PRELOADED_IMAGES[imagePath] =  {
+    image : image,
+    dupObjs : [],   // Store objects that also use the same image.
+    dupAnims : [],  // Match `animtion.js`.
+  };
 };
 
 /** Add one animation object with `id` and `animation` itself. */
