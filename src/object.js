@@ -35,27 +35,45 @@ only.Object = function (selectorId, force = false) {
   this.offsetX = 0;
   this.offsetY = 0;
 
+  this.position = 'absolute';
+  this.transformOrigin = 'top left';
+
   this.left = 0;
   this.top = 0;
   this.width = 0;
   this.height = 0;
-
-  this.position = 'absolute';
-  this.transformOrigin = 'top left';
 };
 
 only.Object.prototype = {
-  get top () { return parseFloat(this.getCss('top')); },
+  get top () {
+    let val = parseFloat(this.getCss('top'));
+    if (!only.Screen.RESIZING) {
+      val /= only.Screen.RESIZE_SCALE;
+      val -= only.Screen.RESIZE_TOP;
+    }
+    return val;
+  },
   set top (val) {
-    if (!only.Screen.RESIZING)
+    if (!only.Screen.RESIZING) {
+      val *= only.Screen.RESIZE_SCALE;
       val += only.Screen.RESIZE_TOP;
+    }
     this.setCss('top', val, 'px');
   },
 
-  get left () { return parseFloat(this.getCss('left')); },
+  get left () {
+    let val = parseFloat(this.getCss('left'));
+    if (!only.Screen.RESIZING) {
+      val /= only.Screen.RESIZE_SCALE;
+      val -= only.Screen.RESIZE_LEFT;
+    }
+    return val;
+  },
   set left (val) {
-    if (!only.Screen.RESIZING)
+    if (!only.Screen.RESIZING) {
+      val *= only.Screen.RESIZE_SCALE;
       val += only.Screen.RESIZE_LEFT;
+    }
     this.setCss('left', val, 'px');
   },
 

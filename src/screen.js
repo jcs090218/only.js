@@ -213,8 +213,6 @@ only.Screen.resizePerspectiveCurrent = function (sw, sh) {
   let hRatio = sh / only.Config.TARGET_SCREEN_HEIGHT;
 
   only.Render.NEW_OBJECTS.forEach(function (obj) {
-    console.log(wRatio);
-    console.log(hRatio);
     only.Screen.resizePerspectiveObject(obj, wRatio, hRatio);
   });
 };

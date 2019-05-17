@@ -89,6 +89,8 @@ only.Animation.onloadImage = function (self, img, imagePath = null) {
 
   self.width = img.naturalWidth;
   self.height = img.naturalHeight;
+
+  // Build object's animation with first animation.
   if (self.firstAnim)
     self.reviveAnimation();
 
