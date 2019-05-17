@@ -68,13 +68,13 @@ function init() {
     let newObj = new only.Object('#lol' + index, true);
     let newAnim = new only.Animation('../images/CrazyCat/summon.stand_', 4, '.png', 150);
     newObj.addAnimation('stand', newAnim);
-    newObj.left = only.Util.getRandomFloat(0, only.Screen.CURRENT_WIDTH);
-    newObj.top = only.Util.getRandomFloat(0, only.Screen.CURRENT_HEIGHT);
+    // newObj.left = 10;
+    // newObj.top = 10;
 
-    let newBg = new only.Object('#bg-' + index, true);
-    newBg.setImage('../images/festival/back_4.png');
-    newBg.left = only.Util.getRandomFloat(0, only.Screen.CURRENT_WIDTH);
-    newBg.top = only.Util.getRandomFloat(0, only.Screen.CURRENT_HEIGHT);
+    // let newBg = new only.Object('#bg-' + index, true);
+    // newBg.setImage('../images/festival/back_4.png');
+    // newBg.left = only.Util.getRandomFloat(0, only.Screen.CURRENT_WIDTH);
+    // newBg.top = only.Util.getRandomFloat(0, only.Screen.CURRENT_HEIGHT);
   });
 
   greenBox.left = 10;

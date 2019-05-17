@@ -46,10 +46,18 @@ only.Object = function (selectorId, force = false) {
 
 only.Object.prototype = {
   get top () { return parseFloat(this.getCss('top')); },
-  set top (val) { this.setCss('top', val, 'px'); },
+  set top (val) {
+    if (!only.Screen.RESIZING)
+      val += only.Screen.RESIZE_TOP;
+    this.setCss('top', val, 'px');
+  },
 
   get left () { return parseFloat(this.getCss('left')); },
-  set left (val) { this.setCss('left', val, 'px'); },
+  set left (val) {
+    if (!only.Screen.RESIZING)
+      val += only.Screen.RESIZE_LEFT;
+    this.setCss('left', val, 'px');
+  },
 
   get width () { return parseFloat(this.getCss('width')); },
   set width (val) { this.setCss('width', val, 'px'); },

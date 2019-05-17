@@ -24,6 +24,9 @@ only.Screen.LAST_HEIGHT = -1;
 // resize event before the app is done initilaized.
 only.Screen.INIT_RESIZE = false;
 
+// Is currently resizing?
+only.Screen.RESIZING = false;
+
 only.Screen.RESIZE_LEFT = 0;
 only.Screen.RESIZE_TOP = 0;
 only.Screen.RESIZE_SCALE = 1;
@@ -88,6 +91,8 @@ only.Screen.onResize = function () {
   if (!only.Screen.INIT_RESIZE)
     return;
 
+  only.Screen.RESIZING = true;
+
   let screenWidth = only.Screen.width();
   let screenHeight = only.Screen.height();
 
@@ -99,10 +104,18 @@ only.Screen.onResize = function () {
     only.Screen.resizeFullEdge(screenWidth, screenHeight);
     break;
   }
+
+  only.Screen.RESIZING = false;
 };
 
 /** Resize to the current window size. */
 only.Screen.onResizeCurrent = function () {
+  // Check already if app initialized and at resize once?
+  if (!only.Screen.INIT_RESIZE)
+    return;
+
+  only.Screen.RESIZING = true;
+
   let screenWidth = only.Screen.width();
   let screenHeight = only.Screen.height();
 
@@ -114,6 +127,8 @@ only.Screen.onResizeCurrent = function () {
     only.Screen.resizeFullEdgeCurrent(screenWidth, screenHeight);
     break;
   }
+
+  only.Screen.RESIZING = false;
 };
 
 
