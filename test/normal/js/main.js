@@ -68,8 +68,11 @@ function init() {
     let newObj = new only.Object('#lol' + index, true);
     let newAnim = new only.Animation('../images/CrazyCat/summon.stand_', 4, '.png', 150);
     newObj.addAnimation('stand', newAnim);
-    // newObj.left = 10;
-    // newObj.top = 10;
+    newObj.left = 0;
+    newObj.top = 0;
+
+    world.left = 0;
+    world.top = 0;
 
     // let newBg = new only.Object('#bg-' + index, true);
     // newBg.setImage('../images/festival/back_4.png');
