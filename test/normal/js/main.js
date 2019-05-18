@@ -58,11 +58,11 @@ function init() {
   //world.backgroundImage = 'url(./images/CrazyCat/summon.stand_0.png)';
 
   world.addEventListener('click', function () {
-    // if (toggle)
-    //   world.playAnimation('move');
-    // else
-    //   world.playAnimation('attack');
-    // toggle = !toggle;
+    if (toggle)
+      world.playAnimation('move');
+    else
+      world.playAnimation('attack');
+    toggle = !toggle;
 
     ++index;
     let newObj = new only.Object('#lol' + index, true);
@@ -71,8 +71,8 @@ function init() {
     newObj.left = 0;
     newObj.top = 0;
 
-    world.left = 0;
-    world.top = 0;
+    // world.left = 0;
+    // world.top = 0;
 
     // let newBg = new only.Object('#bg-' + index, true);
     // newBg.setImage('../images/festival/back_4.png');
@@ -89,8 +89,8 @@ function init() {
   greenBox.backgroundColor = 'yellow';
 
   back_4.setImage('../images/festival/back_4.png');
-  // back_4.left = 0;
-  // back_4.top = 0;
+  // back_4.left = 1000;
+  // back_4.top = 650;
 }
 
 var gravity = 3;
