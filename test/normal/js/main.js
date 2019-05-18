@@ -80,15 +80,17 @@ function init() {
     // newBg.top = only.Util.getRandomFloat(0, only.Screen.CURRENT_HEIGHT);
   });
 
-  greenBox.left = 10;
-  greenBox.top = 10;
+  // greenBox.left = 0;
+  // greenBox.top = 0;
   greenBox.width = 100;
   greenBox.height = 200;
   greenBox.opacity = 0.5;
-  greenBox.backgroundColor = 'green';
-
+  greenBox.zIndex = 5;
+  greenBox.backgroundColor = 'yellow';
 
   back_4.setImage('../images/festival/back_4.png');
+  // back_4.left = 0;
+  // back_4.top = 0;
 }
 
 var gravity = 3;
