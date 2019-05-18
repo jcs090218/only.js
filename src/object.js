@@ -84,8 +84,8 @@ only.Object.prototype = {
   get width () { return parseFloat(this.getCss('width')); },
   set width (val) {
     if (!only.Screen.RESIZING) {
-      this.left += (this.width / 2) + this.offsetX;
-      this.left -= (val / 2) + this.offsetX;
+      this.left += ((this.width / 2) + this.offsetX) * this.scaleX;
+      this.left -= ((val / 2) + this.offsetX) * this.scaleX;
     }
     this.setCss('width', val, 'px');
   },
@@ -93,8 +93,8 @@ only.Object.prototype = {
   get height () { return parseFloat(this.getCss('height')); },
   set height (val) {
     if (!only.Screen.RESIZING) {
-      this.top += (this.height / 2) + this.offsetY;
-      this.top -= (val / 2) + this.offsetY;
+      this.top += ((this.height / 2) + this.offsetY) * this.scaleY;
+      this.top -= ((val / 2) + this.offsetY) * this.scaleY;
     }
     this.setCss('height', val, 'px');
   },
@@ -283,23 +283,10 @@ only.Object.prototype.getDom = function (key) {
   return list_attr;
 };
 
-/** Set the pivot to the object. */
-only.Object.prototype.pivotIt = function () {
-  //this.left -= (this.width / 2) + this.offsetX;
-  //this.top -= (this.height / 2) + this.offsetY;
-};
-
-/** Set the pivot to the object. */
-only.Object.prototype.unPivotIt = function () {
-  //this.left += (this.width / 2) + this.offsetX;
-  //this.top += (this.height / 2) + this.offsetY;
-};
-
 /** On load image callback for just image. */
 only.Object.onloadImage = function (self, img, imagePath = null) {
   self.width = img.naturalWidth;
   self.height = img.naturalHeight;
-  self.pivotIt();
 
   if (imagePath != null) {
     only.Object.solveDupObjs(imagePath);
@@ -368,16 +355,15 @@ only.Object.prototype.addAnimation = function (animId, newAnim) {
 };
 
 /** Play the animation by using animation `id`. */
-only.Object.prototype.playAnimation = function (animId) {
-  if (this.currentAnimId == animId)
-    return;
+only.Object.prototype.playAnimation = function (animId, restart = false) {
   if (this.animations[animId] == undefined) {
     only.Debug.warn("Cannot play `undefined` animation..");
     return;
   }
 
-  if (this.currentAnimId != '')
-    this.animations[this.currentAnimId].restoreAnimation();
+  if (this.currentAnimId == animId && !restart)
+    return;
+
   this.currentAnimId = animId;
   this.animations[this.currentAnimId].reviveAnimation();
 };
