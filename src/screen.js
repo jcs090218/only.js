@@ -24,7 +24,7 @@ only.Screen.LAST_HEIGHT = -1;
 // resize event before the app is done initilaized.
 only.Screen.INIT_RESIZE = false;
 
-// Is currently resizing?
+// Is currently resizing? For resizing guarde.
 only.Screen.RESIZING = false;
 
 only.Screen.RESIZE_LEFT = 0;
