@@ -38,7 +38,11 @@ only.Animation = function (base, frames, ext, time, startFrame = 0) {
 
   // Check if this animation the first animation in the `object`.
   this.firstAnim = false;
+  this.revived = false;
   this.imageLoaded = false;  // Check if at least one image loaded.
+
+  this.offsetX = 0;
+  this.offsetY = 0;
 };
 
 only.Animation.prototype = {
@@ -56,11 +60,23 @@ only.Animation.prototype.getFrameName = function (frame = -1) {
 
 /** Revive the animation after switch to the new animation. */
 only.Animation.prototype.reviveAnimation = function () {
-  if (!this.imageLoaded)
+  if (this.revived || !this.imageLoaded)
     return;
+  this.revived = true;
   this.object.width = this.width;
   this.object.height = this.height;
+  this.object.left += this.offsetX;
+  this.object.top += this.offsetY;
   this.updateFrame(this.startFrame);
+};
+
+/** Restore the animation before switching animation. */
+only.Animation.prototype.restoreAnimation = function () {
+  if (!this.revived)
+    return;
+  this.revived = false;
+  this.object.left -= this.offsetX;
+  this.object.top -= this.offsetY;
 };
 
 /** Update the current frame. */

@@ -48,9 +48,9 @@ only.Object.prototype = {
   get left () {
     let val = parseFloat(this.getCss('left'));
     if (!only.Screen.RESIZING) {
-      val += (this.width / 2) + this.offsetX;
-      val /= only.Screen.RESIZE_SCALE;
       val -= only.Screen.RESIZE_LEFT;
+      val /= only.Screen.RESIZE_SCALE;
+      val += (this.width / 2) + this.offsetX;
     }
     return val;
   },
@@ -66,9 +66,9 @@ only.Object.prototype = {
   get top () {
     let val = parseFloat(this.getCss('top'));
     if (!only.Screen.RESIZING) {
-      val += (this.height / 2) + this.offsetY;
-      val /= only.Screen.RESIZE_SCALE;
       val -= only.Screen.RESIZE_TOP;
+      val /= only.Screen.RESIZE_SCALE;
+      val += (this.height / 2) + this.offsetY;
     }
     return val;
   },
@@ -83,18 +83,18 @@ only.Object.prototype = {
 
   get width () { return parseFloat(this.getCss('width')); },
   set width (val) {
-    if (!only.Screen.RESIZING) {
-      this.left += ((this.width / 2) + this.offsetX) * this.scaleX;
-      this.left -= ((val / 2) + this.offsetX) * this.scaleX;
+    if (!only.Screen.RESIZING && !isNaN(this.width)) {
+      this.left += (this.width / 2) + this.offsetX;
+      this.left -= (val / 2) + this.offsetX;
     }
     this.setCss('width', val, 'px');
   },
 
   get height () { return parseFloat(this.getCss('height')); },
   set height (val) {
-    if (!only.Screen.RESIZING) {
-      this.top += ((this.height / 2) + this.offsetY) * this.scaleY;
-      this.top -= ((val / 2) + this.offsetY) * this.scaleY;
+    if (!only.Screen.RESIZING && !isNaN(this.height)) {
+      this.top += (this.height / 2) + this.offsetY;
+      this.top -= (val / 2) + this.offsetY;
     }
     this.setCss('height', val, 'px');
   },
@@ -364,6 +364,8 @@ only.Object.prototype.playAnimation = function (animId, restart = false) {
   if (this.currentAnimId == animId && !restart)
     return;
 
+  if (this.currentAnimId != '')
+    this.animations[this.currentAnimId].restoreAnimation();
   this.currentAnimId = animId;
   this.animations[this.currentAnimId].reviveAnimation();
 };
