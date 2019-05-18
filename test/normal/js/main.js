@@ -37,8 +37,14 @@ function init() {
   //obj.position = 'absolute';
 
   let anim1 = new only.Animation('../images/CrazyCat/summon.stand_', 4, '.png', 150);
+  // anim1.offsetX = 10;
+  // anim1.offsetY = 10;
   let anim2 = new only.Animation('../images/CrazyCat/summon.attack1_', 20, '.png', 150);
+  // anim2.offsetX = 100;
+  // anim2.offsetY = 100;
   let anim3 = new only.Animation('../images/CrazyCat/summon.move_', 4, '.png', 125);
+  // anim3.offsetX = -50;
+  // anim3.offsetY = -50;
 
   world.addAnimation('stand', anim1);
   world.addAnimation('attack', anim2);
@@ -68,8 +74,10 @@ function init() {
     let newObj = new only.Object('#lol' + index, true);
     let newAnim = new only.Animation('../images/CrazyCat/summon.stand_', 4, '.png', 150);
     newObj.addAnimation('stand', newAnim);
-    newObj.left = 0;
-    newObj.top = 0;
+    // newObj.left = 0;
+    // newObj.top = 0;
+
+    // world.left += 148;
 
     // world.left = 0;
     // world.top = 0;
@@ -107,6 +115,7 @@ function update() {
 
   // vel += gravity;
 
+  // world.left += 10 * only.Time.FIXED_TIME;
   //world.left += (mouse_x - world.left) / 0.2 * only.Time.FIXED_TIME;
   //world.top += (mouse_y - world.top) / 0.2 * only.Time.FIXED_TIME;
   // world.rotateX += 10 * only.Time.FIXED_TIME;
