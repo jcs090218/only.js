@@ -62,8 +62,7 @@ only.Animation.prototype.reviveAnimation = function () {
   this.revived = true;
   this.object.width = this.width;
   this.object.height = this.height;
-  this.object.top -= (this.height / 2) + this.object.offsetX;
-  this.object.left -= (this.width / 2) + this.object.offsetY;
+  this.object.pivotIt();
   this.updateFrame(this.startFrame);
 };
 
@@ -72,8 +71,7 @@ only.Animation.prototype.restoreAnimation = function () {
   if (!this.revived)
     return;
   this.revived = false;
-  this.object.top += (this.height / 2) + this.object.offsetX;
-  this.object.left += (this.width / 2) + this.object.offsetY;
+  this.object.unPivotIt();
 };
 
 /** Update the current frame. */
