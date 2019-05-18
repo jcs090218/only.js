@@ -97,11 +97,11 @@ only.Screen.onResize = function () {
   let screenHeight = only.Screen.height();
 
   switch (only.Config.RESIZE_MODE) {
+  case 0:
+    only.Screen.resizeFullEdge(screenWidth, screenHeight);
+    break;
   case 1:
     only.Screen.resizePerspective(screenWidth, screenHeight);
-    break;
-  default:
-    only.Screen.resizeFullEdge(screenWidth, screenHeight);
     break;
   }
 
@@ -120,11 +120,11 @@ only.Screen.onResizeCurrent = function () {
   let screenHeight = only.Screen.height();
 
   switch (only.Config.RESIZE_MODE) {
+  case 0:
+    only.Screen.resizeFullEdgeCurrent(screenWidth, screenHeight);
+    break;
   case 1:
     only.Screen.resizePerspectiveCurrent(screenWidth, screenHeight);
-    break;
-  default:
-    only.Screen.resizeFullEdgeCurrent(screenWidth, screenHeight);
     break;
   }
 
