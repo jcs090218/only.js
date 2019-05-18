@@ -38,32 +38,17 @@ only.Object = function (selectorId, force = false) {
   this.position = 'absolute';
   this.transformOrigin = 'top left';
 
-  this.left = 0;
-  this.top = 0;
   this.width = 0;
   this.height = 0;
+  this.left = 0;
+  this.top = 0;
 };
 
 only.Object.prototype = {
-  get top () {
-    let val = parseFloat(this.getCss('top'));
-    if (!only.Screen.RESIZING) {
-      val /= only.Screen.RESIZE_SCALE;
-      val -= only.Screen.RESIZE_TOP;
-    }
-    return val;
-  },
-  set top (val) {
-    if (!only.Screen.RESIZING) {
-      val *= only.Screen.RESIZE_SCALE;
-      val += only.Screen.RESIZE_TOP;
-    }
-    this.setCss('top', val, 'px');
-  },
-
   get left () {
     let val = parseFloat(this.getCss('left'));
     if (!only.Screen.RESIZING) {
+      val += (this.width / 2) + this.offsetX;
       val /= only.Screen.RESIZE_SCALE;
       val -= only.Screen.RESIZE_LEFT;
     }
@@ -71,17 +56,48 @@ only.Object.prototype = {
   },
   set left (val) {
     if (!only.Screen.RESIZING) {
+      val -= (this.width / 2) + this.offsetX;
       val *= only.Screen.RESIZE_SCALE;
       val += only.Screen.RESIZE_LEFT;
     }
     this.setCss('left', val, 'px');
   },
 
+  get top () {
+    let val = parseFloat(this.getCss('top'));
+    if (!only.Screen.RESIZING) {
+      val += (this.height / 2) + this.offsetY;
+      val /= only.Screen.RESIZE_SCALE;
+      val -= only.Screen.RESIZE_TOP;
+    }
+    return val;
+  },
+  set top (val) {
+    if (!only.Screen.RESIZING) {
+      val -= (this.height / 2) + this.offsetY;
+      val *= only.Screen.RESIZE_SCALE;
+      val += only.Screen.RESIZE_TOP;
+    }
+    this.setCss('top', val, 'px');
+  },
+
   get width () { return parseFloat(this.getCss('width')); },
-  set width (val) { this.setCss('width', val, 'px'); },
+  set width (val) {
+    if (!only.Screen.RESIZING) {
+      this.left += (this.width / 2) + this.offsetX;
+      this.left -= (val / 2) + this.offsetX;
+    }
+    this.setCss('width', val, 'px');
+  },
 
   get height () { return parseFloat(this.getCss('height')); },
-  set height (val) { this.setCss('height', val, 'px'); },
+  set height (val) {
+    if (!only.Screen.RESIZING) {
+      this.top += (this.height / 2) + this.offsetY;
+      this.top -= (val / 2) + this.offsetY;
+    }
+    this.setCss('height', val, 'px');
+  },
 
   get translateX () { return parseFloat(this.getTransform('translateX', 0, 'px')); },
   set translateX (val) { this.setTransform('translateX', val, 'px'); },
@@ -267,12 +283,23 @@ only.Object.prototype.getDom = function (key) {
   return list_attr;
 };
 
+/** Set the pivot to the object. */
+only.Object.prototype.pivotIt = function () {
+  //this.left -= (this.width / 2) + this.offsetX;
+  //this.top -= (this.height / 2) + this.offsetY;
+};
+
+/** Set the pivot to the object. */
+only.Object.prototype.unPivotIt = function () {
+  //this.left += (this.width / 2) + this.offsetX;
+  //this.top += (this.height / 2) + this.offsetY;
+};
+
 /** On load image callback for just image. */
 only.Object.onloadImage = function (self, img, imagePath = null) {
   self.width = img.naturalWidth;
   self.height = img.naturalHeight;
-  self.top -= (self.height / 2) + self.offsetX;
-  self.left -= (self.width / 2) + self.offsetY;
+  self.pivotIt();
 
   if (imagePath != null) {
     only.Object.solveDupObjs(imagePath);
