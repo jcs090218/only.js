@@ -22,6 +22,9 @@ only.Config.TARGET_SCREEN_HEIGHT = 977;
 only.Event.registerInit(init);
 only.Event.registerUpdate(update);
 
+// Change mask opacity for better seeing.
+only.Screen.MASK_OPACITY = 0.3;
+
 only.init();  // This should be last called.
 
 
@@ -75,14 +78,17 @@ function init() {
     let newObj = new only.Object('#lol' + index, true);
     let newAnim = new only.Animation('../images/CrazyCat/summon.stand_', 4, '.png', 150);
     newObj.addAnimation('stand', newAnim);
-    // newObj.left = 0;
-    // newObj.top = 0;
+    newObj.left = 0;
+    newObj.top = 0;
     newObj.setCss('border', '1px red solid');
 
     // world.left += 148;
 
     // world.left = 0;
     // world.top = 0;
+
+    // back_4.scaleX = 0.5;
+    // back_4.scaleY = 0.5;
 
     // let newBg = new only.Object('#bg-' + index, true);
     // newBg.setImage('../images/festival/back_4.png');
@@ -99,8 +105,10 @@ function init() {
   greenBox.backgroundColor = 'yellow';
 
   back_4.setImage('../images/festival/back_4.png');
-  // back_4.left = 1000;
-  // back_4.top = 650;
+  back_4.left = 1000;
+  back_4.top = 650;
+  back_4.scaleX = 0.5;
+  back_4.scaleY = 0.5;
 }
 
 var gravity = 3;
@@ -114,6 +122,9 @@ window.onmousemove = function () {
 };
 
 function update() {
+
+  // back_4.scaleX -= 0.01 * only.Time.FIXED_TIME;
+  // back_4.scaleY -= 0.01 * only.Time.FIXED_TIME;
 
   // vel += gravity;
 

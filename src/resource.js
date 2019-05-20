@@ -27,6 +27,9 @@ only.Resource.loadedInit = function () {
     only.Screen.onResize();
   } else {
     only.Screen.onResizeCurrent();
+    only.Render.NEW_OBJECTS.forEach(function (obj) {
+      obj.initResized = true;
+    });
     only.Render.NEW_OBJECTS = [];
   }
 };

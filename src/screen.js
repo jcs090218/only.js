@@ -33,6 +33,7 @@ only.Screen.RESIZE_SCALE = 1;
 
 only.Screen.MASK_COLOR = 'black';
 only.Screen.MASK_Z_INDEX = 100;
+only.Screen.MASK_OPACITY = 1.0;
 only.Screen.MASK_LEFT = null;
 only.Screen.MASK_RIGHT = null;
 only.Screen.MASK_TOP = null;
@@ -75,7 +76,7 @@ only.Screen.initMask = function (id) {
   let mask = new only.Object(id, true);
   mask.backgroundColor = only.Screen.MASK_COLOR;
   mask.zIndex = only.Screen.MASK_Z_INDEX;
-  mask.opacity = 0.3;  // TODO: Delete this line after test.
+  mask.opacity = only.Screen.MASK_OPACITY;
   return mask;
 };
 

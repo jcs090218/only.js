@@ -19,11 +19,14 @@ if (typeof only === 'undefined') var only = { };
  */
 only.Object = function (selectorId, force = false) {
   only.Render.OBJECT_LIST.push(this);
+  this.initResized = true;
 
   // NOTE: After the first resize event was called,
   // we treat everything new object.
-  if (only.Screen.INIT_RESIZE)
+  if (only.Screen.INIT_RESIZE) {
+    this.initResized = false;
     only.Render.NEW_OBJECTS.push(this);
+  }
 
   this.selectorId = selectorId;
   this.elements = this.getElements(false, force);  // cache.
@@ -47,7 +50,7 @@ only.Object = function (selectorId, force = false) {
 only.Object.prototype = {
   get left () {
     let val = parseFloat(this.getCss('left'));
-    if (!only.Screen.RESIZING) {
+    if (!only.Screen.RESIZING && this.initResized) {
       val -= only.Screen.RESIZE_LEFT;
       val /= only.Screen.RESIZE_SCALE;
       val += (this.width / 2) + this.offsetX;
@@ -55,7 +58,7 @@ only.Object.prototype = {
     return val;
   },
   set left (val) {
-    if (!only.Screen.RESIZING) {
+    if (!only.Screen.RESIZING && this.initResized) {
       val -= (this.width / 2) + this.offsetX;
       val *= only.Screen.RESIZE_SCALE;
       val += only.Screen.RESIZE_LEFT;
@@ -65,7 +68,7 @@ only.Object.prototype = {
 
   get top () {
     let val = parseFloat(this.getCss('top'));
-    if (!only.Screen.RESIZING) {
+    if (!only.Screen.RESIZING && this.initResized) {
       val -= only.Screen.RESIZE_TOP;
       val /= only.Screen.RESIZE_SCALE;
       val += (this.height / 2) + this.offsetY;
@@ -73,7 +76,7 @@ only.Object.prototype = {
     return val;
   },
   set top (val) {
-    if (!only.Screen.RESIZING) {
+    if (!only.Screen.RESIZING && this.initResized) {
       val -= (this.height / 2) + this.offsetY;
       val *= only.Screen.RESIZE_SCALE;
       val += only.Screen.RESIZE_TOP;
@@ -106,10 +109,22 @@ only.Object.prototype = {
   set translateY (val) { this.setTransform('translateY', val, 'px'); },
 
   get scaleX () { return parseFloat(this.getTransform('scaleX', 1)); },
-  set scaleX (val) { this.setTransform('scaleX', val); },
+  set scaleX (val) {
+    if (!only.Screen.RESIZING) {
+      this.left += (this.width * this.scaleX / 2) + this.offsetX;
+      this.left -= (this.width * val / 2) + this.offsetX;
+    }
+    this.setTransform('scaleX', val);
+  },
 
   get scaleY () { return parseFloat(this.getTransform('scaleY', 1)); },
-  set scaleY (val) { this.setTransform('scaleY', val); },
+  set scaleY (val) {
+    if (!only.Screen.RESIZING) {
+      this.top += (this.height * this.scaleY / 2) + this.offsetY;
+      this.top -= (this.height * val / 2) + this.offsetY;
+    }
+    this.setTransform('scaleY', val);
+  },
 
   get rotateX () { return parseFloat(this.getTransform('rotateX', 0, 'deg')); },
   set rotateX (val) { this.setTransform('rotateX', val, 'deg'); },
