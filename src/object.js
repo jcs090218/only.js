@@ -87,8 +87,8 @@ only.Object.prototype = {
   get width () { return parseFloat(this.getCss('width')); },
   set width (val) {
     if (!only.Screen.RESIZING) {
-      this.left += (this.width / 2) + this.offsetX;
-      this.left -= (val / 2) + this.offsetX;
+      this.left += (this.width * this.scaleX / 2) + this.offsetX;
+      this.left -= (val * this.scaleX / 2) + this.offsetX;
     }
     this.setCss('width', val, 'px');
   },
@@ -96,8 +96,8 @@ only.Object.prototype = {
   get height () { return parseFloat(this.getCss('height')); },
   set height (val) {
     if (!only.Screen.RESIZING) {
-      this.top += (this.height / 2) + this.offsetY;
-      this.top -= (val / 2) + this.offsetY;
+      this.top += (this.height * this.scaleY / 2) + this.offsetY;
+      this.top -= (val * this.scaleY / 2) + this.offsetY;
     }
     this.setCss('height', val, 'px');
   },
