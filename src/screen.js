@@ -75,6 +75,7 @@ only.Screen.initMask = function (id) {
   let mask = new only.Object(id, true);
   mask.backgroundColor = only.Screen.MASK_COLOR;
   mask.zIndex = only.Screen.MASK_Z_INDEX;
+  mask.opacity = 0.3;  // TODO: Delete this line after test.
   return mask;
 };
 
