@@ -55,6 +55,7 @@ function init() {
   // world.height = 10;
   world.left = 800;
   world.top = 200;
+  world.setCss('border', '1px green solid');
   // TODO(jenchieh): This would not work cuz
   // of `onResize` event.
   // world.scaleX = 2;
@@ -76,6 +77,7 @@ function init() {
     newObj.addAnimation('stand', newAnim);
     // newObj.left = 0;
     // newObj.top = 0;
+    newObj.setCss('border', '1px red solid');
 
     // world.left += 148;
 
