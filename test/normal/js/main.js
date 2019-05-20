@@ -58,6 +58,7 @@ function init() {
   // world.height = 10;
   world.left = 800;
   world.top = 200;
+  // world.scaleX = 2;
   world.setCss('border', '1px green solid');
   // TODO(jenchieh): This would not work cuz
   // of `onResize` event.
@@ -86,6 +87,11 @@ function init() {
 
     // world.left = 0;
     // world.top = 0;
+
+    back_4.left = 1000;
+    back_4.top = 650;
+    // back_4.scaleX = 0.5;
+    // back_4.scaleY = 0.5;
 
     // back_4.scaleX = 0.5;
     // back_4.scaleY = 0.5;
