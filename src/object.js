@@ -68,9 +68,19 @@ only.Object.prototype = {
 
   get top () {
     let val = parseFloat(this.getCss('top'));
+    if (!only.Screen.RESIZING && this.initResized) {
+      val += (this.height * this.scaleY / 2) + this.offsetY;
+      val -= only.Screen.RESIZE_LEFT;
+      val /= only.Screen.RESIZE_SCALE;
+    }
     return val;
   },
   set top (val) {
+    if (!only.Screen.RESIZING && this.initResized) {
+      val *= only.Screen.RESIZE_SCALE;
+      val += only.Screen.RESIZE_LEFT;
+      val -= (this.height * this.scaleY / 2) + this.offsetY;
+    }
     this.setCss('top', val, 'px');
   },
 
@@ -90,6 +100,15 @@ only.Object.prototype = {
 
   get height () { return parseFloat(this.getCss('height')); },
   set height (val) {
+    if (!only.Screen.RESIZING) {
+      if (this.initResized) {
+        this.top += (this.height * this.scaleY / only.Screen.RESIZE_SCALE / 2) + this.offsetY;
+        this.top -= (val * this.scaleY / only.Screen.RESIZE_SCALE / 2) + this.offsetY;
+      } else {
+        this.top += (this.height * this.scaleY / 2) + this.offsetY;
+        this.top -= (val * this.scaleY / 2) + this.offsetY;
+      }
+    }
     this.setCss('height', val, 'px');
   },
 
@@ -110,6 +129,10 @@ only.Object.prototype = {
 
   get scaleY () { return parseFloat(this.getTransform('scaleY', 1)); },
   set scaleY (val) {
+    if (!only.Screen.RESIZING) {
+      this.top += (this.height * this.scaleY / 2) + this.offsetY;
+      this.top -= (this.height * val / 2) + this.offsetY;
+    }
     this.setTransform('scaleY', val);
   },
 
