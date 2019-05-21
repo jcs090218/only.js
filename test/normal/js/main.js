@@ -109,7 +109,7 @@ function init() {
   greenBox.backgroundColor = 'yellow';
 
   back_4.setImage('../images/festival/back_4.png');
-  back_4.left = 1000;
+  // back_4.left = 1000;
   back_4.top = 650;
   back_4.scaleX = 0.5;
   back_4.scaleY = 0.5;

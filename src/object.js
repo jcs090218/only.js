@@ -77,8 +77,13 @@ only.Object.prototype = {
   get width () { return parseFloat(this.getCss('width')); },
   set width (val) {
     if (!only.Screen.RESIZING) {
-      this.left += (this.width * this.scaleX / 2) + this.offsetX;
-      this.left -= (val * this.scaleX / 2) + this.offsetX;
+      if (this.initResized) {
+        this.left += (this.width * this.scaleX / only.Screen.RESIZE_SCALE / 2) + this.offsetX;
+        this.left -= (val * this.scaleX / only.Screen.RESIZE_SCALE / 2) + this.offsetX;
+      } else {
+        this.left += (this.width * this.scaleX / 2) + this.offsetX;
+        this.left -= (val * this.scaleX / 2) + this.offsetX;
+      }
     }
     this.setCss('width', val, 'px');
   },
