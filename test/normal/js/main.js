@@ -28,7 +28,7 @@ only.Screen.MASK_OPACITY = 0.3;
 only.init();  // This should be last called.
 
 
-//var hello = new only.Object('#hello');
+//var hello = new only.Object('#hello', true);
 var world = new only.Object('#world', true);
 var greenBox = new only.Object('#greenbox', true);
 var back_4 = new only.Object('#back_4', true);
@@ -59,6 +59,7 @@ function init() {
   world.left = 800;
   world.top = 200;
   // world.scaleX = 2;
+  world.rotateZ = 30;
   world.setCss('border', '1px green solid');
   // world.scaleX = 2;
   // world.backgroundColor = 'green';
@@ -79,6 +80,7 @@ function init() {
     newObj.addAnimation('stand', newAnim);
     // newObj.left = 0;
     // newObj.top = 0;
+    newObj.scaleX = 2;
     newObj.setCss('border', '1px red solid');
 
     // world.left += 148;
@@ -86,7 +88,7 @@ function init() {
     // world.left = 0;
     // world.top = 0;
 
-    back_4.left = 1100;
+    // back_4.left = 1100;
     // back_4.top = 650;
     // back_4.scaleX = 0.5;
     // back_4.scaleY = 0.5;

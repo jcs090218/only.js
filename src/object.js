@@ -88,8 +88,9 @@ only.Object.prototype = {
   set width (val) {
     if (!only.Screen.RESIZING) {
       if (this.initResized) {
-        this.left += (this.width * this.scaleX / only.Screen.RESIZE_SCALE / 2) + this.offsetX;
-        this.left -= (val * this.scaleX / only.Screen.RESIZE_SCALE / 2) + this.offsetX;
+        let realScaleX = this.scaleX / only.Screen.RESIZE_SCALE;
+        this.left += (this.width * realScaleX / 2) + this.offsetX;
+        this.left -= (val * realScaleX / 2) + this.offsetX;
       } else {
         this.left += (this.width * this.scaleX / 2) + this.offsetX;
         this.left -= (val * this.scaleX / 2) + this.offsetX;
@@ -102,8 +103,9 @@ only.Object.prototype = {
   set height (val) {
     if (!only.Screen.RESIZING) {
       if (this.initResized) {
-        this.top += (this.height * this.scaleY / only.Screen.RESIZE_SCALE / 2) + this.offsetY;
-        this.top -= (val * this.scaleY / only.Screen.RESIZE_SCALE / 2) + this.offsetY;
+        let realScaleY = this.scaleY / only.Screen.RESIZE_SCALE;
+        this.top += (this.height * realScaleY / 2) + this.offsetY;
+        this.top -= (val * realScaleY / 2) + this.offsetY;
       } else {
         this.top += (this.height * this.scaleY / 2) + this.offsetY;
         this.top -= (val * this.scaleY / 2) + this.offsetY;
@@ -121,8 +123,14 @@ only.Object.prototype = {
   get scaleX () { return parseFloat(this.getTransform('scaleX', 1)); },
   set scaleX (val) {
     if (!only.Screen.RESIZING) {
-      this.left += (this.width * this.scaleX / 2) + this.offsetX;
-      this.left -= (this.width * val / 2) + this.offsetX;
+      val *= only.Screen.RESIZE_SCALE;
+      if (this.initResized) {
+        this.left += (this.width * this.scaleX / only.Screen.RESIZE_SCALE / 2) + this.offsetX;
+        this.left -= (this.width * val / only.Screen.RESIZE_SCALE / 2) + this.offsetX;
+      } else {
+        this.left += (this.width * this.scaleX / 2) + this.offsetX;
+        this.left -= (this.width * val / 2) + this.offsetX;
+      }
     }
     this.setTransform('scaleX', val);
   },
@@ -130,8 +138,14 @@ only.Object.prototype = {
   get scaleY () { return parseFloat(this.getTransform('scaleY', 1)); },
   set scaleY (val) {
     if (!only.Screen.RESIZING) {
-      this.top += (this.height * this.scaleY / 2) + this.offsetY;
-      this.top -= (this.height * val / 2) + this.offsetY;
+      val *= only.Screen.RESIZE_SCALE;
+      if (this.initResized) {
+        this.top += (this.height * this.scaleY / only.Screen.RESIZE_SCALE / 2) + this.offsetY;
+        this.top -= (this.height * val / only.Screen.RESIZE_SCALE / 2) + this.offsetY;
+      } else {
+        this.top += (this.height * this.scaleY / 2) + this.offsetY;
+        this.top -= (this.height * val / 2) + this.offsetY;
+      }
     }
     this.setTransform('scaleY', val);
   },
