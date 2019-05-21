@@ -29,7 +29,7 @@ only.init();  // This should be last called.
 
 
 //var hello = new only.Object('#hello');
-var world = new only.Object('#world');
+var world = new only.Object('#world', true);
 var greenBox = new only.Object('#greenbox', true);
 var back_4 = new only.Object('#back_4', true);
 let toggle = true;
@@ -60,8 +60,6 @@ function init() {
   world.top = 200;
   // world.scaleX = 2;
   world.setCss('border', '1px green solid');
-  // TODO(jenchieh): This would not work cuz
-  // of `onResize` event.
   // world.scaleX = 2;
   // world.backgroundColor = 'green';
   world.backgroundRepeat = 'no-repeat';
@@ -79,8 +77,8 @@ function init() {
     let newObj = new only.Object('#lol' + index, true);
     let newAnim = new only.Animation('../images/CrazyCat/summon.stand_', 4, '.png', 150);
     newObj.addAnimation('stand', newAnim);
-    newObj.left = 0;
-    newObj.top = 0;
+    // newObj.left = 0;
+    // newObj.top = 0;
     newObj.setCss('border', '1px red solid');
 
     // world.left += 148;
@@ -89,7 +87,7 @@ function init() {
     // world.top = 0;
 
     back_4.left = 1000;
-    back_4.top = 650;
+    // back_4.top = 650;
     // back_4.scaleX = 0.5;
     // back_4.scaleY = 0.5;
 
