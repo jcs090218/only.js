@@ -132,6 +132,8 @@ function update() {
   // back_4.scaleX -= 0.01 * only.Time.FIXED_TIME;
   // back_4.scaleY -= 0.01 * only.Time.FIXED_TIME;
 
+  world.rotateZ -= 100 * only.Time.FIXED_TIME;
+
   // vel += gravity;
 
   // world.left += 10 * only.Time.FIXED_TIME;
