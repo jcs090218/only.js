@@ -14,18 +14,20 @@ if (typeof only === 'undefined') var only = { };
 only.init = function () {
   only.Config.init();
   only.Time.init();
-
   only.Screen.init();
 
-  /* Register self events. */
+  /* Register system events. */
   {
-    // NOTE: Post update, for fixing everything before
-    // rendering stage.
+    only.Event.registerInit(only.Resource.init);
     only.Event.registerUpdate(only.postUpdate);
   }
   only.Event.init();
 };
 
+/**
+ * Post update, for fixing everything before
+ * rendering stage.
+ */
 only.postUpdate = function () {
   only.Render.update();
 };
