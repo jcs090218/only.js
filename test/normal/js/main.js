@@ -56,10 +56,10 @@ function init() {
   world.zIndex = 100;
   // world.width = 10;
   // world.height = 10;
-  world.left = 800;
-  world.top = 200;
+  world.x = 800;
+  world.y = 200;
   // world.scaleX = 2;
-  world.rotateZ = 30;
+  // world.rotateZ = 30;
   world.setCss('border', '1px green solid');
   // world.scaleX = 2;
   // world.backgroundColor = 'green';
@@ -102,8 +102,8 @@ function init() {
     // newBg.top = only.Util.getRandomFloat(0, only.Screen.CURRENT_HEIGHT);
   });
 
-  // greenBox.left = 0;
-  // greenBox.top = 0;
+  greenBox.x = 0;
+  greenBox.y = 0;
   greenBox.width = 100;
   greenBox.height = 200;
   greenBox.opacity = 0.5;
@@ -111,8 +111,8 @@ function init() {
   greenBox.backgroundColor = 'yellow';
 
   back_4.setImage('../images/festival/back_4.png');
-  back_4.left = 1000;
-  back_4.top = 650;
+  back_4.translateX = 0;
+  back_4.translateY = 0;
   back_4.scaleX = 0.5;
   back_4.scaleY = 0.5;
 }
@@ -132,7 +132,9 @@ function update() {
   // back_4.scaleX -= 0.01 * only.Time.FIXED_TIME;
   // back_4.scaleY -= 0.01 * only.Time.FIXED_TIME;
 
-  world.rotateZ -= 100 * only.Time.FIXED_TIME;
+  // world.rotateZ -= 100 * only.Time.FIXED_TIME;
+
+  // world.translateX += 100 * only.Time.FIXED_TIME;
 
   // vel += gravity;
 

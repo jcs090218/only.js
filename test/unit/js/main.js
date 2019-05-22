@@ -12,7 +12,7 @@
 
 // Configure all the settings.
 only.Config.FPS = 30;
-only.Config.TITLE = "Test - Main!";
+only.Config.TITLE = "Test - Unit!";
 
 only.Config.RESIZE_MODE = 0;
 only.Config.TARGET_SCREEN_WIDTH = 1852;
@@ -31,8 +31,9 @@ only.init();  // This should be last called.
 var greenBox = new only.Object('#greenbox', true);
 
 function init() {
-  greenBox.left = 800;
-  greenBox.top = 200;
+  greenBox.left = 0;
+  // greenBox.x = 100;
+  greenBox.top = 0;
   greenBox.width = 100;
   greenBox.height = 200;
   greenBox.opacity = 0.5;
@@ -41,8 +42,7 @@ function init() {
 }
 
 function update() {
-
-  greenBox.rotateZ -= 100 * only.Time.FIXED_TIME;
+  // greenBox.rotateZ -= 100 * only.Time.FIXED_TIME;
 
   console.log("Runs!!");
 }
