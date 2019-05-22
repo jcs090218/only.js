@@ -29,9 +29,9 @@ only.init();  // This should be last called.
 
 
 //var hello = new only.Object('#hello', true);
-var world = new only.Object('#world', true);
 var greenBox = new only.Object('#greenbox', true);
 var back_4 = new only.Object('#back_4', true);
+var world = new only.Object('#world', true);
 let toggle = true;
 let index = 0;
 
