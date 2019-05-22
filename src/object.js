@@ -39,114 +39,62 @@ only.Object = function (selectorId, force = false) {
   this.offsetY = 0;
 
   this.position = 'absolute';
-  this.transformOrigin = 'left top';
+  this.transformOrigin = 'center center';
 
   this.width = 0;
   this.height = 0;
   this.left = 0;
   this.top = 0;
+  this.x = 0;
+  this.y = 0;
 };
 
 only.Object.prototype = {
-  get left () {
-    let val = parseFloat(this.getCss('left'));
-    if (!only.Screen.RESIZING && this.initResized) {
-      val += (this.width * this.scaleX / 2) + this.offsetX;
-      val -= only.Screen.RESIZE_LEFT;
-      val /= only.Screen.RESIZE_SCALE;
-    }
-    return val;
-  },
-  set left (val) {
-    if (!only.Screen.RESIZING && this.initResized) {
-      val *= only.Screen.RESIZE_SCALE;
-      val += only.Screen.RESIZE_LEFT;
-      val -= (this.width * this.scaleX / 2) + this.offsetX;
-    }
-    this.setCss('left', val, 'px');
-  },
+  get left () { return parseFloat(this.getCss('left')); },
+  set left (val) { this.setCss('left', val, 'px'); },
 
-  get top () {
-    let val = parseFloat(this.getCss('top'));
-    if (!only.Screen.RESIZING && this.initResized) {
-      val += (this.height * this.scaleY / 2) + this.offsetY;
-      val -= only.Screen.RESIZE_LEFT;
-      val /= only.Screen.RESIZE_SCALE;
-    }
-    return val;
-  },
-  set top (val) {
-    if (!only.Screen.RESIZING && this.initResized) {
-      val *= only.Screen.RESIZE_SCALE;
-      val += only.Screen.RESIZE_LEFT;
-      val -= (this.height * this.scaleY / 2) + this.offsetY;
-    }
-    this.setCss('top', val, 'px');
-  },
+  get top () { return parseFloat(this.getCss('top')); },
+  set top (val) { this.setCss('top', val, 'px'); },
 
   get width () { return parseFloat(this.getCss('width')); },
   set width (val) {
-    if (!only.Screen.RESIZING) {
-      if (this.initResized) {
-        let realScaleX = this.scaleX / only.Screen.RESIZE_SCALE;
-        this.left += (this.width * realScaleX / 2) + this.offsetX;
-        this.left -= (val * realScaleX / 2) + this.offsetX;
-      } else {
-        this.left += (this.width * this.scaleX / 2) + this.offsetX;
-        this.left -= (val * this.scaleX / 2) + this.offsetX;
-      }
-    }
     this.setCss('width', val, 'px');
   },
 
   get height () { return parseFloat(this.getCss('height')); },
   set height (val) {
-    if (!only.Screen.RESIZING) {
-      if (this.initResized) {
-        let realScaleY = this.scaleY / only.Screen.RESIZE_SCALE;
-        this.top += (this.height * realScaleY / 2) + this.offsetY;
-        this.top -= (val * realScaleY / 2) + this.offsetY;
-      } else {
-        this.top += (this.height * this.scaleY / 2) + this.offsetY;
-        this.top -= (val * this.scaleY / 2) + this.offsetY;
-      }
-    }
     this.setCss('height', val, 'px');
   },
 
-  get translateX () { return parseFloat(this.getTransform('translateX', 0, 'px')); },
-  set translateX (val) { this.setTransform('translateX', val, 'px'); },
+  get x () { return this.translateX; },
+  set x (val) { this.translateX = val; },
 
-  get translateY () { return parseFloat(this.getTransform('translateY', 0, 'px')); },
-  set translateY (val) { this.setTransform('translateY', val, 'px'); },
+  get y () { return this.translateY; },
+  set y (val) { this.translateY = val; },
+
+  get translateX () {
+    let val = parseFloat(this.getTransform('translateX', 0, 'px'));
+    return val;
+  },
+  set translateX (val) {
+    this.setTransform('translateX', val, 'px');
+  },
+
+  get translateY () {
+    let val = parseFloat(this.getTransform('translateY', 0, 'px'));
+    return val;
+  },
+  set translateY (val) {
+    this.setTransform('translateY', val, 'px');
+  },
 
   get scaleX () { return parseFloat(this.getTransform('scaleX', 1)); },
   set scaleX (val) {
-    if (!only.Screen.RESIZING) {
-      val *= only.Screen.RESIZE_SCALE;
-      if (this.initResized) {
-        this.left += (this.width * this.scaleX / only.Screen.RESIZE_SCALE / 2) + this.offsetX;
-        this.left -= (this.width * val / only.Screen.RESIZE_SCALE / 2) + this.offsetX;
-      } else {
-        this.left += (this.width * this.scaleX / 2) + this.offsetX;
-        this.left -= (this.width * val / 2) + this.offsetX;
-      }
-    }
     this.setTransform('scaleX', val);
   },
 
   get scaleY () { return parseFloat(this.getTransform('scaleY', 1)); },
   set scaleY (val) {
-    if (!only.Screen.RESIZING) {
-      val *= only.Screen.RESIZE_SCALE;
-      if (this.initResized) {
-        this.top += (this.height * this.scaleY / only.Screen.RESIZE_SCALE / 2) + this.offsetY;
-        this.top -= (this.height * val / only.Screen.RESIZE_SCALE / 2) + this.offsetY;
-      } else {
-        this.top += (this.height * this.scaleY / 2) + this.offsetY;
-        this.top -= (this.height * val / 2) + this.offsetY;
-      }
-    }
     this.setTransform('scaleY', val);
   },
 

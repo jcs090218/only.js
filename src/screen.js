@@ -65,11 +65,6 @@ only.Screen.initMasks = function () {
   only.Screen.MASK_BOTTOM = only.Screen.initMask('#mask_bottom');
   only.Screen.MASK_LEFT = only.Screen.initMask('#mask_left');
   only.Screen.MASK_RIGHT = only.Screen.initMask('#mask_right');
-
-  only.Screen.MASK_TOP.top = 0;
-  only.Screen.MASK_BOTTOM.top = only.Config.TARGET_SCREEN_HEIGHT;
-  only.Screen.MASK_LEFT.left = 0;
-  only.Screen.MASK_RIGHT.left = only.Config.TARGET_SCREEN_WIDTH;
 };
 
 only.Screen.initMask = function (id) {
@@ -250,22 +245,34 @@ only.Screen.resizeFullEdgeObject = function (obj,
 
   } else {
     obj.left -= only.Screen.RESIZE_LEFT;
-    obj.top -= only.Screen.RESIZE_TOP;
+    // obj.translateY -= only.Screen.RESIZE_TOP;
+
+    let oldWidth = obj.width * obj.scaleX;
 
     obj.left /= only.Screen.RESIZE_SCALE;
-    obj.top /= only.Screen.RESIZE_SCALE;
+    // obj.translateY /= only.Screen.RESIZE_SCALE;
+
     obj.scaleX /= only.Screen.RESIZE_SCALE;
-    obj.scaleY /= only.Screen.RESIZE_SCALE;
-    /******** Before apply ********/
+    // obj.scaleY /= only.Screen.RESIZE_SCALE;
+
+    /******** Start applying *********/
+
+    obj.scaleX *= targetScale;
+    // obj.scaleY *= targetScale;
 
     obj.left *= targetScale;
-    obj.top *= targetScale;
-    obj.scaleX *= targetScale;
-    obj.scaleY *= targetScale;
+    // obj.translateY *= targetScale;
 
-    /******** After apply ********/
+    let newWidth = obj.width * obj.scaleX;
+    console.log(newWidth + ' = ' + obj.width + ' * ' + obj.scaleX);
+    let deltaWidth = (newWidth - oldWidth) / 2;
+    console.log('old trans: ' + obj.left);
+    obj.left += deltaWidth;
+    console.log('new trans: ' + obj.left);
+    console.log('deltaWidth: ' + deltaWidth);
+
     obj.left += lrWidth;
-    obj.top += tbHeight;
+    // obj.translateY += tbHeight;
   }
 };
 
