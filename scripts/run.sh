@@ -10,3 +10,4 @@
 
 
 sensible-browser "../test/normal/index.html"
+sensible-browser "../test/unit/index.html"
