@@ -39,7 +39,7 @@ only.Object = function (selectorId, force = false) {
   this.offsetY = 0;
 
   this.position = 'absolute';
-  this.transformOrigin = 'top left';
+  this.transformOrigin = 'left top';
 
   this.width = 0;
   this.height = 0;
