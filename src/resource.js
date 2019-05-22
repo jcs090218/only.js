@@ -17,6 +17,11 @@ only.Resource.PRELOADED_SOUNDS = { };  // Preloaded Sounds
 
 only.Resource.LOADED_IMAGES_FLAGS = 0;
 
+only.Resource.init = function () {
+  // NOTE: If no resource needed, just run resource ready.
+  only.Resource.loadedInit();
+};
+
 /* When all resource is loaded, call this. */
 only.Resource.loadedInit = function () {
   if (!only.Resource.allImagesLoaded())
