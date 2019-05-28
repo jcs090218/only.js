@@ -31,7 +31,7 @@ only.init();  // This should be last called.
 //var hello = new only.Object('#hello', true);
 var greenBox = new only.Object('#greenbox', true);
 var back_4 = new only.Object('#back_4', true);
-var world = new only.Object('#world', true);
+// var cat = new only.Object('#cat', true);
 let toggle = true;
 let index = 0;
 
@@ -49,61 +49,64 @@ function init() {
   // anim3.offsetX = -50;
   // anim3.offsetY = -50;
 
-  world.addAnimation('stand', anim1);
-  world.addAnimation('attack', anim2);
-  world.addAnimation('move', anim3);
+  // cat.addAnimation('stand', anim1);
+  // cat.addAnimation('attack', anim2);
+  // cat.addAnimation('move', anim3);
 
-  world.zIndex = 100;
-  // world.width = 10;
-  // world.height = 10;
-  world.x = 800;
-  world.y = 200;
-  // world.scaleX = 2;
-  // world.rotateZ = 30;
-  world.setCss('border', '1px green solid');
-  // world.scaleX = 2;
-  // world.backgroundColor = 'green';
-  world.backgroundRepeat = 'no-repeat';
-  //world.opacity = 0.5;
-  //world.backgroundImage = 'url(./images/CrazyCat/summon.stand_0.png)';
+  // cat.zIndex = 100;
+  // // cat.width = 10;
+  // // cat.height = 10;
+  // cat.x = 800;
+  // cat.y = 200;
+  // // cat.scaleX = 2;
+  // // cat.rotateZ = 30;
+  // cat.setCss('border', '1px green solid');
+  // // cat.scaleX = 2;
+  // // cat.backgroundColor = 'green';
+  // cat.backgroundRepeat = 'no-repeat';
+  // //cat.opacity = 0.5;
+  // //cat.backgroundImage = 'url(./images/CrazyCat/summon.stand_0.png)';
 
-  world.addEventListener('click', function () {
-    if (toggle)
-      world.playAnimation('move');
-    else
-      world.playAnimation('attack');
-    toggle = !toggle;
+  // cat.addEventListener('click', function () {
+  //   if (toggle)
+  //     cat.playAnimation('move');
+  //   else
+  //     cat.playAnimation('attack');
+  //   toggle = !toggle;
 
-    ++index;
-    let newObj = new only.Object('#lol' + index, true);
-    let newAnim = new only.Animation('../images/CrazyCat/summon.stand_', 4, '.png', 150);
-    newObj.addAnimation('stand', newAnim);
-    // newObj.left = 0;
-    // newObj.top = 0;
-    newObj.scaleX = 2;
-    newObj.setCss('border', '1px red solid');
+  //   ++index;
+  //   let newObj = new only.Object('#lol' + index, true);
+  //   let newAnim = new only.Animation('../images/CrazyCat/summon.stand_', 4, '.png', 150);
+  //   newObj.addAnimation('stand', newAnim);
+  //   // newObj.left = 0;
+  //   // newObj.top = 0;
+  //   newObj.scaleX = 2;
+  //   newObj.setCss('border', '1px red solid');
 
-    // world.left += 148;
+  //   // cat.left += 148;
 
-    // world.left = 0;
-    // world.top = 0;
+  //   // cat.left = 0;
+  //   // cat.top = 0;
 
-    // back_4.left = 1100;
-    // back_4.top = 650;
-    // back_4.scaleX = 0.5;
-    // back_4.scaleY = 0.5;
+  //   // back_4.left = 1100;
+  //   // back_4.top = 650;
+  //   // back_4.scaleX = 0.5;
+  //   // back_4.scaleY = 0.5;
 
-    // back_4.scaleX = 0.5;
-    // back_4.scaleY = 0.5;
+  //   // back_4.scaleX = 0.5;
+  //   // back_4.scaleY = 0.5;
 
-    // let newBg = new only.Object('#bg-' + index, true);
-    // newBg.setImage('../images/festival/back_4.png');
-    // newBg.left = only.Util.getRandomFloat(0, only.Screen.CURRENT_WIDTH);
-    // newBg.top = only.Util.getRandomFloat(0, only.Screen.CURRENT_HEIGHT);
-  });
+  //   // let newBg = new only.Object('#bg-' + index, true);
+  //   // newBg.setImage('../images/festival/back_4.png');
+  //   // newBg.left = only.Util.getRandomFloat(0, only.Screen.CURRENT_WIDTH);
+  //   // newBg.top = only.Util.getRandomFloat(0, only.Screen.CURRENT_HEIGHT);
+  // });
 
-  greenBox.x = 0;
-  greenBox.y = 0;
+
+  // greenBox.left = 100;
+  // greenBox.top = 100;
+  greenBox.x = 100;
+  greenBox.y = 100;
   greenBox.width = 100;
   greenBox.height = 200;
   greenBox.opacity = 0.5;
@@ -111,10 +114,10 @@ function init() {
   greenBox.backgroundColor = 'yellow';
 
   back_4.setImage('../images/festival/back_4.png');
-  back_4.translateX = 0;
-  back_4.translateY = 0;
-  back_4.scaleX = 0.5;
-  back_4.scaleY = 0.5;
+  back_4.x = 10;
+  back_4.y = 10;
+  // back_4.scaleX = 0.5;
+  // back_4.scaleY = 0.5;
 }
 
 var gravity = 3;
@@ -128,27 +131,28 @@ window.onmousemove = function () {
 };
 
 function update() {
-
   // back_4.scaleX -= 0.01 * only.Time.FIXED_TIME;
   // back_4.scaleY -= 0.01 * only.Time.FIXED_TIME;
 
-  // world.rotateZ -= 100 * only.Time.FIXED_TIME;
+  // cat.rotateZ -= 100 * only.Time.FIXED_TIME;
 
-  // world.translateX += 100 * only.Time.FIXED_TIME;
+  // greenBox.rotateZ -= 500 * only.Time.FIXED_TIME;
+
+  // greenBox.x += 100 * only.Time.FIXED_TIME;
 
   // vel += gravity;
 
-  // world.left += 10 * only.Time.FIXED_TIME;
-  //world.left += (mouse_x - world.left) / 0.2 * only.Time.FIXED_TIME;
-  //world.top += (mouse_y - world.top) / 0.2 * only.Time.FIXED_TIME;
-  // world.rotateX += 10 * only.Time.FIXED_TIME;
-  // world.rotateY += 10 * only.Time.FIXED_TIME;
-  // world.rotateZ += 10 * only.Time.FIXED_TIME;
-  // world.skewX += 20 * only.Time.FIXED_TIME;
-  // world.width += 10 * only.Time.FIXED_TIME;
-  // world.height += 10 * only.Time.FIXED_TIME;
+  // cat.left += 10 * only.Time.FIXED_TIME;
+  //cat.left += (mouse_x - cat.left) / 0.2 * only.Time.FIXED_TIME;
+  //cat.top += (mouse_y - cat.top) / 0.2 * only.Time.FIXED_TIME;
+  // cat.rotateX += 10 * only.Time.FIXED_TIME;
+  // cat.rotateY += 10 * only.Time.FIXED_TIME;
+  // cat.rotateZ += 10 * only.Time.FIXED_TIME;
+  // cat.skewX += 20 * only.Time.FIXED_TIME;
+  // cat.width += 10 * only.Time.FIXED_TIME;
+  // cat.height += 10 * only.Time.FIXED_TIME;
 
-  // world.scaleX -= 0.1 * only.Time.FIXED_TIME;
+  // cat.scaleX -= 0.1 * only.Time.FIXED_TIME;
 
   console.log("Runs!!");
 }

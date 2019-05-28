@@ -31,9 +31,10 @@ only.init();  // This should be last called.
 var greenBox = new only.Object('#greenbox', true);
 
 function init() {
-  greenBox.left = 0;
-  // greenBox.x = 100;
-  greenBox.top = 0;
+  // greenBox.left = 0;
+  greenBox.top = 10;
+  greenBox.left = 1852 - 110;
+  // greenBox.left = 0;
   greenBox.width = 100;
   greenBox.height = 200;
   greenBox.opacity = 0.5;
@@ -44,5 +45,5 @@ function init() {
 function update() {
   // greenBox.rotateZ -= 100 * only.Time.FIXED_TIME;
 
-  console.log("Runs!!");
+  // console.log("Runs!!");
 }
