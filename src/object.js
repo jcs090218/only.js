@@ -57,46 +57,22 @@ only.Object.prototype = {
   set top (val) { this.setCss('top', val, 'px'); },
 
   get width () { return parseFloat(this.getCss('width')); },
-  set width (val) {
-    this.setCss('width', val, 'px');
-  },
+  set width (val) { this.setCss('width', val, 'px'); },
 
   get height () { return parseFloat(this.getCss('height')); },
-  set height (val) {
-    this.setCss('height', val, 'px');
-  },
+  set height (val) { this.setCss('height', val, 'px'); },
 
-  get x () { return this.translateX; },
-  set x (val) { this.translateX = val; },
+  get x () { return parseFloat(this.getTransform('translateX', 0, 'px')); },
+  set x (val) { this.setTransform('translateX', val, 'px'); },
 
-  get y () { return this.translateY; },
-  set y (val) { this.translateY = val; },
-
-  get translateX () {
-    let val = parseFloat(this.getTransform('translateX', 0, 'px'));
-    return val;
-  },
-  set translateX (val) {
-    this.setTransform('translateX', val, 'px');
-  },
-
-  get translateY () {
-    let val = parseFloat(this.getTransform('translateY', 0, 'px'));
-    return val;
-  },
-  set translateY (val) {
-    this.setTransform('translateY', val, 'px');
-  },
+  get y () { return parseFloat(this.getTransform('translateY', 0, 'px')); },
+  set y (val) { this.setTransform('translateY', val, 'px'); },
 
   get scaleX () { return parseFloat(this.getTransform('scaleX', 1)); },
-  set scaleX (val) {
-    this.setTransform('scaleX', val);
-  },
+  set scaleX (val) { this.setTransform('scaleX', val); },
 
   get scaleY () { return parseFloat(this.getTransform('scaleY', 1)); },
-  set scaleY (val) {
-    this.setTransform('scaleY', val);
-  },
+  set scaleY (val) { this.setTransform('scaleY', val); },
 
   get rotateX () { return parseFloat(this.getTransform('rotateX', 0, 'deg')); },
   set rotateX (val) { this.setTransform('rotateX', val, 'deg'); },
