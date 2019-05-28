@@ -244,35 +244,37 @@ only.Screen.resizeFullEdgeObject = function (obj,
     }
 
   } else {
-    obj.left -= only.Screen.RESIZE_LEFT;
-    // obj.translateY -= only.Screen.RESIZE_TOP;
+    obj.x -= only.Screen.RESIZE_LEFT;
+    obj.y -= only.Screen.RESIZE_TOP;
 
-    let oldWidth = obj.width * obj.scaleX;
+    let oldWSX = obj.width * obj.scaleX;
+    let oldHSY = obj.height * obj.scaleY;
 
-    obj.left /= only.Screen.RESIZE_SCALE;
-    // obj.translateY /= only.Screen.RESIZE_SCALE;
+    obj.x /= only.Screen.RESIZE_SCALE;
+    obj.y /= only.Screen.RESIZE_SCALE;
 
     obj.scaleX /= only.Screen.RESIZE_SCALE;
-    // obj.scaleY /= only.Screen.RESIZE_SCALE;
+    obj.scaleY /= only.Screen.RESIZE_SCALE;
 
     /******** Start applying *********/
 
     obj.scaleX *= targetScale;
-    // obj.scaleY *= targetScale;
+    obj.scaleY *= targetScale;
 
-    obj.left *= targetScale;
-    // obj.translateY *= targetScale;
+    obj.x *= targetScale;
+    obj.y *= targetScale;
 
-    let newWidth = obj.width * obj.scaleX;
-    console.log(newWidth + ' = ' + obj.width + ' * ' + obj.scaleX);
-    let deltaWidth = (newWidth - oldWidth) / 2;
-    console.log('old trans: ' + obj.left);
-    obj.left += deltaWidth;
-    console.log('new trans: ' + obj.left);
-    console.log('deltaWidth: ' + deltaWidth);
+    let newWSX = obj.width * obj.scaleX;
+    let newHSY = obj.height * obj.scaleY;
 
-    obj.left += lrWidth;
-    // obj.translateY += tbHeight;
+    let deltaWSX = (newWSX - oldWSX) / 2 / only.Screen.RESIZE_SCALE;
+    let deltaHSY = (newHSY - oldHSY) / 2 / only.Screen.RESIZE_SCALE;
+
+    obj.x += deltaWSX;
+    obj.y += deltaHSY;
+
+    obj.x += lrWidth;
+    obj.y += tbHeight;
   }
 };
 
