@@ -103,8 +103,6 @@ function init() {
   // });
 
 
-  // greenBox.left = 100;
-  // greenBox.top = 100;
   greenBox.x = 100;
   greenBox.y = 100;
   greenBox.width = 100;
@@ -112,12 +110,16 @@ function init() {
   greenBox.opacity = 0.5;
   greenBox.zIndex = 5;
   greenBox.backgroundColor = 'yellow';
+  // greenBox.scaleX = 0.5;
+  // greenBox.scaleY = 0.5;
 
   back_4.setImage('../images/festival/back_4.png');
   back_4.x = 10;
   back_4.y = 10;
-  // back_4.scaleX = 0.5;
+  back_4.scaleX = 0.5;
   // back_4.scaleY = 0.5;
+  back_4.backgroundColor = 'green';
+  back_4.opacity = 0.5;
 }
 
 var gravity = 3;
