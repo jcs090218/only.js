@@ -18,7 +18,6 @@ only.init = function () {
 
   /* Register system events. */
   {
-    only.Event.registerInit(only.Resource.init);
     only.Event.registerUpdate(only.postUpdate);
   }
   only.Event.init();
@@ -29,5 +28,6 @@ only.init = function () {
  * rendering stage.
  */
 only.postUpdate = function () {
+  only.Resource.update();
   only.Render.update();
 };
