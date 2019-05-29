@@ -14,12 +14,6 @@ if (typeof only === 'undefined') var only = { };
 
 only.Screen = { };
 
-only.Screen.CURRENT_WIDTH = -1;
-only.Screen.CURRENT_HEIGHT = -1;
-
-only.Screen.LAST_WIDTH = -1;
-only.Screen.LAST_HEIGHT = -1;
-
 // Resize once after initialization. This prevent any
 // resize event before the app is done initilaized.
 only.Screen.INIT_RESIZE = false;
@@ -27,10 +21,22 @@ only.Screen.INIT_RESIZE = false;
 // Is currently resizing? For resizing guarde.
 only.Screen.RESIZING = false;
 
+/* Full Edge */
+only.Screen.CURRENT_WIDTH = -1;
+only.Screen.CURRENT_HEIGHT = -1;
+
+only.Screen.LAST_WIDTH = -1;
+only.Screen.LAST_HEIGHT = -1;
+
 only.Screen.RESIZE_LEFT = 0;
 only.Screen.RESIZE_TOP = 0;
 only.Screen.RESIZE_SCALE = 1;
 
+/* Perspective */
+only.Screen.RESIZE_SCALE_W = 1;
+only.Screen.RESIZE_SCALE_H = 1;
+
+/* Masks */
 only.Screen.MASK_COLOR = 'black';
 only.Screen.MASK_Z_INDEX = 100;
 only.Screen.MASK_OPACITY = 1.0;
@@ -181,27 +187,48 @@ only.Screen.resizeFullEdgeCurrent = function (sw, sh) {
   let tbHeight = (sh - only.Screen.CURRENT_HEIGHT) / 2;
 
   only.Render.NEW_OBJECTS.forEach(function (obj) {
-    obj.left *= targetScale;
-    obj.top *= targetScale;
+    /* STUDY: This is very weird, but it works! */
+    {
+      obj.x -= only.Screen.RESIZE_LEFT;
+      // obj.y -= only.Screen.RESIZE_TOP;
+    }
+
+    let oldWSX = obj.width * obj.scaleX;
+    let oldHSY = obj.height * obj.scaleY;
+
+    /******** Start applying *********/
+
     obj.scaleX *= targetScale;
     obj.scaleY *= targetScale;
 
-    obj.left += lrWidth;
-    obj.top += tbHeight;
+    obj.x *= targetScale;
+    obj.y *= targetScale;
+
+    let newWSX = obj.width * obj.scaleX;
+    let newHSY = obj.height * obj.scaleY;
+
+    let deltaWSX = (newWSX - oldWSX) / 2;
+    let deltaHSY = (newHSY - oldHSY) / 2;
+
+    obj.x += deltaWSX;
+    obj.y += deltaHSY;
+
+    obj.x += lrWidth;
+    obj.y += tbHeight;
   });
 };
 
 /* Resize screen on perspective. */
 only.Screen.resizePerspective = function (sw, sh) {
-  let wRatio = sw / only.Screen.CURRENT_WIDTH;
-  let hRatio = sh / only.Screen.CURRENT_HEIGHT;
+  let wScale = sw / only.Config.TARGET_SCREEN_WIDTH;
+  let hScale = sh / only.Config.TARGET_SCREEN_HEIGHT;
 
   only.Render.OBJECT_LIST.forEach(function (obj) {
-    only.Screen.resizePerspectiveObject(obj, wRatio, hRatio);
+    only.Screen.resizePerspectiveObject(obj, wScale, hScale);
   });
 
-  only.Screen.CURRENT_WIDTH = sw;
-  only.Screen.CURRENT_HEIGHT = sh;
+  only.Screen.RESIZE_SCALE_W = wScale;
+  only.Screen.RESIZE_SCALE_H = hScale;
 };
 
 /* Resize screen on perspective to current window size. */
@@ -280,8 +307,29 @@ only.Screen.resizeFullEdgeObject = function (obj,
 
 /* Apply one object, resize screen on perspective. */
 only.Screen.resizePerspectiveObject = function (obj, wRatio, hRatio) {
-  obj.left *= wRatio;
-  obj.top *= hRatio;
+  let oldWSX = obj.width * obj.scaleX;
+  let oldHSY = obj.height * obj.scaleY;
+
+  obj.x /= only.Screen.RESIZE_SCALE_W;
+  obj.y /= only.Screen.RESIZE_SCALE_H;
+
+  obj.scaleX /= only.Screen.RESIZE_SCALE_W;
+  obj.scaleY /= only.Screen.RESIZE_SCALE_H;
+
+  /******** Start applying *********/
+
   obj.scaleX *= wRatio;
   obj.scaleY *= hRatio;
+
+  obj.x *= wRatio;
+  obj.y *= hRatio;
+
+  let newWSX = obj.width * obj.scaleX;
+  let newHSY = obj.height * obj.scaleY;
+
+  let deltaWSX = (newWSX - oldWSX) / 2 / only.Screen.RESIZE_SCALE_W;
+  let deltaHSY = (newHSY - oldHSY) / 2 / only.Screen.RESIZE_SCALE_H;
+
+  obj.x += deltaWSX;
+  obj.y += deltaHSY;
 };
