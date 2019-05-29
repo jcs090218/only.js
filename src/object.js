@@ -62,8 +62,19 @@ only.Object.prototype = {
   get height () { return parseFloat(this.getCss('height')); },
   set height (val) { this.setCss('height', val, 'px'); },
 
-  get x () { return parseFloat(this.getTransform('translateX', 0, 'px')); },
-  set x (val) { this.setTransform('translateX', val, 'px'); },
+  get x () {
+    let val = parseFloat(this.getTransform('translateX', 0, 'px'));
+    if (!only.Screen.RESIZING) {
+
+    }
+    return val;
+  },
+  set x (val) {
+    if (!only.Screen.RESIZING) {
+      val += only.Screen.RESIZE_LEFT;
+    }
+    this.setTransform('translateX', val, 'px');
+  },
 
   get y () { return parseFloat(this.getTransform('translateY', 0, 'px')); },
   set y (val) { this.setTransform('translateY', val, 'px'); },
@@ -257,8 +268,6 @@ only.Object.onloadImage = function (self, img, imagePath = null) {
     // Push loaded flag.
     ++only.Resource.LOADED_IMAGES_FLAGS;
   }
-
-  only.Resource.loadedInit();
 };
 
 /** Solve all objects that use the same image resouce. */

@@ -105,8 +105,6 @@ only.Animation.onloadImage = function (self, img, imagePath = null) {
     // Push loaded flag.
     ++only.Resource.LOADED_IMAGES_FLAGS;
   }
-
-  only.Resource.loadedInit();
 };
 
 /** Solve all animations that use the same image resouce. */
