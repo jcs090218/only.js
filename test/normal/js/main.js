@@ -14,7 +14,7 @@
 only.Config.FPS = 30;
 only.Config.TITLE = "Test - Main!";
 
-only.Config.RESIZE_MODE = 0;
+only.Config.RESIZE_MODE = 1;
 only.Config.TARGET_SCREEN_WIDTH = 1852;
 only.Config.TARGET_SCREEN_HEIGHT = 977;
 
@@ -117,7 +117,7 @@ function init() {
   back_4.x = 10;
   back_4.y = 10;
   back_4.scaleX = 0.5;
-  // back_4.scaleY = 0.5;
+  back_4.scaleY = 0.5;
   back_4.backgroundColor = 'green';
   back_4.opacity = 0.5;
 }

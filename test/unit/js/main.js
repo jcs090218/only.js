@@ -36,6 +36,7 @@ function init() {
   greenBox.y = 200;
   greenBox.width = 100;
   greenBox.height = 200;
+  greenBox.scaleX = 1.5;
   greenBox.opacity = 0.5;
   greenBox.zIndex = 5;
   greenBox.backgroundColor = 'yellow';
@@ -47,6 +48,7 @@ function init() {
     newObj.width = 100;
     newObj.height = 200;
     newObj.opacity = 0.5;
+    newObj.scaleX = 1.5;
     newObj.backgroundColor = 'blue';
     ++index;
 
