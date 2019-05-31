@@ -198,6 +198,9 @@ only.Screen.resizeFullEdgeCurrent = function (sw, sh) {
 
     /******** Start applying *********/
 
+    let realScaleX = obj.scaleX;
+    let realScaleY = obj.scaleY;
+
     obj.scaleX *= targetScale;
     obj.scaleY *= targetScale;
 
@@ -207,8 +210,8 @@ only.Screen.resizeFullEdgeCurrent = function (sw, sh) {
     let newWSX = obj.width * obj.scaleX;
     let newHSY = obj.height * obj.scaleY;
 
-    let deltaWSX = (newWSX - oldWSX) / 2;
-    let deltaHSY = (newHSY - oldHSY) / 2;
+    let deltaWSX = (newWSX - oldWSX) / 2 / realScaleX;
+    let deltaHSY = (newHSY - oldHSY) / 2 / realScaleY;
 
     obj.x += deltaWSX;
     obj.y += deltaHSY;
@@ -233,11 +236,32 @@ only.Screen.resizePerspective = function (sw, sh) {
 
 /* Resize screen on perspective to current window size. */
 only.Screen.resizePerspectiveCurrent = function (sw, sh) {
-  let wRatio = sw / only.Config.TARGET_SCREEN_WIDTH;
-  let hRatio = sh / only.Config.TARGET_SCREEN_HEIGHT;
+  let wScale = sw / only.Config.TARGET_SCREEN_WIDTH;
+  let hScale = sh / only.Config.TARGET_SCREEN_HEIGHT;
 
   only.Render.NEW_OBJECTS.forEach(function (obj) {
-    only.Screen.resizePerspectiveObject(obj, wRatio, hRatio);
+    let oldWSX = obj.width * obj.scaleX;
+    let oldHSY = obj.height * obj.scaleY;
+
+    /******** Start applying *********/
+
+    let realScaleX = obj.scaleX;
+    let realScaleY = obj.scaleY;
+
+    obj.scaleX *= wScale;
+    obj.scaleY *= hScale;
+
+    obj.x *= wScale;
+    obj.y *= hScale;
+
+    let newWSX = obj.width * obj.scaleX;
+    let newHSY = obj.height * obj.scaleY;
+
+    let deltaWSX = (newWSX - oldWSX) / 2 / realScaleX;
+    let deltaHSY = (newHSY - oldHSY) / 2 / realScaleY;
+
+    obj.x += deltaWSX;
+    obj.y += deltaHSY;
   });
 };
 
@@ -285,6 +309,9 @@ only.Screen.resizeFullEdgeObject = function (obj,
 
     /******** Start applying *********/
 
+    let realScaleX = obj.scaleX;
+    let realScaleY = obj.scaleY;
+
     obj.scaleX *= targetScale;
     obj.scaleY *= targetScale;
 
@@ -294,8 +321,8 @@ only.Screen.resizeFullEdgeObject = function (obj,
     let newWSX = obj.width * obj.scaleX;
     let newHSY = obj.height * obj.scaleY;
 
-    let deltaWSX = (newWSX - oldWSX) / 2 / only.Screen.RESIZE_SCALE;
-    let deltaHSY = (newHSY - oldHSY) / 2 / only.Screen.RESIZE_SCALE;
+    let deltaWSX = (newWSX - oldWSX) / 2 / only.Screen.RESIZE_SCALE / realScaleX;
+    let deltaHSY = (newHSY - oldHSY) / 2 / only.Screen.RESIZE_SCALE / realScaleY;
 
     obj.x += deltaWSX;
     obj.y += deltaHSY;
@@ -306,7 +333,7 @@ only.Screen.resizeFullEdgeObject = function (obj,
 };
 
 /* Apply one object, resize screen on perspective. */
-only.Screen.resizePerspectiveObject = function (obj, wRatio, hRatio) {
+only.Screen.resizePerspectiveObject = function (obj, wScale, hScale) {
   let oldWSX = obj.width * obj.scaleX;
   let oldHSY = obj.height * obj.scaleY;
 
@@ -318,17 +345,20 @@ only.Screen.resizePerspectiveObject = function (obj, wRatio, hRatio) {
 
   /******** Start applying *********/
 
-  obj.scaleX *= wRatio;
-  obj.scaleY *= hRatio;
+  let realScaleX = obj.scaleX;
+  let realScaleY = obj.scaleY;
 
-  obj.x *= wRatio;
-  obj.y *= hRatio;
+  obj.scaleX *= wScale;
+  obj.scaleY *= hScale;
+
+  obj.x *= wScale;
+  obj.y *= hScale;
 
   let newWSX = obj.width * obj.scaleX;
   let newHSY = obj.height * obj.scaleY;
 
-  let deltaWSX = (newWSX - oldWSX) / 2 / only.Screen.RESIZE_SCALE_W;
-  let deltaHSY = (newHSY - oldHSY) / 2 / only.Screen.RESIZE_SCALE_H;
+  let deltaWSX = (newWSX - oldWSX) / 2 / only.Screen.RESIZE_SCALE_W / realScaleX;
+  let deltaHSY = (newHSY - oldHSY) / 2 / only.Screen.RESIZE_SCALE_H / realScaleY;
 
   obj.x += deltaWSX;
   obj.y += deltaHSY;
