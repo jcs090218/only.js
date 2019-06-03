@@ -64,26 +64,51 @@ only.Object.prototype = {
 
   get x () {
     let val = parseFloat(this.getTransform('translateX', 0, 'px'));
-    if (!only.Screen.RESIZING) {
-
-    }
+    if (!only.Screen.RESIZING)
+      val -= only.Screen.RESIZE_LEFT;
+    val = only.Object.resolveScale(val);
     return val;
   },
   set x (val) {
-    if (!only.Screen.RESIZING) {
+    val = only.Object.unsolveScale(val);
+    if (!only.Screen.RESIZING)
       val += only.Screen.RESIZE_LEFT;
-    }
     this.setTransform('translateX', val, 'px');
   },
 
-  get y () { return parseFloat(this.getTransform('translateY', 0, 'px')); },
-  set y (val) { this.setTransform('translateY', val, 'px'); },
+  get y () {
+    let val = parseFloat(this.getTransform('translateY', 0, 'px'));
+    if (!only.Screen.RESIZING)
+      val -= only.Screen.RESIZE_TOP;
+    val = only.Object.resolveScale(val);
+    return val;
+  },
+  set y (val) {
+    val = only.Object.unsolveScale(val);
+    if (!only.Screen.RESIZING)
+      val += only.Screen.RESIZE_TOP;
+    this.setTransform('translateY', val, 'px');
+  },
 
-  get scaleX () { return parseFloat(this.getTransform('scaleX', 1)); },
-  set scaleX (val) { this.setTransform('scaleX', val); },
+  get scaleX () {
+    let val = parseFloat(this.getTransform('scaleX', 1));
+    val = only.Object.resolveScale(val);
+    return val;
+  },
+  set scaleX (val) {
+    val = only.Object.unsolveScale(val);
+    this.setTransform('scaleX', val);
+  },
 
-  get scaleY () { return parseFloat(this.getTransform('scaleY', 1)); },
-  set scaleY (val) { this.setTransform('scaleY', val); },
+  get scaleY () {
+    let val = parseFloat(this.getTransform('scaleY', 1));
+    val = only.Object.resolveScale(val);
+    return val;
+  },
+  set scaleY (val) {
+    val = only.Object.unsolveScale(val);
+    this.setTransform('scaleY', val);
+  },
 
   get rotateX () { return parseFloat(this.getTransform('rotateX', 0, 'deg')); },
   set rotateX (val) { this.setTransform('rotateX', val, 'deg'); },
@@ -347,4 +372,16 @@ only.Object.prototype.updateAnimation = function () {
   if (this.animations[this.currentAnimId] === undefined)
     return;
   this.animations[this.currentAnimId].update(this);
+};
+
+only.Object.resolveScale = function (val) {
+  if (!only.Screen.RESIZING)
+    val /= only.Screen.RESIZE_SCALE;
+  return val;
+};
+
+only.Object.unsolveScale = function (val) {
+  if (!only.Screen.RESIZING)
+    val *= only.Screen.RESIZE_SCALE;
+  return val;
 };
