@@ -31,7 +31,7 @@ only.init();  // This should be last called.
 //var hello = new only.Object('#hello', true);
 var greenBox = new only.Object('#greenbox', true);
 var back_4 = new only.Object('#back_4', true);
-// var cat = new only.Object('#cat', true);
+var cat = new only.Object('#cat', true);
 let toggle = true;
 let index = 0;
 
@@ -49,64 +49,65 @@ function init() {
   // anim3.offsetX = -50;
   // anim3.offsetY = -50;
 
-  // cat.addAnimation('stand', anim1);
-  // cat.addAnimation('attack', anim2);
-  // cat.addAnimation('move', anim3);
+  cat.addAnimation('stand', anim1);
+  cat.addAnimation('attack', anim2);
+  cat.addAnimation('move', anim3);
 
-  // cat.zIndex = 100;
-  // // cat.width = 10;
-  // // cat.height = 10;
-  // cat.x = 800;
-  // cat.y = 200;
-  // // cat.scaleX = 2;
-  // // cat.rotateZ = 30;
-  // cat.setCss('border', '1px green solid');
-  // // cat.scaleX = 2;
-  // // cat.backgroundColor = 'green';
-  // cat.backgroundRepeat = 'no-repeat';
-  // //cat.opacity = 0.5;
-  // //cat.backgroundImage = 'url(./images/CrazyCat/summon.stand_0.png)';
+  cat.zIndex = 100;
+  // cat.width = 10;
+  // cat.height = 10;
+  // cat.x = 0;
+  // cat.y = 0;
+  // cat.rotateZ = 30;
+  cat.setCss('border', '1px green solid');
+  // cat.scaleX = 1.2;
+  // cat.backgroundColor = 'green';
+  cat.backgroundRepeat = 'no-repeat';
+  //cat.opacity = 0.5;
+  //cat.backgroundImage = 'url(./images/CrazyCat/summon.stand_0.png)';
 
-  // cat.addEventListener('click', function () {
-  //   if (toggle)
-  //     cat.playAnimation('move');
-  //   else
-  //     cat.playAnimation('attack');
-  //   toggle = !toggle;
+  cat.addEventListener('click', function () {
+    if (toggle)
+      cat.playAnimation('move');
+    else
+      cat.playAnimation('attack');
+    toggle = !toggle;
 
-  //   ++index;
-  //   let newObj = new only.Object('#lol' + index, true);
-  //   let newAnim = new only.Animation('../images/CrazyCat/summon.stand_', 4, '.png', 150);
-  //   newObj.addAnimation('stand', newAnim);
-  //   // newObj.left = 0;
-  //   // newObj.top = 0;
-  //   newObj.scaleX = 2;
-  //   newObj.setCss('border', '1px red solid');
+    ++index;
+    let newObj = new only.Object('#lol' + index, true);
+    let newAnim = new only.Animation('../images/CrazyCat/summon.stand_', 4, '.png', 150);
+    newObj.addAnimation('stand', newAnim);
+    // newObj.left = 0;
+    // newObj.top = 0;
+    newObj.scaleX = 2;
+    newObj.setCss('border', '1px red solid');
 
-  //   // cat.left += 148;
+    // cat.left += 148;
 
-  //   // cat.left = 0;
-  //   // cat.top = 0;
+    // cat.left = 0;
+    // cat.top = 0;
 
-  //   // back_4.left = 1100;
-  //   // back_4.top = 650;
-  //   // back_4.scaleX = 0.5;
-  //   // back_4.scaleY = 0.5;
+    // back_4.left = 1100;
+    // back_4.top = 650;
+    // back_4.scaleX = 0.5;
+    // back_4.scaleY = 0.5;
 
-  //   // back_4.scaleX = 0.5;
-  //   // back_4.scaleY = 0.5;
+    // back_4.scaleX = 0.5;
+    // back_4.scaleY = 0.5;
 
-  //   // let newBg = new only.Object('#bg-' + index, true);
-  //   // newBg.setImage('../images/festival/back_4.png');
-  //   // newBg.left = only.Util.getRandomFloat(0, only.Screen.CURRENT_WIDTH);
-  //   // newBg.top = only.Util.getRandomFloat(0, only.Screen.CURRENT_HEIGHT);
-  // });
+    // let newBg = new only.Object('#bg-' + index, true);
+    // newBg.setImage('../images/festival/back_4.png');
+    // newBg.left = only.Util.getRandomFloat(0, only.Screen.CURRENT_WIDTH);
+    // newBg.top = only.Util.getRandomFloat(0, only.Screen.CURRENT_HEIGHT);
+  });
 
 
-  greenBox.x = 100;
-  greenBox.y = 100;
+  // greenBox.x = 0;
+  // greenBox.y = 0;
   greenBox.width = 100;
   greenBox.height = 200;
+  greenBox.x -= greenBox.width / 2;
+  greenBox.y -= greenBox.height / 2;
   greenBox.opacity = 0.5;
   greenBox.zIndex = 5;
   greenBox.backgroundColor = 'yellow';
@@ -133,6 +134,8 @@ window.onmousemove = function () {
 };
 
 function update() {
+  back_4.rotateZ -= 10 * only.Time.FIXED_TIME;
+
   // back_4.scaleX -= 0.01 * only.Time.FIXED_TIME;
   // back_4.scaleY -= 0.01 * only.Time.FIXED_TIME;
 
@@ -140,7 +143,7 @@ function update() {
 
   // greenBox.rotateZ -= 500 * only.Time.FIXED_TIME;
 
-  // greenBox.x += 100 * only.Time.FIXED_TIME;
+  // greenBox.x += 200 * only.Time.FIXED_TIME;
 
   // vel += gravity;
 
