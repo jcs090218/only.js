@@ -14,7 +14,7 @@
 only.Config.FPS = 30;
 only.Config.TITLE = "Test - Unit!";
 
-only.Config.RESIZE_MODE = 1;
+only.Config.RESIZE_MODE = 2;
 only.Config.TARGET_SCREEN_WIDTH = 1852;
 only.Config.TARGET_SCREEN_HEIGHT = 977;
 

@@ -62,7 +62,7 @@ only.Screen.init = function () {
   window.onresize = only.Screen.onResize;
   only.Screen.CURRENT_WIDTH = only.Config.TARGET_SCREEN_WIDTH;
   only.Screen.CURRENT_HEIGHT = only.Config.TARGET_SCREEN_HEIGHT;
-  if (only.Config.RESIZE_MODE == 0)
+  if (only.Config.RESIZE_MODE == 1)
     only.Screen.initMasks();
 };
 
@@ -100,10 +100,10 @@ only.Screen.onResize = function () {
   let screenHeight = only.Screen.height();
 
   switch (only.Config.RESIZE_MODE) {
-  case 0:
+  case 1:
     only.Screen.resizeFullEdge(screenWidth, screenHeight);
     break;
-  case 1:
+  case 2:
     only.Screen.resizePerspective(screenWidth, screenHeight);
     break;
   }
@@ -123,10 +123,10 @@ only.Screen.onResizeCurrent = function () {
   let screenHeight = only.Screen.height();
 
   switch (only.Config.RESIZE_MODE) {
-  case 0:
+  case 1:
     only.Screen.resizeFullEdgeCurrent(screenWidth, screenHeight);
     break;
-  case 1:
+  case 2:
     only.Screen.resizePerspectiveCurrent(screenWidth, screenHeight);
     break;
   }
