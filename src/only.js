@@ -14,6 +14,7 @@ if (typeof only === 'undefined') var only = { };
 only.init = function () {
   only.Config.init();
   only.Time.init();
+  only.Input.init();
   only.Screen.init();
 
   /* Register system events. */
