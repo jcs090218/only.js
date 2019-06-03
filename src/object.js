@@ -66,11 +66,11 @@ only.Object.prototype = {
     let val = parseFloat(this.getTransform('translateX', 0, 'px'));
     if (!only.Screen.RESIZING)
       val -= only.Screen.RESIZE_LEFT;
-    val = only.Object.resolveScale(val);
+    val = only.Object.resolveResize(val);
     return val;
   },
   set x (val) {
-    val = only.Object.unsolveScale(val);
+    val = only.Object.unsolveResize(val);
     if (!only.Screen.RESIZING)
       val += only.Screen.RESIZE_LEFT;
     this.setTransform('translateX', val, 'px');
@@ -80,11 +80,11 @@ only.Object.prototype = {
     let val = parseFloat(this.getTransform('translateY', 0, 'px'));
     if (!only.Screen.RESIZING)
       val -= only.Screen.RESIZE_TOP;
-    val = only.Object.resolveScale(val);
+    val = only.Object.resolveResize(val);
     return val;
   },
   set y (val) {
-    val = only.Object.unsolveScale(val);
+    val = only.Object.unsolveResize(val);
     if (!only.Screen.RESIZING)
       val += only.Screen.RESIZE_TOP;
     this.setTransform('translateY', val, 'px');
@@ -92,21 +92,21 @@ only.Object.prototype = {
 
   get scaleX () {
     let val = parseFloat(this.getTransform('scaleX', 1));
-    val = only.Object.resolveScale(val);
+    val = only.Object.resolveResize(val);
     return val;
   },
   set scaleX (val) {
-    val = only.Object.unsolveScale(val);
+    val = only.Object.unsolveResize(val);
     this.setTransform('scaleX', val);
   },
 
   get scaleY () {
     let val = parseFloat(this.getTransform('scaleY', 1));
-    val = only.Object.resolveScale(val);
+    val = only.Object.resolveResize(val);
     return val;
   },
   set scaleY (val) {
-    val = only.Object.unsolveScale(val);
+    val = only.Object.unsolveResize(val);
     this.setTransform('scaleY', val);
   },
 
@@ -374,13 +374,15 @@ only.Object.prototype.updateAnimation = function () {
   this.animations[this.currentAnimId].update(this);
 };
 
-only.Object.resolveScale = function (val) {
+/** Resolve resize event scaling. */
+only.Object.resolveResize = function (val) {
   if (!only.Screen.RESIZING)
     val /= only.Screen.RESIZE_SCALE;
   return val;
 };
 
-only.Object.unsolveScale = function (val) {
+/** Unsolve resize event scaling. */
+only.Object.unsolveResize = function (val) {
   if (!only.Screen.RESIZING)
     val *= only.Screen.RESIZE_SCALE;
   return val;
