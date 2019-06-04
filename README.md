@@ -28,7 +28,7 @@ the following commands.
 #### Option 1.
 ```sh
 # concatenate all the source
-$ grun concat
+$ grunt concat
 
 # minify it
 $ minify-dir build
