@@ -3,9 +3,9 @@
 
 
 # only.js
-> Use only JavaScript for client.
+> Wrap element to a fully controllable object.
 
-Just an another way of creating a webiste.
+Wrap element to a fully controllable object.
 
 
 ## Development
