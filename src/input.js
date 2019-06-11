@@ -13,17 +13,28 @@ if (typeof only === 'undefined') var only = { };
 
 only.Input = { };
 
-only.Input._keysDown = [];
-only.Input._keysReleaseThisFrame = [];
-only.Input._keysPressedThisFrame = [];
+/* Keyboard */
+{
+  only.Input._keysDown = [];
+  only.Input._keysReleaseThisFrame = [];
+  only.Input._keysPressedThisFrame = [];
 
-only.Input._frameIdCounter = 0;
-only.Input._frameId = 0;
+  only.Input._frameIdCounter = 0;
+  only.Input._frameId = 0;
+}
+
+/* Mouse */
+{
+  only.Input.mousePositionX = 0;
+  only.Input.mousePositionY = 0;
+ }
+
 
 
 /** Initialize for input module to get ready to work. */
 only.Input.init = function () {
   only.Input.initKeyboard();
+  only.Input.initMouse();
 };
 
 /** Run every frame. */
@@ -31,22 +42,31 @@ only.Input.update = function () {
   only.Input.cleanInputBuffer();
 };
 
-/** Clean the input buffer every frame. */
-only.Input.cleanInputBuffer = function () {
-  /* Do frame counter, in order to check if the same frame
-   * pressed the same button multiple different places/files. */
-  {
-    ++only.Input._frameIdCounter;
 
-    /* NOTE(jenchieh): Not sure javascript will go up to what certain
-     * limit. Just set it to something that would not be easily reach.
-     * In theory, 2 is good enough. [Default: 1000]
-     */
-    if (only.Input._frameIdCounter > 1000)
-      only.Input._frameIdCounter = 0;
-  }
+/** Initialize the mouse device. */
+only.Input.initMouse = function () {
+  window.onmousemove = function () {
+    only.Input.mousePositionX = window.event.clientX;
+    only.Input.mousePositionY = window.event.clientY;
+  };
+};
 
-  only.Input._keysReleaseThisFrame = [];
+/** Initialize the keyboard receiver. */
+only.Input.initKeyboard = function () {
+  // Keyboard handle.
+  document.addEventListener("keydown", (e) => {
+    let key = e.keyCode;
+    only.Input.safePushKey(only.Input._keysPressedThisFrame, key);
+  });
+
+  document.addEventListener("keyup", (e) => {
+    let key = e.keyCode;
+    only.Input.safePushKey(only.Input._keysReleaseThisFrame, key);
+
+    // Remove the key down list.
+    only.Input.removeKeyFromList(only.Input._keysDown, key);
+    only.Input.removeKeyFromList(only.Input._keysPressedThisFrame, key);
+  });
 };
 
 /**
@@ -103,28 +123,6 @@ only.Input.getKeyUp = function (keyCode) {
   return false;
 };
 
-/**
- * @desc Initialize the keyboard receiver.
- * @param { integer } keyCode : Key code.
- * @returns { boolean } : True, key is up. False, key is not up.
- */
-only.Input.initKeyboard = function () {
-  // Keyboard handle.
-  document.addEventListener("keydown", (e) => {
-    let key = e.keyCode;
-    only.Input.safePushKey(only.Input._keysPressedThisFrame, key);
-  });
-
-  document.addEventListener("keyup", (e) => {
-    let key = e.keyCode;
-    only.Input.safePushKey(only.Input._keysReleaseThisFrame, key);
-
-    // Remove the key down list.
-    only.Input.removeKeyFromList(only.Input._keysDown, key);
-    only.Input.removeKeyFromList(only.Input._keysPressedThisFrame, key);
-  });
-};
-
 /** Check if key is contains in the list. */
 only.Input.containsKey = function (list, key) {
   return (list.indexOf(key) > -1);
@@ -153,4 +151,22 @@ only.Input.removeKeyFromList = function (list, key) {
     // Remove it.
     list.splice(searchIndex, 1);
   }
+};
+
+/** Clean the input buffer every frame. */
+only.Input.cleanInputBuffer = function () {
+  /* Do frame counter, in order to check if the same frame
+   * pressed the same button multiple different places/files. */
+  {
+    ++only.Input._frameIdCounter;
+
+    /* NOTE(jenchieh): Not sure javascript will go up to what certain
+     * limit. Just set it to something that would not be easily reach.
+     * In theory, 2 is good enough. [Default: 1000]
+     */
+    if (only.Input._frameIdCounter > 1000)
+      only.Input._frameIdCounter = 0;
+  }
+
+  only.Input._keysReleaseThisFrame = [];
 };
