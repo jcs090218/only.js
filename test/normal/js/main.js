@@ -56,8 +56,8 @@ function init() {
   cat.zIndex = 100;
   // cat.width = 10;
   // cat.height = 10;
-  // cat.x = 0;
-  // cat.y = 0;
+  cat.x = 0;
+  cat.y = 0;
   // cat.rotateZ = 30;
   cat.setCss('border', '1px green solid');
   // cat.scaleX = 1.2;
@@ -67,20 +67,22 @@ function init() {
   //cat.backgroundImage = 'url(./images/CrazyCat/summon.stand_0.png)';
 
   cat.addEventListener('click', function () {
-    if (toggle)
-      cat.playAnimation('move');
-    else
-      cat.playAnimation('attack');
+    // if (toggle)
+    //   cat.playAnimation('move');
+    // else
+    //   cat.playAnimation('attack');
     toggle = !toggle;
 
-    ++index;
-    let newObj = new only.Object('#lol' + index, true);
-    let newAnim = new only.Animation('../images/CrazyCat/summon.stand_', 4, '.png', 150);
-    newObj.addAnimation('stand', newAnim);
-    // newObj.left = 0;
-    // newObj.top = 0;
-    newObj.scaleX = 2;
-    newObj.setCss('border', '1px red solid');
+    cat.x = 0;
+
+    // ++index;
+    // let newObj = new only.Object('#lol' + index, true);
+    // let newAnim = new only.Animation('../images/CrazyCat/summon.stand_', 4, '.png', 150);
+    // newObj.addAnimation('stand', newAnim);
+    // // newObj.left = 0;
+    // // newObj.top = 0;
+    // newObj.scaleX = 2;
+    // newObj.setCss('border', '1px red solid');
 
     // cat.left += 148;
 
@@ -129,12 +131,12 @@ var mouse_x = 0;
 var mouse_y = 0;
 
 window.onmousemove = function () {
-  mouse_x = window.event.clientX;
-  mouse_y = window.event.clientY;
+  only.Input.mousePositionX = window.event.clientX;
+  only.Input.mousePositionY = window.event.clientY;
 };
 
 function update() {
-  back_4.rotateZ -= 10 * only.Time.FIXED_TIME;
+  // back_4.rotateZ -= 10 * only.Time.FIXED_TIME;
 
   if (only.Input.getKey(only.KeyCode.BACKSPACE)) {
     console.log('backspace!');
@@ -152,8 +154,10 @@ function update() {
   // vel += gravity;
 
   // cat.left += 10 * only.Time.FIXED_TIME;
-  //cat.left += (mouse_x - cat.left) / 0.2 * only.Time.FIXED_TIME;
-  //cat.top += (mouse_y - cat.top) / 0.2 * only.Time.FIXED_TIME;
+  // cat.x += (0 - cat.x) / 0.2 * only.Time.FIXED_TIME;
+  cat.x += 10 * only.Time.FIXED_TIME;
+  console.log(cat.x);
+  // cat.y += (only.Input.mousePositionY - cat.y) / 0.2 * only.Time.FIXED_TIME;
   // cat.rotateX += 10 * only.Time.FIXED_TIME;
   // cat.rotateY += 10 * only.Time.FIXED_TIME;
   // cat.rotateZ += 10 * only.Time.FIXED_TIME;
