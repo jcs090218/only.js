@@ -4,7 +4,7 @@ module.exports = function( grunt ) {
   grunt.initConfig({
     concat: {
       js: {
-        src: ['src/*.js'],
+        src: ['src/**/*.js'],
         dest: 'build/only.js'
       },
     },
