@@ -31,4 +31,5 @@ only.init = function () {
 only.postUpdate = function () {
   only.Resource.update();
   only.Render.update();
+  only.Input.update();
 };
