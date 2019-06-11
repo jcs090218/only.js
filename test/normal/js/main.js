@@ -136,6 +136,10 @@ window.onmousemove = function () {
 function update() {
   back_4.rotateZ -= 10 * only.Time.FIXED_TIME;
 
+  if (only.Input.getKey(only.KeyCode.BACKSPACE)) {
+    console.log('backspace!');
+  }
+
   // back_4.scaleX -= 0.01 * only.Time.FIXED_TIME;
   // back_4.scaleY -= 0.01 * only.Time.FIXED_TIME;
 
@@ -159,5 +163,5 @@ function update() {
 
   // cat.scaleX -= 0.1 * only.Time.FIXED_TIME;
 
-  console.log("Runs!!");
+  // console.log("Runs!!");
 }
